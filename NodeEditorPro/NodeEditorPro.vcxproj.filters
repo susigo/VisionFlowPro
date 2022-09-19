@@ -42,6 +42,9 @@
     <Filter Include="examples\halcon">
       <UniqueIdentifier>{d10913a6-d89c-429f-9399-8f43d3c9921e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="showcase">
+      <UniqueIdentifier>{e33d0eb7-423e-495d-96bb-71d4ecf57e5f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="examples\images\ImageLoaderModel.cpp">
@@ -307,5 +310,10 @@
     <QtRcc Include="resources\resources.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="showcase\QQ录屏20220918133548[00_00_02--00_00_22].gif">
+      <Filter>showcase</Filter>
+    </Image>
   </ItemGroup>
 </Project>
