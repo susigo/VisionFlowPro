@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>DefaultStyle.json</file>
+        <file>convert.png</file>
+        <file>logo.png</file>
+    </qresource>
+</RCC>

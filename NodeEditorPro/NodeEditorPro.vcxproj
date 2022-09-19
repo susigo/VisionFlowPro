@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4911AD57-2763-4EDF-9C7C-2E197137BE8B}</ProjectGuid>
+    <Keyword>QtVS_v304</Keyword>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0.19041.0</WindowsTargetPlatformVersion>
+    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt_defaults.props')">
+    <Import Project="$(QtMsBuild)\qt_defaults.props" />
+  </ImportGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
+    <QtInstall>5.15.2_msvc2019_64</QtInstall>
+    <QtModules>core;opengl;gui;widgets;</QtModules>
+    <QtBuildConfig>debug</QtBuildConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
+    <QtInstall>5.15.2_msvc2019_64</QtInstall>
+    <QtModules>core;opengl;gui;widgets;</QtModules>
+    <QtBuildConfig>release</QtBuildConfig>
+  </PropertyGroup>
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(QtMsBuild)\Qt.props" />
+    <Import Project="..\..\..\..\..\CodeDeps\halcon20.11_x64_cpp.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(QtMsBuild)\Qt.props" />
+    <Import Project="..\..\..\..\..\CodeDeps\halcon20.11_x64_cpp.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <IncludePath>$(ProjectDir)include;$(ProjectDir)examples;$(ProjectDir)src;$(ProjectDir)include\nodes;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <IncludePath>$(ProjectDir)include;$(ProjectDir)examples;$(ProjectDir)src;$(ProjectDir)include\nodes;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
+    <ClCompile>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
+    <ClCompile>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <Optimization>MaxSpeed</Optimization>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="examples\calculator\Converters.cpp" />
+    <ClCompile Include="examples\calculator\MathOperationDataModel.cpp" />
+    <ClCompile Include="examples\calculator\ModuloModel.cpp" />
+    <ClCompile Include="examples\calculator\NumberDisplayDataModel.cpp" />
+    <ClCompile Include="examples\calculator\NumberSourceDataModel.cpp" />
+    <ClCompile Include="examples\halcon\HImageLoaderModel.cpp" />
+    <ClCompile Include="examples\halcon\HImageShowModel.cpp" />
+    <ClCompile Include="examples\halcon\HImageViewWidget.cpp" />
+    <ClCompile Include="examples\images\ImageLoaderModel.cpp" />
+    <ClCompile Include="examples\images\ImageShowModel.cpp" />
+    <ClCompile Include="examples\images\main.cpp" />
+    <ClCompile Include="src\Connection.cpp" />
+    <ClCompile Include="src\ConnectionBlurEffect.cpp" />
+    <ClCompile Include="src\ConnectionGeometry.cpp" />
+    <ClCompile Include="src\ConnectionGraphicsObject.cpp" />
+    <ClCompile Include="src\ConnectionPainter.cpp" />
+    <ClCompile Include="src\ConnectionState.cpp" />
+    <ClCompile Include="src\ConnectionStyle.cpp" />
+    <ClCompile Include="src\DataModelRegistry.cpp" />
+    <ClCompile Include="src\FlowScene.cpp" />
+    <ClCompile Include="src\FlowView.cpp" />
+    <ClCompile Include="src\FlowViewStyle.cpp" />
+    <ClCompile Include="src\Node.cpp" />
+    <ClCompile Include="src\NodeConnectionInteraction.cpp" />
+    <ClCompile Include="src\NodeDataModel.cpp" />
+    <ClCompile Include="src\NodeGeometry.cpp" />
+    <ClCompile Include="src\NodeGraphicsObject.cpp" />
+    <ClCompile Include="src\NodePainter.cpp" />
+    <ClCompile Include="src\NodeState.cpp" />
+    <ClCompile Include="src\NodeStyle.cpp" />
+    <ClCompile Include="src\Properties.cpp" />
+    <ClCompile Include="src\StyleCollection.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="examples\images\ImageLoaderModel.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="examples\images\ImageShowModel.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="examples\calculator\AdditionModel.hpp" />
+    <ClInclude Include="examples\calculator\Converters.hpp" />
+    <ClInclude Include="examples\calculator\DecimalData.hpp" />
+    <ClInclude Include="examples\calculator\DivisionModel.hpp" />
+    <ClInclude Include="examples\calculator\IntegerData.hpp" />
+    <ClInclude Include="examples\calculator\MultiplicationModel.hpp" />
+    <ClInclude Include="examples\calculator\SubtractionModel.hpp" />
+    <ClInclude Include="examples\halcon\HImageData.hpp" />
+    <ClInclude Include="examples\halcon\HImageViewWidget.hpp" />
+    <QtMoc Include="examples\halcon\HImageShowModel.hpp" />
+    <QtMoc Include="examples\halcon\HImageLoaderModel.hpp" />
+    <QtMoc Include="examples\calculator\NumberSourceDataModel.hpp" />
+    <QtMoc Include="examples\calculator\NumberDisplayDataModel.hpp" />
+    <QtMoc Include="examples\calculator\ModuloModel.hpp" />
+    <QtMoc Include="examples\calculator\MathOperationDataModel.hpp" />
+    <ClInclude Include="examples\images\PixmapData.hpp" />
+    <ClInclude Include="include\nodes\Compiler.hpp" />
+    <ClInclude Include="include\nodes\ConnectionGeometry.hpp" />
+    <ClInclude Include="include\nodes\ConnectionState.hpp" />
+    <ClInclude Include="include\nodes\ConnectionStyle.hpp" />
+    <ClInclude Include="include\nodes\DataModelRegistry.hpp" />
+    <ClInclude Include="include\nodes\Export.hpp" />
+    <ClInclude Include="include\nodes\FlowViewStyle.hpp" />
+    <ClInclude Include="include\nodes\memory.hpp" />
+    <ClInclude Include="include\nodes\NodeData.hpp" />
+    <ClInclude Include="include\nodes\NodeGeometry.hpp" />
+    <ClInclude Include="include\nodes\NodePainterDelegate.hpp" />
+    <ClInclude Include="include\nodes\NodeState.hpp" />
+    <ClInclude Include="include\nodes\NodeStyle.hpp" />
+    <ClInclude Include="include\nodes\OperatingSystem.hpp" />
+    <ClInclude Include="include\nodes\PortType.hpp" />
+    <ClInclude Include="include\nodes\QStringStdHash.hpp" />
+    <ClInclude Include="include\nodes\QUuidStdHash.hpp" />
+    <ClInclude Include="include\nodes\Serializable.hpp" />
+    <ClInclude Include="include\nodes\Style.hpp" />
+    <ClInclude Include="include\nodes\StyleCollection.hpp" />
+    <ClInclude Include="include\nodes\TypeConverter.hpp" />
+    <QtMoc Include="include\nodes\NodeGraphicsObject.hpp" />
+    <QtMoc Include="include\nodes\NodeDataModel.hpp" />
+    <QtMoc Include="include\nodes\Node.hpp" />
+    <QtMoc Include="include\nodes\FlowView.hpp" />
+    <QtMoc Include="include\nodes\FlowScene.hpp" />
+    <QtMoc Include="include\nodes\ConnectionGraphicsObject.hpp" />
+    <QtMoc Include="include\nodes\Connection.hpp" />
+    <ClInclude Include="src\ConnectionBlurEffect.hpp" />
+    <ClInclude Include="src\ConnectionPainter.hpp" />
+    <ClInclude Include="src\NodeConnectionInteraction.hpp" />
+    <ClInclude Include="src\NodePainter.hpp" />
+    <ClInclude Include="src\Properties.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\DefaultStyle.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="resources\resources.qrc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
+    <Import Project="$(QtMsBuild)\qt.targets" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

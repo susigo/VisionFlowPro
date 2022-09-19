@@ -1,0 +1,311 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>qml;cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{9a98fda8-feb3-4f88-8c2e-592a4de4472c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{d24eeab8-793f-42fd-a74c-811a1f607589}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="examples">
+      <UniqueIdentifier>{c1e4a5fa-9994-43e5-bb12-96e91cf47d5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="examples\images">
+      <UniqueIdentifier>{4ebde7d5-53a9-47c7-be30-715a8a16d470}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\nodes">
+      <UniqueIdentifier>{b32b7bd8-e89e-4d39-a813-904b62cf937a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="examples\calculator">
+      <UniqueIdentifier>{29211f79-6b95-4f3d-9689-a7725e0a9716}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="examples\halcon">
+      <UniqueIdentifier>{d10913a6-d89c-429f-9399-8f43d3c9921e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="examples\images\ImageLoaderModel.cpp">
+      <Filter>examples\images</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\images\ImageShowModel.cpp">
+      <Filter>examples\images</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\images\main.cpp">
+      <Filter>examples\images</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Connection.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConnectionBlurEffect.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConnectionGeometry.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConnectionGraphicsObject.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConnectionPainter.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConnectionState.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConnectionStyle.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataModelRegistry.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FlowScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FlowView.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FlowViewStyle.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Node.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NodeConnectionInteraction.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NodeDataModel.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NodeGeometry.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NodeGraphicsObject.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NodePainter.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NodeState.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NodeStyle.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Properties.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StyleCollection.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\calculator\Converters.cpp">
+      <Filter>examples\calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\calculator\MathOperationDataModel.cpp">
+      <Filter>examples\calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\calculator\ModuloModel.cpp">
+      <Filter>examples\calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\calculator\NumberDisplayDataModel.cpp">
+      <Filter>examples\calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\calculator\NumberSourceDataModel.cpp">
+      <Filter>examples\calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\halcon\HImageLoaderModel.cpp">
+      <Filter>examples\halcon</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\halcon\HImageShowModel.cpp">
+      <Filter>examples\halcon</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\halcon\HImageViewWidget.cpp">
+      <Filter>examples\halcon</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="examples\images\ImageLoaderModel.hpp">
+      <Filter>examples\images</Filter>
+    </QtMoc>
+    <QtMoc Include="examples\images\ImageShowModel.hpp">
+      <Filter>examples\images</Filter>
+    </QtMoc>
+    <QtMoc Include="include\nodes\Connection.hpp">
+      <Filter>include\nodes</Filter>
+    </QtMoc>
+    <QtMoc Include="include\nodes\ConnectionGraphicsObject.hpp">
+      <Filter>include\nodes</Filter>
+    </QtMoc>
+    <QtMoc Include="include\nodes\FlowScene.hpp">
+      <Filter>include\nodes</Filter>
+    </QtMoc>
+    <QtMoc Include="include\nodes\FlowView.hpp">
+      <Filter>include\nodes</Filter>
+    </QtMoc>
+    <QtMoc Include="include\nodes\Node.hpp">
+      <Filter>include\nodes</Filter>
+    </QtMoc>
+    <QtMoc Include="include\nodes\NodeDataModel.hpp">
+      <Filter>include\nodes</Filter>
+    </QtMoc>
+    <QtMoc Include="include\nodes\NodeGraphicsObject.hpp">
+      <Filter>include\nodes</Filter>
+    </QtMoc>
+    <QtMoc Include="examples\calculator\MathOperationDataModel.hpp">
+      <Filter>examples\calculator</Filter>
+    </QtMoc>
+    <QtMoc Include="examples\calculator\ModuloModel.hpp">
+      <Filter>examples\calculator</Filter>
+    </QtMoc>
+    <QtMoc Include="examples\calculator\NumberDisplayDataModel.hpp">
+      <Filter>examples\calculator</Filter>
+    </QtMoc>
+    <QtMoc Include="examples\calculator\NumberSourceDataModel.hpp">
+      <Filter>examples\calculator</Filter>
+    </QtMoc>
+    <QtMoc Include="examples\halcon\HImageLoaderModel.hpp">
+      <Filter>examples\halcon</Filter>
+    </QtMoc>
+    <QtMoc Include="examples\halcon\HImageShowModel.hpp">
+      <Filter>examples\halcon</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="examples\images\PixmapData.hpp">
+      <Filter>examples\images</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConnectionBlurEffect.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConnectionPainter.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NodeConnectionInteraction.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NodePainter.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Properties.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nodes\Compiler.hpp">
+      <Filter>include\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nodes\ConnectionGeometry.hpp">
+      <Filter>include\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nodes\ConnectionState.hpp">
+      <Filter>include\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nodes\ConnectionStyle.hpp">
+      <Filter>include\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nodes\DataModelRegistry.hpp">
+      <Filter>include\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nodes\Export.hpp">
+      <Filter>include\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nodes\FlowViewStyle.hpp">
+      <Filter>include\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nodes\memory.hpp">
+      <Filter>include\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nodes\NodeData.hpp">
+      <Filter>include\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nodes\NodeGeometry.hpp">
+      <Filter>include\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nodes\NodePainterDelegate.hpp">
+      <Filter>include\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nodes\NodeState.hpp">
+      <Filter>include\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nodes\NodeStyle.hpp">
+      <Filter>include\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nodes\OperatingSystem.hpp">
+      <Filter>include\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nodes\PortType.hpp">
+      <Filter>include\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nodes\QStringStdHash.hpp">
+      <Filter>include\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nodes\QUuidStdHash.hpp">
+      <Filter>include\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nodes\Serializable.hpp">
+      <Filter>include\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nodes\Style.hpp">
+      <Filter>include\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nodes\StyleCollection.hpp">
+      <Filter>include\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nodes\TypeConverter.hpp">
+      <Filter>include\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="examples\calculator\AdditionModel.hpp">
+      <Filter>examples\calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="examples\calculator\Converters.hpp">
+      <Filter>examples\calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="examples\calculator\DecimalData.hpp">
+      <Filter>examples\calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="examples\calculator\DivisionModel.hpp">
+      <Filter>examples\calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="examples\calculator\IntegerData.hpp">
+      <Filter>examples\calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="examples\calculator\MultiplicationModel.hpp">
+      <Filter>examples\calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="examples\calculator\SubtractionModel.hpp">
+      <Filter>examples\calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="examples\halcon\HImageData.hpp">
+      <Filter>examples\halcon</Filter>
+    </ClInclude>
+    <ClInclude Include="examples\halcon\HImageViewWidget.hpp">
+      <Filter>examples\halcon</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\DefaultStyle.json">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="resources\resources.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+</Project>
