@@ -16,7 +16,7 @@ public:
 	virtual ~HImageViewWidget() {}
 	void showImage(HImage const& _himg);
 public:
-	static QPixmap HImageToQPixmap(HImage const& _img);
+	static void HImageToQPixmap(HImage const& _img, QPixmap& tar_img);
 protected:
 	void paintEvent(QPaintEvent* event) override;
 private:

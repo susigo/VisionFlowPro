@@ -13,11 +13,20 @@ HImageViewWidget::HImageViewWidget(QWidget* parent)
 
 void HImageViewWidget::showImage(HImage const& _himg)
 {
-	*cur_pixmap = HImageToQPixmap(_himg);
+	Hlong width;
+	Hlong height;
+	double zoom_ratio = 1.0;
+	_himg.GetImageSize(&width, &height);
+	if (width > this->width())
+	{
+		zoom_ratio = 1.0 * this->width() / width;
+	}
+	cur_image = _himg.ZoomImageSize(width * zoom_ratio, height * zoom_ratio, "bilinear");
+	HImageToQPixmap(cur_image, *cur_pixmap);
 	this->update();
 }
 
-QPixmap HImageViewWidget::HImageToQPixmap(HImage const& _img)
+void HImageViewWidget::HImageToQPixmap(HImage const& _img, QPixmap& tar_pixmap)
 {
 
 	Hlong w, h; HString hType;
@@ -31,7 +40,7 @@ QPixmap HImageViewWidget::HImageToQPixmap(HImage const& _img)
 	HTuple hChannels = _img.CountChannels();
 	if (strcmp(type[0].S(), "byte")) // 如果不是 byte 类型，则失败
 	{
-		return QPixmap();
+		return;
 	}
 	QImage::Format format;
 	switch (hChannels[0].I())
@@ -43,7 +52,7 @@ QPixmap HImageViewWidget::HImageToQPixmap(HImage const& _img)
 		format = QImage::Format_RGB32;
 		break;
 	default:
-		return QPixmap();
+		return;
 	}
 	if (tar_img.width() != width || tar_img.height() != height || tar_img.format() != format)
 	{
@@ -66,7 +75,7 @@ QPixmap HImageViewWidget::HImageToQPixmap(HImage const& _img)
 			memcpy(pDest, pBuf, w);
 		}
 
-		return QPixmap::fromImage(tar_img);
+		//tar_pixmap = QPixmap::fromImage(tar_img);
 	}
 	else if (hChannels == 3)
 	{
@@ -84,7 +93,7 @@ QPixmap HImageViewWidget::HImageToQPixmap(HImage const& _img)
 			}
 		}
 	}
-	return QPixmap::fromImage(tar_img);
+	tar_pixmap = QPixmap::fromImage(tar_img);
 }
 
 void HImageViewWidget::paintEvent(QPaintEvent* event)
