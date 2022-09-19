@@ -16,6 +16,8 @@
 #include "calculator/NumberDisplayDataModel.hpp"
 #include "halcon/HImageLoaderModel.hpp"
 #include "halcon/HImageShowModel.hpp"
+#include "halcon/HImageRGB2GrayModel.hpp"
+#include "halcon/HImageSplitChanelModel.hpp"
 
 using QtNodes::DataModelRegistry;
 using QtNodes::FlowScene;
@@ -34,10 +36,12 @@ registerDataModels()
 	ret->registerModel<NumberSourceDataModel>(numberNodeType);
 	ret->registerModel<NumberDisplayDataModel>(numberNodeType);
 
-	ret->registerModel<ImageShowModel>(imageNodeType);
-	ret->registerModel<ImageLoaderModel>(imageNodeType);
 	ret->registerModel<HImageLoaderModel>(imageNodeType);
 	ret->registerModel<HImageShowModel>(imageNodeType);
+	ret->registerModel<HImageRGB2GrayModel>(imageNodeType);
+	ret->registerModel<HImageSplitChanelModel>(imageNodeType);
+	ret->registerModel<ImageShowModel>(imageNodeType);
+	ret->registerModel<ImageLoaderModel>(imageNodeType);
 
 	return ret;
 }

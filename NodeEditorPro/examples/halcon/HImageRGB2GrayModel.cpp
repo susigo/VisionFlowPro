@@ -1,17 +1,16 @@
-﻿#include "HImageShowModel.hpp"
+﻿#include "HImageRGB2GrayModel.hpp"
 #include <QtCore/QEvent>
-#include <QtCore/QDir>
-#include <QtWidgets/QFileDialog>
 
-HImageShowModel::HImageShowModel() :
-	m_label(new QLabel(u8"点击加载图片"))
+#include "halconcpp/HalconCpp.h"
+
+using namespace HalconCpp;
+
+HImageRGB2GrayModel::HImageRGB2GrayModel()
 {
-	m_image_view = new HImageViewWidget();
-	m_image_view->installEventFilter(this);
-	m_image_view->resize(200, 200);
+
 }
 
-bool HImageShowModel::RunTask()
+bool HImageRGB2GrayModel::RunTask()
 {
 	PortIndex const outPortIndex = 0;
 	auto img1 = m_hImage.lock();
@@ -19,7 +18,15 @@ bool HImageShowModel::RunTask()
 	{
 		if (img1)
 		{
-			m_image_view->showImage(img1->hImage());
+
+			HTuple imgChanels = img1->hImage().CountChannels();
+			if (imgChanels == 3)
+			{
+				HImage tmp_img = img1->hImage().Rgb3ToGray(img1->hImage(), img1->hImage());
+				img1->setHImage(tmp_img);
+				tmp_img.Clear();
+
+			}
 			modelValidationState = NodeValidationState::Valid;
 			modelValidationError = QString();
 			m_result = std::shared_ptr<HImageData>(m_hImage);
@@ -34,11 +41,11 @@ bool HImageShowModel::RunTask()
 	}
 
 	Q_EMIT dataUpdated(outPortIndex);
-	//m_hwindow->DispImage(m_hImage);
+
 	return true;
 }
 
-unsigned int HImageShowModel::
+unsigned int HImageRGB2GrayModel::
 nPorts(PortType portType) const
 {
 	unsigned int result = 1;
@@ -59,34 +66,27 @@ nPorts(PortType portType) const
 	return result;
 }
 
-NodeValidationState HImageShowModel::validationState() const
+NodeValidationState HImageRGB2GrayModel::validationState() const
 {
 	return modelValidationState;
 }
 
-QString HImageShowModel::validationMessage() const
+QString HImageRGB2GrayModel::validationMessage() const
 {
 	return modelValidationError;
 }
 
-bool HImageShowModel::eventFilter(QObject* object, QEvent* event)
-{
-
-	return false;
-}
-
 NodeDataType
-HImageShowModel::dataType(PortType, PortIndex) const
+HImageRGB2GrayModel::dataType(PortType, PortIndex) const
 {
 	return HImageData().type();
 }
 
-void HImageShowModel::
+void HImageRGB2GrayModel::
 setInData(std::shared_ptr<NodeData> data, int portIndex)
 {
 	auto hImageData =
 		std::dynamic_pointer_cast<HImageData>(data);
-
 	switch (portIndex)
 	{
 	case 0:
@@ -99,7 +99,7 @@ setInData(std::shared_ptr<NodeData> data, int portIndex)
 }
 
 std::shared_ptr<NodeData>
-HImageShowModel::
+HImageRGB2GrayModel::
 outData(PortIndex)
 {
 	return std::static_pointer_cast<NodeData>(m_result);

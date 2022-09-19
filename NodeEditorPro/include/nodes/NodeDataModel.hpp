@@ -65,7 +65,11 @@ namespace QtNodes
 			save() const override;
 
 	public:
-
+		/**
+		 * \brief 定义该节点有几个输入输出端口
+		 * \param portType 查询的端口类型
+		 * \return 返回查询类型的端口个数
+		 */
 		virtual
 			unsigned int nPorts(PortType portType) const = 0;
 

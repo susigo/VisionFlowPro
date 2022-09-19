@@ -12,15 +12,31 @@ using namespace HalconCpp;
 class HImageData :public NodeData
 {
 public:
-	HImageData() :m_himage(HImage()) {}
-	HImageData(HImage const& h_image)
-		:m_himage(h_image)
-	{}
+	HImageData()
+	{
+		m_himage = HImage();
+	}
+	HImageData(HImage& h_image)
+	{
+		if (h_image.IsInitialized())
+		{
+			m_himage = h_image;
+		}
+	}
+
 	NodeDataType type() const override
 	{
-		return { "HImage","P" };
+		return { "HImage","HImage" };
 	}
 	HImage hImage() { return m_himage; }
+	void setHImage(HImage& _img)
+	{
+		if (!_img.IsInitialized())
+		{
+			return;
+		}
+		m_himage = _img;
+	}
 private:
-	HImage m_himage;
+	HImage m_himage = HImage();
 };

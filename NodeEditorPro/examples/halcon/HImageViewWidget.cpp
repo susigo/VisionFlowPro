@@ -90,7 +90,7 @@ QPixmap HImageViewWidget::HImageToQPixmap(HImage const& _img)
 void HImageViewWidget::paintEvent(QPaintEvent* event)
 {
 	//QPainter painter(this);
-	if (cur_pixmap != nullptr)
+	if (!cur_pixmap->isNull())
 	{
 		this->setPixmap(cur_pixmap->scaled(this->width(), this->height(), Qt::KeepAspectRatio));
 	}

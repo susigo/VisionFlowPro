@@ -143,6 +143,12 @@
     <ClCompile Include="examples\halcon\HImageViewWidget.cpp">
       <Filter>examples\halcon</Filter>
     </ClCompile>
+    <ClCompile Include="examples\halcon\HImageRGB2GrayModel.cpp">
+      <Filter>examples\halcon</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\halcon\HImageSplitChanelModel.cpp">
+      <Filter>examples\halcon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="examples\images\ImageLoaderModel.hpp">
@@ -188,6 +194,12 @@
       <Filter>examples\halcon</Filter>
     </QtMoc>
     <QtMoc Include="examples\halcon\HImageShowModel.hpp">
+      <Filter>examples\halcon</Filter>
+    </QtMoc>
+    <QtMoc Include="examples\halcon\HImageRGB2GrayModel.hpp">
+      <Filter>examples\halcon</Filter>
+    </QtMoc>
+    <QtMoc Include="examples\halcon\HImageSplitChanelModel.hpp">
       <Filter>examples\halcon</Filter>
     </QtMoc>
   </ItemGroup>

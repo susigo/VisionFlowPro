@@ -39,7 +39,10 @@ namespace QtNodes
 			return (this->type().id == nodeData.type().id);
 		}
 
-		/// Type for inner use
+		/**
+		 * \brief 节点标签
+		 * \return 标签名字
+		 */
 		virtual NodeDataType type() const = 0;
 	};
 }

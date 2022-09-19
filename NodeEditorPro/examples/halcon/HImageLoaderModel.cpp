@@ -60,7 +60,6 @@ bool HImageLoaderModel::eventFilter(QObject* object, QEvent* event)
 		}
 	}
 
-
 	return false;
 }
 
