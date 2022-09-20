@@ -31,7 +31,6 @@ bool HImageRGB2GrayModel::RunTask()
 	{
 		modelValidationState = NodeValidationState::Warning;
 		modelValidationError = QStringLiteral("缺失或运行失败!");
-
 	}
 
 	Q_EMIT dataUpdated(outPortIndex);
@@ -81,6 +80,10 @@ setInData(std::shared_ptr<NodeData> data, int portIndex)
 {
 	auto hImageData =
 		std::dynamic_pointer_cast<HImageData>(data);
+	if (hImageData == nullptr)
+	{
+		return;
+	}
 	switch (portIndex)
 	{
 	case 0:
