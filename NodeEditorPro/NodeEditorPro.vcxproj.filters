@@ -355,4 +355,9 @@
       <Filter>showcase</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="showcase\QQ录屏20220921011918.mp4">
+      <Filter>showcase</Filter>
+    </Media>
+  </ItemGroup>
 </Project>

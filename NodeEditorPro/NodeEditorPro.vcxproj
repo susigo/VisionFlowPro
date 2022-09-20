@@ -203,6 +203,9 @@
   <ItemGroup>
     <Image Include="showcase\QQ录屏20220918133548[00_00_02--00_00_22].gif" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="showcase\QQ录屏20220921011918.mp4" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />
