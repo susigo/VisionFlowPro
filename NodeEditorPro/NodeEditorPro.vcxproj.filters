@@ -155,6 +155,12 @@
     <ClCompile Include="examples\halcon\HImageThresholdModel.cpp">
       <Filter>examples\halcon</Filter>
     </ClCompile>
+    <ClCompile Include="src\QJsonPhaser.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\QDataStreamPhaser.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="examples\images\ImageLoaderModel.hpp">
@@ -323,6 +329,15 @@
     </ClInclude>
     <ClInclude Include="examples\halcon\HImageViewWidget.hpp">
       <Filter>examples\halcon</Filter>
+    </ClInclude>
+    <ClInclude Include="examples\halcon\HObjectData.hpp">
+      <Filter>examples\halcon</Filter>
+    </ClInclude>
+    <ClInclude Include="src\QJsonPhaser.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\QDataStreamPhaser.hpp">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

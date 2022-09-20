@@ -126,6 +126,8 @@
     <ClCompile Include="src\NodeState.cpp" />
     <ClCompile Include="src\NodeStyle.cpp" />
     <ClCompile Include="src\Properties.cpp" />
+    <ClCompile Include="src\QDataStreamPhaser.cpp" />
+    <ClCompile Include="src\QJsonPhaser.cpp" />
     <ClCompile Include="src\StyleCollection.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +145,8 @@
     <ClInclude Include="examples\calculator\MultiplicationModel.hpp" />
     <ClInclude Include="examples\calculator\SubtractionModel.hpp" />
     <ClInclude Include="examples\halcon\HImageData.hpp" />
+    <ClInclude Include="src\QDataStreamPhaser.hpp" />
+    <ClInclude Include="src\QJsonPhaser.hpp" />
     <QtMoc Include="examples\halcon\HImageRGB2GrayModel.hpp" />
     <QtMoc Include="examples\halcon\HImageSplitChanelModel.hpp" />
     <QtMoc Include="examples\halcon\HImageFolderModel.hpp" />
@@ -154,6 +158,7 @@
     <QtMoc Include="examples\calculator\NumberDisplayDataModel.hpp" />
     <QtMoc Include="examples\calculator\ModuloModel.hpp" />
     <QtMoc Include="examples\calculator\MathOperationDataModel.hpp" />
+    <ClInclude Include="examples\halcon\HObjectData.hpp" />
     <ClInclude Include="examples\images\PixmapData.hpp" />
     <ClInclude Include="include\nodes\Compiler.hpp" />
     <ClInclude Include="include\nodes\ConnectionGeometry.hpp" />
