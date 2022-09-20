@@ -96,6 +96,7 @@
     <ClCompile Include="examples\calculator\ModuloModel.cpp" />
     <ClCompile Include="examples\calculator\NumberDisplayDataModel.cpp" />
     <ClCompile Include="examples\calculator\NumberSourceDataModel.cpp" />
+    <ClCompile Include="examples\halcon\HImageFolderModel.cpp" />
     <ClCompile Include="examples\halcon\HImageLoaderModel.cpp" />
     <ClCompile Include="examples\halcon\HImageRGB2GrayModel.cpp" />
     <ClCompile Include="examples\halcon\HImageShowModel.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="examples\halcon\HImageData.hpp" />
     <QtMoc Include="examples\halcon\HImageRGB2GrayModel.hpp" />
     <QtMoc Include="examples\halcon\HImageSplitChanelModel.hpp" />
+    <QtMoc Include="examples\halcon\HImageFolderModel.hpp" />
     <ClInclude Include="examples\halcon\HImageViewWidget.hpp" />
     <QtMoc Include="examples\halcon\HImageShowModel.hpp" />
     <QtMoc Include="examples\halcon\HImageLoaderModel.hpp" />

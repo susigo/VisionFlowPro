@@ -149,6 +149,9 @@
     <ClCompile Include="examples\halcon\HImageSplitChanelModel.cpp">
       <Filter>examples\halcon</Filter>
     </ClCompile>
+    <ClCompile Include="examples\halcon\HImageFolderModel.cpp">
+      <Filter>examples\halcon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="examples\images\ImageLoaderModel.hpp">
@@ -200,6 +203,9 @@
       <Filter>examples\halcon</Filter>
     </QtMoc>
     <QtMoc Include="examples\halcon\HImageSplitChanelModel.hpp">
+      <Filter>examples\halcon</Filter>
+    </QtMoc>
+    <QtMoc Include="examples\halcon\HImageFolderModel.hpp">
       <Filter>examples\halcon</Filter>
     </QtMoc>
   </ItemGroup>

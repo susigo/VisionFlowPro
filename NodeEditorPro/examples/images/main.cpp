@@ -15,6 +15,7 @@
 #include "calculator/NumberSourceDataModel.hpp"
 #include "calculator/NumberDisplayDataModel.hpp"
 #include "halcon/HImageLoaderModel.hpp"
+#include "halcon/HImageFolderModel.hpp"
 #include "halcon/HImageShowModel.hpp"
 #include "halcon/HImageRGB2GrayModel.hpp"
 #include "halcon/HImageSplitChanelModel.hpp"
@@ -38,6 +39,7 @@ registerDataModels()
 	ret->registerModel<NumberDisplayDataModel>(numberNodeType);
 
 	ret->registerModel<HImageLoaderModel>(getImageNodeType);
+	ret->registerModel<HImageFolderModel>(getImageNodeType);
 
 	ret->registerModel<HImageShowModel>(imageNodeType);
 	ret->registerModel<HImageRGB2GrayModel>(imageNodeType);

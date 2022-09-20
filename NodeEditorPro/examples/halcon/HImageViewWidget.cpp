@@ -7,7 +7,7 @@ HImageViewWidget::HImageViewWidget(QWidget* parent)
 	{
 		this->setParent(parent);
 	}
-
+	this->setStyleSheet("background-color:black;");
 	cur_pixmap = new QPixmap();
 }
 

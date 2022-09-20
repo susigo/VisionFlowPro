@@ -4,6 +4,9 @@
 #include <QObject>
 #include <QWidget>
 #include <QLabel>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QPushButton>
 #include "DataModelRegistry.hpp"
 #include "NodeDataModel.hpp"
 #include "halconcpp/HalconCpp.h"
@@ -20,24 +23,24 @@ using namespace HalconCpp;
 /**
  * \brief halcon 图像输入节点
  */
-class HImageLoaderModel :public NodeDataModel
+class HImageFolderModel :public NodeDataModel
 {
 	Q_OBJECT
 public:
-	HImageLoaderModel();
-	virtual ~HImageLoaderModel() {}
+	HImageFolderModel();
+	virtual ~HImageFolderModel() {}
 public:
 	QString caption() const override
 	{
-		return QString(u8"图像输入");
+		return QString(u8"图像目录输入");
 	}
 	QString name() const override
 	{
-		return QString(u8"图像输入");
+		return QString(u8"图像目录输入");
 	}
 	virtual QString modelName() const
 	{
-		return QString(u8"图像输入");
+		return QString(u8"图像目录输入");
 	}
 	unsigned int
 		nPorts(PortType portType) const override;
@@ -53,7 +56,7 @@ public:
 	{ }
 
 	QWidget*
-		embeddedWidget() override { return m_image_view; }
+		embeddedWidget() override { return m_paraWidget; }
 
 	bool
 		resizable() const override { return false; }
@@ -61,8 +64,18 @@ public:
 protected:
 	bool eventFilter(QObject* watched, QEvent* event) override;
 private:
-
+	QString folderPath;
 	std::shared_ptr< HImageData> m_hImageData;
+	QWidget* m_paraWidget;
+	QVBoxLayout* m_host;
+	QHBoxLayout* m_h_host;
+	QPushButton* btn_selectFolder;
+	QPushButton* btn_last;
+	QPushButton* btn_next;
 	HImageViewWidget* m_image_view;
-
+	HTuple fileListStr;
+	HTuple imgListStr;
+	HImage tmpImg;
+	int curIndex = 0;
+	int imageCounst = 0;
 };

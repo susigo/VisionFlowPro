@@ -31,7 +31,6 @@ bool HImageRGB2GrayModel::RunTask()
 	{
 		modelValidationState = NodeValidationState::Warning;
 		modelValidationError = QStringLiteral("缺失或运行失败!");
-		m_hImage.reset();
 
 	}
 

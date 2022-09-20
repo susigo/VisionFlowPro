@@ -23,7 +23,10 @@ public:
 			m_himage = h_image;
 		}
 	}
+	virtual ~HImageData()
+	{
 
+	}
 	NodeDataType type() const override
 	{
 		return { "HImage","Image" };
