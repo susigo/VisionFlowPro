@@ -18,6 +18,7 @@
 #include "halcon/HImageFolderModel.hpp"
 #include "halcon/HImageShowModel.hpp"
 #include "halcon/HImageRGB2GrayModel.hpp"
+#include "halcon/HImageThresholdModel.hpp"
 #include "halcon/HImageSplitChanelModel.hpp"
 
 using QtNodes::DataModelRegistry;
@@ -44,6 +45,7 @@ registerDataModels()
 	ret->registerModel<HImageShowModel>(imageNodeType);
 	ret->registerModel<HImageRGB2GrayModel>(imageNodeType);
 	ret->registerModel<HImageSplitChanelModel>(imageNodeType);
+	ret->registerModel<HImageThresholdModel>(imageNodeType);
 	//ret->registerModel<ImageShowModel>(imageNodeType);
 	//ret->registerModel<ImageLoaderModel>(imageNodeType);
 

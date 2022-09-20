@@ -15,10 +15,10 @@ bool HImageRGB2GrayModel::RunTask()
 	PortIndex const outPortIndex = 0;
 	try
 	{
-		HTuple imgChanels = m_hImage->hImage().CountChannels();
+		HTuple imgChanels = m_hImage->hImage()->CountChannels();
 		if (imgChanels == 3)
 		{
-			HImage tmp_img = m_hImage->hImage().Rgb3ToGray(m_hImage->hImage(), m_hImage->hImage());
+			HImage tmp_img = m_hImage->hImage()->Rgb3ToGray(*m_hImage->hImage(), *m_hImage->hImage());
 			m_hImage->setHImage(tmp_img);
 			tmp_img.Clear();
 		}
@@ -87,7 +87,7 @@ setInData(std::shared_ptr<NodeData> data, int portIndex)
 	switch (portIndex)
 	{
 	case 0:
-		m_hImage->setHImage(hImageData->hImage());
+		m_hImage->setHImage(*hImageData->hImage());
 		break;
 	default:
 		break;

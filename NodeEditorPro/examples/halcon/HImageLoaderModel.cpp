@@ -49,7 +49,7 @@ bool HImageLoaderModel::eventFilter(QObject* object, QEvent* event)
 			HImage tmpImg;
 			tmpImg.ReadImage(fileName.toStdString().c_str());
 			m_hImageData->setHImage(tmpImg);
-			m_image_view->showImage(m_hImageData->hImage());
+			m_image_view->showImage(*m_hImageData->hImage());
 
 			Q_EMIT dataUpdated(0);
 

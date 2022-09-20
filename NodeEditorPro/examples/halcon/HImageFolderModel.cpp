@@ -68,7 +68,7 @@ bool HImageFolderModel::eventFilter(QObject* object, QEvent* event)
 				return false;
 			}
 			HalconCpp::ListFiles(folderPath.toStdString().c_str(), "files", &fileListStr);
-			TupleRegexpSelect(fileListStr, "tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj", &imgListStr);
+			TupleRegexpSelect(fileListStr, "\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$", &imgListStr);
 			imageCounst = imgListStr.Length();
 			if (imageCounst == 0)
 			{
@@ -77,7 +77,7 @@ bool HImageFolderModel::eventFilter(QObject* object, QEvent* event)
 			curIndex = 0;
 			tmpImg.ReadImage(imgListStr[curIndex].ToTuple());
 			m_hImageData->setHImage(tmpImg);
-			m_image_view->showImage(m_hImageData->hImage());
+			m_image_view->showImage(*m_hImageData->hImage());
 			Q_EMIT dataUpdated(0);
 
 			return true;
@@ -96,8 +96,12 @@ bool HImageFolderModel::eventFilter(QObject* object, QEvent* event)
 				curIndex--;
 				tmpImg.ReadImage(imgListStr[curIndex].ToTuple());
 				m_hImageData->setHImage(tmpImg);
-				m_image_view->showImage(m_hImageData->hImage());
+				m_image_view->showImage(*m_hImageData->hImage());
 				Q_EMIT dataUpdated(0);
+			}
+			else
+			{
+				curIndex = imageCounst - 1;
 			}
 		}
 	}
@@ -105,13 +109,17 @@ bool HImageFolderModel::eventFilter(QObject* object, QEvent* event)
 	{
 		if (event->type() == QEvent::MouseButtonPress)
 		{
-			if (curIndex + 1 <= imageCounst)
+			if (curIndex + 1 < imageCounst)
 			{
 				curIndex++;
 				tmpImg.ReadImage(imgListStr[curIndex].ToTuple());
 				m_hImageData->setHImage(tmpImg);
-				m_image_view->showImage(m_hImageData->hImage());
+				m_image_view->showImage(*m_hImageData->hImage());
 				Q_EMIT dataUpdated(0);
+			}
+			else
+			{
+				curIndex = 0;
 			}
 		}
 	}

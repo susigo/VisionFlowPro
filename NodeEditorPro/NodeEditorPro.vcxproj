@@ -101,6 +101,7 @@
     <ClCompile Include="examples\halcon\HImageRGB2GrayModel.cpp" />
     <ClCompile Include="examples\halcon\HImageShowModel.cpp" />
     <ClCompile Include="examples\halcon\HImageSplitChanelModel.cpp" />
+    <ClCompile Include="examples\halcon\HImageThresholdModel.cpp" />
     <ClCompile Include="examples\halcon\HImageViewWidget.cpp" />
     <ClCompile Include="examples\images\ImageLoaderModel.cpp" />
     <ClCompile Include="examples\images\ImageShowModel.cpp" />
@@ -145,6 +146,7 @@
     <QtMoc Include="examples\halcon\HImageRGB2GrayModel.hpp" />
     <QtMoc Include="examples\halcon\HImageSplitChanelModel.hpp" />
     <QtMoc Include="examples\halcon\HImageFolderModel.hpp" />
+    <QtMoc Include="examples\halcon\HImageThresholdModel.hpp" />
     <ClInclude Include="examples\halcon\HImageViewWidget.hpp" />
     <QtMoc Include="examples\halcon\HImageShowModel.hpp" />
     <QtMoc Include="examples\halcon\HImageLoaderModel.hpp" />

@@ -19,11 +19,11 @@ bool HImageSplitChanelModel::RunTask()
 	{
 		if (img1)
 		{
-			HTuple imgChanels = img1->hImage().CountChannels();
+			HTuple imgChanels = img1->hImage()->CountChannels();
 			if (imgChanels == 3)
 			{
 				HImage chanR, chanG, chanB;
-				Decompose3(img1->hImage(), &chanR, &chanG, &chanB);
+				Decompose3(*img1->hImage(), &chanR, &chanG, &chanB);
 				if (m_resultR == nullptr)
 				{
 					m_resultR = std::make_shared<HImageData>(chanR);

@@ -29,9 +29,9 @@ public:
 	}
 	NodeDataType type() const override
 	{
-		return { "HImage","Image" };
+		return { "HImage","Img" };
 	}
-	HImage hImage() { return m_himage; }
+	HImage* hImage() { return &m_himage; }
 	void setHImage(HImage const& _img)
 	{
 		if (!_img.IsInitialized())

@@ -17,7 +17,7 @@ bool HImageShowModel::RunTask()
 
 	try
 	{
-		m_image_view->showImage(m_hImage->hImage());
+		m_image_view->showImage(*m_hImage->hImage());
 		modelValidationState = NodeValidationState::Valid;
 		modelValidationError = QString();
 
@@ -89,7 +89,7 @@ setInData(std::shared_ptr<NodeData> data, int portIndex)
 		{
 			break;
 		}
-		m_hImage->setHImage(hImageData->hImage());
+		m_hImage->setHImage(*hImageData->hImage());
 		break;
 	default:
 		break;
