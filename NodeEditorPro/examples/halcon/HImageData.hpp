@@ -26,10 +26,10 @@ public:
 
 	NodeDataType type() const override
 	{
-		return { "HImage","HImage" };
+		return { "HImage","Image" };
 	}
 	HImage hImage() { return m_himage; }
-	void setHImage(HImage& _img)
+	void setHImage(HImage const& _img)
 	{
 		if (!_img.IsInitialized())
 		{
@@ -38,5 +38,5 @@ public:
 		m_himage = _img;
 	}
 private:
-	HImage m_himage = HImage();
+	HImage m_himage;
 };

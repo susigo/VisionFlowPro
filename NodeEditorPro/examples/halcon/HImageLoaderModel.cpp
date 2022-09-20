@@ -8,6 +8,7 @@ HImageLoaderModel::HImageLoaderModel()
 	m_image_view = new HImageViewWidget();
 	m_image_view->installEventFilter(this);
 	m_image_view->resize(200, 200);
+	m_hImageData = std::make_shared<HImageData>();
 }
 
 unsigned int HImageLoaderModel::nPorts(PortType portType) const
@@ -45,10 +46,10 @@ bool HImageLoaderModel::eventFilter(QObject* object, QEvent* event)
 			{
 				return false;
 			}
-
-			m_hImage.ReadImage(fileName.toStdString().c_str());
-
-			m_image_view->showImage(m_hImage);
+			HImage tmpImg;
+			tmpImg.ReadImage(fileName.toStdString().c_str());
+			m_hImageData->setHImage(tmpImg);
+			m_image_view->showImage(m_hImageData->hImage());
 
 			Q_EMIT dataUpdated(0);
 
@@ -72,5 +73,5 @@ std::shared_ptr<NodeData>
 HImageLoaderModel::
 outData(PortIndex)
 {
-	return std::make_shared<HImageData>(m_hImage);
+	return std::dynamic_pointer_cast<HImageData>(m_hImageData);
 }

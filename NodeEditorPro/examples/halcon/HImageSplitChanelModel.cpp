@@ -8,7 +8,7 @@ using namespace HalconCpp;
 
 HImageSplitChanelModel::HImageSplitChanelModel()
 {
-
+	m_hImage = std::make_shared<HImageData>();
 }
 
 bool HImageSplitChanelModel::RunTask()

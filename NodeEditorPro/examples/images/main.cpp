@@ -26,8 +26,9 @@ using QtNodes::FlowView;
 static std::shared_ptr<DataModelRegistry>
 registerDataModels()
 {
-	QString numberNodeType = u8"数字节点";
-	QString imageNodeType = u8"图像节点";
+	QString numberNodeType = u8"数学操作";
+	QString imageNodeType = u8"图像操作";
+	QString getImageNodeType = u8"获取图像";
 	auto ret = std::make_shared<DataModelRegistry>();
 	ret->registerModel<AdditionModel>(numberNodeType);
 	ret->registerModel<DivisionModel>(numberNodeType);
@@ -36,12 +37,13 @@ registerDataModels()
 	ret->registerModel<NumberSourceDataModel>(numberNodeType);
 	ret->registerModel<NumberDisplayDataModel>(numberNodeType);
 
-	ret->registerModel<HImageLoaderModel>(imageNodeType);
+	ret->registerModel<HImageLoaderModel>(getImageNodeType);
+
 	ret->registerModel<HImageShowModel>(imageNodeType);
 	ret->registerModel<HImageRGB2GrayModel>(imageNodeType);
 	ret->registerModel<HImageSplitChanelModel>(imageNodeType);
-	ret->registerModel<ImageShowModel>(imageNodeType);
-	ret->registerModel<ImageLoaderModel>(imageNodeType);
+	//ret->registerModel<ImageShowModel>(imageNodeType);
+	//ret->registerModel<ImageLoaderModel>(imageNodeType);
 
 	return ret;
 }

@@ -29,15 +29,15 @@ public:
 public:
 	QString caption() const override
 	{
-		return QString(u8"HImage 输入");
+		return QString(u8"图像输入");
 	}
 	QString name() const override
 	{
-		return QString(u8"HImage输入");
+		return QString(u8"图像输入");
 	}
 	virtual QString modelName() const
 	{
-		return QString(u8"HImage输入");
+		return QString(u8"图像输入");
 	}
 	unsigned int
 		nPorts(PortType portType) const override;
@@ -61,7 +61,7 @@ public:
 protected:
 	bool eventFilter(QObject* watched, QEvent* event) override;
 private:
-	HImage m_hImage;
+
 	std::shared_ptr< HImageData> m_hImageData;
 	HImageViewWidget* m_image_view;
 

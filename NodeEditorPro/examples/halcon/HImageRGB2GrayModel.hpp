@@ -68,6 +68,6 @@ public:
 	NodeValidationState modelValidationState = NodeValidationState::Warning;
 	QString modelValidationError = QString(u8"图片输入未连接!");
 private:
-	std::weak_ptr<HImageData> m_hImage;
-	std::shared_ptr<HImageData> m_result;
+	std::shared_ptr<HImageData> m_hImage;
+	//std::shared_ptr<HImageData> m_result;
 };

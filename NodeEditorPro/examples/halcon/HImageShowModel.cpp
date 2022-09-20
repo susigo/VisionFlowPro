@@ -3,38 +3,33 @@
 #include <QtCore/QDir>
 #include <QtWidgets/QFileDialog>
 
-HImageShowModel::HImageShowModel() :
-	m_label(new QLabel(u8"点击加载图片"))
+HImageShowModel::HImageShowModel()
 {
 	m_image_view = new HImageViewWidget();
 	m_image_view->installEventFilter(this);
 	m_image_view->resize(200, 200);
+	m_hImage = std::make_shared<HImageData>();
 }
 
 bool HImageShowModel::RunTask()
 {
 	PortIndex const outPortIndex = 0;
-	auto img1 = m_hImage.lock();
+
 	try
 	{
-		if (img1)
-		{
-			m_image_view->showImage(img1->hImage());
-			modelValidationState = NodeValidationState::Valid;
-			modelValidationError = QString();
-			m_result = std::shared_ptr<HImageData>(m_hImage);
-		}
+		m_image_view->showImage(m_hImage->hImage());
+		modelValidationState = NodeValidationState::Valid;
+		modelValidationError = QString();
+
 	}
 	catch (...)
 	{
 		modelValidationState = NodeValidationState::Warning;
 		modelValidationError = QStringLiteral("缺失或运行失败!");
-		m_result.reset();
-
 	}
 
 	Q_EMIT dataUpdated(outPortIndex);
-	//m_hwindow->DispImage(m_hImage);
+
 	return true;
 }
 
@@ -90,7 +85,11 @@ setInData(std::shared_ptr<NodeData> data, int portIndex)
 	switch (portIndex)
 	{
 	case 0:
-		m_hImage = hImageData;
+		if (hImageData == nullptr)
+		{
+			break;
+		}
+		m_hImage->setHImage(hImageData->hImage());
 		break;
 	default:
 		break;
@@ -102,5 +101,5 @@ std::shared_ptr<NodeData>
 HImageShowModel::
 outData(PortIndex)
 {
-	return std::static_pointer_cast<NodeData>(m_result);
+	return std::dynamic_pointer_cast<NodeData>(m_hImage);
 }

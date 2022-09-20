@@ -48,6 +48,7 @@ FlowView(QWidget* parent)
 	setCacheMode(QGraphicsView::CacheBackground);
 	setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 
+	setDragMode(DragMode::NoDrag);
 	//setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
 }
 
@@ -320,6 +321,7 @@ mousePressEvent(QMouseEvent* event)
 	QGraphicsView::mousePressEvent(event);
 	if (event->button() == Qt::LeftButton)
 	{
+		this->setDragMode(DragMode::RubberBandDrag);
 		_clickPos = mapToScene(event->pos());
 	}
 }
@@ -332,6 +334,7 @@ mouseMoveEvent(QMouseEvent* event)
 	QGraphicsView::mouseMoveEvent(event);
 	if (scene()->mouseGrabberItem() == nullptr && event->buttons() == Qt::LeftButton)
 	{
+		this->setDragMode(DragMode::RubberBandDrag);
 		// Make sure shift is not being pressed
 		if ((event->modifiers() & Qt::ShiftModifier) == 0)
 		{
@@ -339,6 +342,12 @@ mouseMoveEvent(QMouseEvent* event)
 			setSceneRect(sceneRect().translated(difference.x(), difference.y()));
 		}
 	}
+}
+
+void FlowView::mouseReleaseEvent(QMouseEvent* event)
+{
+	this->setDragMode(DragMode::NoDrag);
+	QGraphicsView::mouseReleaseEvent(event);
 }
 
 

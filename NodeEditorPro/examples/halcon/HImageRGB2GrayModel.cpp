@@ -7,36 +7,31 @@ using namespace HalconCpp;
 
 HImageRGB2GrayModel::HImageRGB2GrayModel()
 {
-
+	m_hImage = std::make_shared<HImageData>();
 }
 
 bool HImageRGB2GrayModel::RunTask()
 {
 	PortIndex const outPortIndex = 0;
-	auto img1 = m_hImage.lock();
 	try
 	{
-		if (img1)
+		HTuple imgChanels = m_hImage->hImage().CountChannels();
+		if (imgChanels == 3)
 		{
-
-			HTuple imgChanels = img1->hImage().CountChannels();
-			if (imgChanels == 3)
-			{
-				HImage tmp_img = img1->hImage().Rgb3ToGray(img1->hImage(), img1->hImage());
-				img1->setHImage(tmp_img);
-				tmp_img.Clear();
-
-			}
-			modelValidationState = NodeValidationState::Valid;
-			modelValidationError = QString();
-			m_result = std::shared_ptr<HImageData>(m_hImage);
+			HImage tmp_img = m_hImage->hImage().Rgb3ToGray(m_hImage->hImage(), m_hImage->hImage());
+			m_hImage->setHImage(tmp_img);
+			tmp_img.Clear();
 		}
+		modelValidationState = NodeValidationState::Valid;
+		modelValidationError = QString();
+		m_hImage = std::shared_ptr<HImageData>(m_hImage);
+
 	}
 	catch (...)
 	{
 		modelValidationState = NodeValidationState::Warning;
 		modelValidationError = QStringLiteral("缺失或运行失败!");
-		m_result.reset();
+		m_hImage.reset();
 
 	}
 
@@ -90,7 +85,7 @@ setInData(std::shared_ptr<NodeData> data, int portIndex)
 	switch (portIndex)
 	{
 	case 0:
-		m_hImage = hImageData;
+		m_hImage->setHImage(hImageData->hImage());
 		break;
 	default:
 		break;
@@ -102,5 +97,5 @@ std::shared_ptr<NodeData>
 HImageRGB2GrayModel::
 outData(PortIndex)
 {
-	return std::static_pointer_cast<NodeData>(m_result);
+	return std::dynamic_pointer_cast<NodeData>(m_hImage);
 }

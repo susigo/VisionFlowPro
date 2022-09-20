@@ -30,15 +30,15 @@ public:
 public:
 	QString caption() const override
 	{
-		return QString(u8"HImage显示");
+		return QString(u8"图像显示");
 	}
 	QString name() const override
 	{
-		return QString(u8"HImage显示");
+		return QString(u8"图像显示");
 	}
 	virtual QString modelName() const
 	{
-		return QString(u8"显示图像");
+		return QString(u8"图像显示");
 	}
 	unsigned int
 		nPorts(PortType portType) const override;
@@ -68,8 +68,6 @@ public:
 	NodeValidationState modelValidationState = NodeValidationState::Warning;
 	QString modelValidationError = QString(u8"图片输入未连接!");
 private:
-	QLabel* m_label;
-	std::weak_ptr<HImageData> m_hImage;
-	std::shared_ptr<HImageData> m_result;
+	std::shared_ptr<HImageData> m_hImage;
 	HImageViewWidget* m_image_view;
 };

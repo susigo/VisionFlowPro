@@ -13,6 +13,10 @@ HImageViewWidget::HImageViewWidget(QWidget* parent)
 
 void HImageViewWidget::showImage(HImage const& _himg)
 {
+	if (!_himg.IsInitialized())
+	{
+		return;
+	}
 	Hlong width;
 	Hlong height;
 	double zoom_ratio = 1.0;
