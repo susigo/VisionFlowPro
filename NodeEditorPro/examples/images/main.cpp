@@ -58,12 +58,28 @@ main(int argc, char* argv[])
 	QApplication app(argc, argv);
 	app.setWindowIcon(QIcon(":/logo.png"));
 	FlowScene scene(registerDataModels());
+	QWidget* mainWidget = new QWidget();
+	QVBoxLayout* main_layout = new QVBoxLayout();
+	QHBoxLayout* header_layout = new QHBoxLayout();
+	QPushButton* btn_load_scheme = new QPushButton(u8"Load");
+	QPushButton* btn_save_scheme = new QPushButton(u8"Save");
+	header_layout->setAlignment(Qt::AlignLeft);
+	btn_load_scheme->setFixedWidth(120);
+	btn_save_scheme->setFixedWidth(120);
+	mainWidget->setLayout(main_layout);
+	main_layout->addLayout(header_layout);
+	header_layout->addWidget(btn_load_scheme);
+	header_layout->addWidget(btn_save_scheme);
+	header_layout->setContentsMargins(0, 0, 0, 0);
+	main_layout->setContentsMargins(1, 1, 1, 1);
+	main_layout->setSpacing(1);
 
 	FlowView view(&scene);
 
-	view.setWindowTitle(u8"节点编辑器");
-	view.resize(1280, 720);
-	view.show();
-
+	main_layout->addWidget(&view);
+	mainWidget->setWindowTitle(u8"节点编辑器");
+	mainWidget->resize(1280, 1024);
+	mainWidget->show();
 	return app.exec();
 }
+

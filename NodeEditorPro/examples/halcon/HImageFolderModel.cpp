@@ -25,7 +25,10 @@ HImageFolderModel::HImageFolderModel()
 	m_host->addWidget(btn_selectFolder);
 	m_host->addLayout(m_h_host);
 	m_host->addWidget(m_image_view);
-
+	m_host->setSpacing(1);
+	m_h_host->setSpacing(1);
+	m_host->setContentsMargins(0, 0, 0, 0);
+	m_paraWidget->setContentsMargins(1, 1, 1, 1);
 	btn_last->installEventFilter(this);
 	btn_next->installEventFilter(this);
 	btn_selectFolder->installEventFilter(this);
