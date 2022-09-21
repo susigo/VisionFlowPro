@@ -106,6 +106,7 @@
     <ClCompile Include="examples\images\ImageLoaderModel.cpp" />
     <ClCompile Include="examples\images\ImageShowModel.cpp" />
     <ClCompile Include="examples\images\main.cpp" />
+    <ClCompile Include="examples\images\VisionFlowWidget.cpp" />
     <ClCompile Include="src\Connection.cpp" />
     <ClCompile Include="src\ConnectionBlurEffect.cpp" />
     <ClCompile Include="src\ConnectionGeometry.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="examples\calculator\MultiplicationModel.hpp" />
     <ClInclude Include="examples\calculator\SubtractionModel.hpp" />
     <ClInclude Include="examples\halcon\HImageData.hpp" />
+    <ClInclude Include="examples\images\VisionFlowWidget.hpp" />
     <ClInclude Include="src\QDataStreamPhaser.hpp" />
     <ClInclude Include="src\QJsonPhaser.hpp" />
     <QtMoc Include="examples\halcon\HImageRGB2GrayModel.hpp" />

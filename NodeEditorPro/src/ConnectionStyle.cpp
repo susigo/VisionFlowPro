@@ -11,28 +11,33 @@
 #include <QDebug>
 
 #include <random>
+#include "QJsonPhaser.hpp"
 
 using QtNodes::ConnectionStyle;
 
 inline void initResources() { Q_INIT_RESOURCE(resources); }
 
 ConnectionStyle::
-ConnectionStyle()
+ConnectionStyle() :
+	ConstructionColor(20, 20, 20, 255),
+	NormalColor(0, 139, 139, 255),
+	SelectedColor(100, 100, 100, 255),
+	SelectedHaloColor(255, 165, 0, 255),
+	HoveredColor(225, 255, 255, 255),
+	LineWidth(3.0),
+	ConstructionLineWidth(2.0),
+	PointDiameter(10.0),
+	UseDataDefinedColors(false)
 {
-	// Explicit resources inialization for preventing the static initialization
-	// order fiasco: https://isocpp.org/wiki/faq/ctors#static-init-order
-	initResources();
-
 	// This configuration is stored inside the compiled unit and is loaded statically
-	loadJsonFile(":DefaultStyle.json");
+	loadJsonFile("DefaultStyle.json");
 }
 
 
 ConnectionStyle::
-ConnectionStyle(QString jsonText)
+ConnectionStyle(QString fileName)
 {
-	loadJsonFile(":DefaultStyle.json");
-	loadJsonText(jsonText);
+	loadJsonFile(fileName);
 }
 
 
@@ -45,102 +50,28 @@ setConnectionStyle(QString jsonText)
 	StyleCollection::setConnectionStyle(style);
 }
 
-#ifdef STYLE_DEBUG
-#define CONNECTION_STYLE_CHECK_UNDEFINED_VALUE(v, variable) { \
-      if (v.type() == QJsonValue::Undefined || \
-          v.type() == QJsonValue::Null) \
-        qWarning() << "Undefined value for parameter:" << #variable; \
-  }
-#else
-#define CONNECTION_STYLE_CHECK_UNDEFINED_VALUE(v, variable)
-#endif
-
-
-#define CONNECTION_VALUE_EXISTS(v) \
-  (v.type() != QJsonValue::Undefined && \
-   v.type() != QJsonValue::Null)
-
-#define CONNECTION_STYLE_READ_COLOR(values, variable)  { \
-    auto valueRef = values[#variable]; \
-    CONNECTION_STYLE_CHECK_UNDEFINED_VALUE(valueRef, variable) \
-    if (CONNECTION_VALUE_EXISTS(valueRef)) {\
-      if (valueRef.isArray()) { \
-        auto colorArray = valueRef.toArray(); \
-        std::vector<int> rgb; rgb.reserve(3); \
-        for (auto it = colorArray.begin(); it != colorArray.end(); ++it) { \
-          rgb.push_back((*it).toInt()); \
-        } \
-        variable = QColor(rgb[0], rgb[1], rgb[2]); \
-      } else { \
-        variable = QColor(valueRef.toString()); \
-      } \
-    } \
-}
-
-#define CONNECTION_STYLE_READ_FLOAT(values, variable)  { \
-    auto valueRef = values[#variable]; \
-    CONNECTION_STYLE_CHECK_UNDEFINED_VALUE(valueRef, variable) \
-    if (CONNECTION_VALUE_EXISTS(valueRef)) \
-      variable = valueRef.toDouble(); \
-}
-
-#define CONNECTION_STYLE_READ_BOOL(values, variable)  { \
-    auto valueRef = values[#variable]; \
-    CONNECTION_STYLE_CHECK_UNDEFINED_VALUE(valueRef, variable) \
-    if (CONNECTION_VALUE_EXISTS(valueRef)) \
-      variable = valueRef.toBool(); \
-}
-
 void
 ConnectionStyle::
 loadJsonFile(QString styleFile)
 {
-	QFile file(styleFile);
-
-	if (!file.open(QIODevice::ReadOnly))
+	QJsonObject obj = QJsonPhaser::readJsonObj(styleFile);
+	QJsonObject styleObj = obj["ConnectionStyle"].toObject();
+	if (styleObj.isEmpty())
 	{
-		qWarning() << "Couldn't open file " << styleFile;
-
-		return;
+		saveJsonFile(styleFile);
 	}
-
-	loadJsonFromByteArray(file.readAll());
+	else
+	{
+		QJsonPhaser::convertFromJson(obj["ConnectionStyle"].toObject(), *this);
+	}
 }
 
-
-void
-ConnectionStyle::
-loadJsonText(QString jsonText)
+void ConnectionStyle::saveJsonFile(QString fileName)
 {
-	loadJsonFromByteArray(jsonText.toUtf8());
+	QJsonObject obj = QJsonPhaser::readJsonObj(fileName);
+	obj.insert("ConnectionStyle", QJsonPhaser::convertToJson(*this));
+	QJsonPhaser::writeJsonObj(fileName, obj);
 }
-
-
-void
-ConnectionStyle::
-loadJsonFromByteArray(QByteArray const& byteArray)
-{
-	QJsonDocument json(QJsonDocument::fromJson(byteArray));
-
-	QJsonObject topLevelObject = json.object();
-
-	QJsonValueRef nodeStyleValues = topLevelObject["ConnectionStyle"];
-
-	QJsonObject obj = nodeStyleValues.toObject();
-
-	CONNECTION_STYLE_READ_COLOR(obj, ConstructionColor);
-	CONNECTION_STYLE_READ_COLOR(obj, NormalColor);
-	CONNECTION_STYLE_READ_COLOR(obj, SelectedColor);
-	CONNECTION_STYLE_READ_COLOR(obj, SelectedHaloColor);
-	CONNECTION_STYLE_READ_COLOR(obj, HoveredColor);
-
-	CONNECTION_STYLE_READ_FLOAT(obj, LineWidth);
-	CONNECTION_STYLE_READ_FLOAT(obj, ConstructionLineWidth);
-	CONNECTION_STYLE_READ_FLOAT(obj, PointDiameter);
-
-	CONNECTION_STYLE_READ_BOOL(obj, UseDataDefinedColors);
-}
-
 
 QColor
 ConnectionStyle::

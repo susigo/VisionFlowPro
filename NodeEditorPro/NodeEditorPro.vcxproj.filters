@@ -161,6 +161,9 @@
     <ClCompile Include="src\QDataStreamPhaser.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="examples\images\VisionFlowWidget.cpp">
+      <Filter>examples\images</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="examples\images\ImageLoaderModel.hpp">
@@ -338,6 +341,9 @@
     </ClInclude>
     <ClInclude Include="src\QDataStreamPhaser.hpp">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="examples\images\VisionFlowWidget.hpp">
+      <Filter>examples\images</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

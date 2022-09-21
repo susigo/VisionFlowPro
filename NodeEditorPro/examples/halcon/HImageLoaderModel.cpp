@@ -31,23 +31,46 @@ unsigned int HImageLoaderModel::nPorts(PortType portType) const
 	return result;
 }
 
+QJsonObject HImageLoaderModel::save() const
+{
+	QJsonObject modelJson = NodeDataModel::save();
+	if (m_hImageData)
+	{
+		HTuple* R, * G, * B;
+		HTuple width, height;
+		int chanels = m_hImageData->hImage()->CountChannels();
+		m_hImageData->hImage()->GetImageSize(&width, &height);
+	}
+
+	return modelJson;
+}
+
+void HImageLoaderModel::restore(QJsonObject const& p)
+{
+	QJsonValue val_img = p["imagedata"];
+	QJsonValue val_width = p["width"];
+	QJsonValue val_height = p["chanel"];
+
+}
+
 bool HImageLoaderModel::eventFilter(QObject* object, QEvent* event)
 {
 	if (object == m_image_view)
 	{
 		if (event->type() == QEvent::MouseButtonPress)
 		{
-			QString fileName =
+			imageName =
 				QFileDialog::getOpenFileName(nullptr,
 					tr("Open Image"),
 					QDir::homePath(),
 					tr("Image Files (*.png *.jpg *.bmp)"));
-			if (fileName == "")
+			if (imageName == "")
 			{
 				return false;
 			}
+
 			HImage tmpImg;
-			tmpImg.ReadImage(fileName.toStdString().c_str());
+			tmpImg.ReadImage(imageName.toStdString().c_str());
 			m_hImageData->setHImage(tmpImg);
 			m_image_view->showImage(*m_hImageData->hImage());
 

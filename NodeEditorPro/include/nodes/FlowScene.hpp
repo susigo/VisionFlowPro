@@ -118,6 +118,7 @@ namespace QtNodes
 		void nodeDeleted(Node& n);
 
 		void connectionCreated(Connection const& c);
+
 		void connectionDeleted(Connection const& c);
 
 		void nodeMoved(Node& n, const QPointF& newLocation);

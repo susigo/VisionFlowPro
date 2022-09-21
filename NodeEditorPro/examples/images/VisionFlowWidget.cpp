@@ -1,0 +1,43 @@
+﻿#include "VisionFlowWidget.hpp"
+
+VisionFlowWidget::VisionFlowWidget(QWidget* parent)
+{
+
+	main_layout = new QVBoxLayout();
+	header_layout = new QHBoxLayout();
+	btn_load_scheme = new QPushButton(u8"Load");
+	btn_save_scheme = new QPushButton(u8"Save");
+	header_layout->setAlignment(Qt::AlignLeft);
+	btn_load_scheme->setFixedWidth(120);
+	btn_save_scheme->setFixedWidth(120);
+	this->setLayout(main_layout);
+	main_layout->addLayout(header_layout);
+	header_layout->addWidget(btn_load_scheme);
+	header_layout->addWidget(btn_save_scheme);
+	header_layout->setContentsMargins(0, 0, 0, 0);
+	main_layout->setContentsMargins(1, 1, 1, 1);
+	main_layout->setSpacing(1);
+	m_scene = new FlowScene(registerDataModels());
+	m_view = new FlowView(m_scene);
+	main_layout->addWidget(m_view);
+	this->setWindowTitle(u8"节点编辑器");
+	this->resize(1280, 1024);
+
+	setConnection();
+}
+
+VisionFlowWidget::~VisionFlowWidget()
+{
+}
+
+void VisionFlowWidget::setConnection()
+{
+	connect(btn_load_scheme, &QPushButton::clicked, [=]()
+		{
+			m_scene->load();
+		});
+	connect(btn_save_scheme, &QPushButton::clicked, [=]()
+		{
+			m_scene->save();
+		});
+}

@@ -1,4 +1,4 @@
-#include "NumberSourceDataModel.hpp"
+﻿#include "NumberSourceDataModel.hpp"
 
 #include "DecimalData.hpp"
 
@@ -8,7 +8,7 @@
 
 NumberSourceDataModel::
 NumberSourceDataModel()
-  : _lineEdit{nullptr}
+	: _lineEdit{ nullptr }
 {
 }
 
@@ -17,79 +17,78 @@ QJsonObject
 NumberSourceDataModel::
 save() const
 {
-  QJsonObject modelJson = NodeDataModel::save();
+	QJsonObject modelJson = NodeDataModel::save();
 
-  if (_number)
-    modelJson["number"] = QString::number(_number->number());
+	if (_number)
+		modelJson["number"] = QString::number(_number->number());
 
-  return modelJson;
+	return modelJson;
 }
 
 
 void
 NumberSourceDataModel::
-restore(QJsonObject const &p)
+restore(QJsonObject const& p)
 {
-  QJsonValue v = p["number"];
+	QJsonValue v = p["number"];
 
-  if (!v.isUndefined())
-  {
-    QString strNum = v.toString();
+	if (!v.isUndefined())
+	{
+		QString strNum = v.toString();
 
-    bool   ok;
-    double d = strNum.toDouble(&ok);
-    if (ok)
-    {
-      _number = std::make_shared<DecimalData>(d);
-      _lineEdit->setText(strNum);
-    }
-  }
+		bool   ok;
+		double d = strNum.toDouble(&ok);
+		if (ok)
+		{
+			_number = std::make_shared<DecimalData>(d);
+			_lineEdit->setText(strNum);
+		}
+	}
 }
-
 
 unsigned int
 NumberSourceDataModel::
 nPorts(PortType portType) const
 {
-  unsigned int result = 1;
+	unsigned int result = 1;
 
-  switch (portType)
-  {
-    case PortType::In:
-      result = 0;
-      break;
+	switch (portType)
+	{
+	case PortType::In:
+		result = 0;
+		break;
 
-    case PortType::Out:
-      result = 1;
+	case PortType::Out:
+		result = 1;
 
-    default:
-      break;
-  }
+	default:
+		break;
+	}
 
-  return result;
+	return result;
 }
 
 
 void
 NumberSourceDataModel::
-onTextEdited(QString const &string)
+onTextEdited(QString const& string)
 {
-  Q_UNUSED(string);
+	Q_UNUSED(string);
 
-  bool ok = false;
+	bool ok = false;
 
-  double number = _lineEdit->text().toDouble(&ok);
+	double number = _lineEdit->text().toDouble(&ok);
 
-  if (ok)
-  {
-    _number = std::make_shared<DecimalData>(number);
+	if (ok)
+	{
+		_number = std::make_shared<DecimalData>(number);
 
-    Q_EMIT dataUpdated(0);
-  }
-  else
-  {
-    Q_EMIT dataInvalidated(0);
-  }
+		Q_EMIT dataUpdated(0);
+	}
+	else
+	{
+		Q_EMIT dataInvalidated(0);
+	}
 }
 
 
@@ -97,7 +96,7 @@ NodeDataType
 NumberSourceDataModel::
 dataType(PortType, PortIndex) const
 {
-  return DecimalData().type();
+	return DecimalData().type();
 }
 
 
@@ -105,26 +104,26 @@ std::shared_ptr<NodeData>
 NumberSourceDataModel::
 outData(PortIndex)
 {
-  return _number;
+	return _number;
 }
 
 
-QWidget *
+QWidget*
 NumberSourceDataModel::
 embeddedWidget()
 {
-  if (!_lineEdit)
-  {
-    _lineEdit = new QLineEdit();
+	if (!_lineEdit)
+	{
+		_lineEdit = new QLineEdit();
 
-    _lineEdit->setValidator(new QDoubleValidator());
-    _lineEdit->setMaximumSize(_lineEdit->sizeHint());
+		_lineEdit->setValidator(new QDoubleValidator());
+		_lineEdit->setMaximumSize(_lineEdit->sizeHint());
 
-    connect(_lineEdit, &QLineEdit::textChanged,
-            this, &NumberSourceDataModel::onTextEdited);
+		connect(_lineEdit, &QLineEdit::textChanged,
+			this, &NumberSourceDataModel::onTextEdited);
 
-    _lineEdit->setText("0.0");
-  }
+		_lineEdit->setText("0.0");
+	}
 
-  return _lineEdit;
+	return _lineEdit;
 }

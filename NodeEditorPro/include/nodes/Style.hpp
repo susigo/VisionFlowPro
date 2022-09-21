@@ -15,13 +15,9 @@ namespace QtNodes
 	private:
 
 		virtual void
-			loadJsonText(QString jsonText) = 0;
-
-		virtual void
 			loadJsonFile(QString fileName) = 0;
-
 		virtual void
-			loadJsonFromByteArray(QByteArray const& byteArray) = 0;
+			saveJsonFile(QString fileName) = 0;
 	};
 
 }

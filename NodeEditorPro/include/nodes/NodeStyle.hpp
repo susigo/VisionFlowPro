@@ -18,15 +18,12 @@ namespace QtNodes
 
 	public:
 
-		static void setNodeStyle(QString jsonText);
+		static void setNodeStyle(QString fileName);
 
 	private:
 
-		void loadJsonText(QString jsonText) override;
-
 		void loadJsonFile(QString fileName) override;
-
-		void loadJsonFromByteArray(QByteArray const& byteArray) override;
+		void saveJsonFile(QString fileName) override;
 
 	public:
 

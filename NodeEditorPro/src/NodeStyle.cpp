@@ -11,128 +11,72 @@
 #include <QDebug>
 
 #include "StyleCollection.hpp"
+#include "QJsonPhaser.hpp"
 
 using QtNodes::NodeStyle;
 
 inline void initResources() { Q_INIT_RESOURCE(resources); }
 
 NodeStyle::
-NodeStyle()
+NodeStyle() :
+	NormalBoundaryColor(255, 255, 255, 255),
+	SelectedBoundaryColor(255, 165, 0, 255),
+	BackgroundColor(34, 34, 34, 255),
+	TitileColor(253, 204, 82, 255),
+	GradientColor0(60, 60, 60, 255),
+	GradientColor1(80, 80, 80, 255),
+	GradientColor2(64, 64, 64, 255),
+	GradientColor3(58, 58, 58, 255),
+	ShadowColor(20, 20, 20, 255),
+	FontColor(255, 255, 255, 255),
+	FontColorFaded(35, 35, 35, 255),
+	ConnectionPointColor(169, 169, 169, 255),
+	FilledConnectionPointColor(0, 255, 255, 255),
+	WarningColor(128, 128, 0, 255),
+	ErrorColor(255, 0, 0, 255),
+	PenWidth(1.0),
+	HoveredPenWidth(1.5),
+	ConnectionPointDiameter(8.0),
+	Opacity(0.8)
 {
-	// Explicit resources inialization for preventing the static initialization
-	// order fiasco: https://isocpp.org/wiki/faq/ctors#static-init-order
-	initResources();
 
 	// This configuration is stored inside the compiled unit and is loaded statically
-	loadJsonFile(":DefaultStyle.json");
+	loadJsonFile("DefaultStyle.json");
 }
-
 
 NodeStyle::
-NodeStyle(QString jsonText)
+NodeStyle(QString fileName)
 {
-	loadJsonText(jsonText);
+	loadJsonFile(fileName);
 }
-
 
 void
 NodeStyle::
-setNodeStyle(QString jsonText)
+setNodeStyle(QString fileName)
 {
-	NodeStyle style(jsonText);
-
-
+	NodeStyle style(fileName);
 	StyleCollection::setNodeStyle(style);
-}
-
-
-#ifdef STYLE_DEBUG
-#define NODE_STYLE_CHECK_UNDEFINED_VALUE(v, variable) { \
-      if (v.type() == QJsonValue::Undefined || \
-          v.type() == QJsonValue::Null) \
-        qWarning() << "Undefined value for parameter:" << #variable; \
-  }
-#else
-#define NODE_STYLE_CHECK_UNDEFINED_VALUE(v, variable)
-#endif
-
-#define NODE_STYLE_READ_COLOR(values, variable)  { \
-    auto valueRef = values[#variable]; \
-    NODE_STYLE_CHECK_UNDEFINED_VALUE(valueRef, variable) \
-    if (valueRef.isArray()) { \
-      auto colorArray = valueRef.toArray(); \
-      std::vector<int> rgb; rgb.reserve(3); \
-      for (auto it = colorArray.begin(); it != colorArray.end(); ++it) { \
-        rgb.push_back((*it).toInt()); \
-      } \
-      variable = QColor(rgb[0], rgb[1], rgb[2]); \
-    } else { \
-      variable = QColor(valueRef.toString()); \
-    } \
-}
-
-#define NODE_STYLE_READ_FLOAT(values, variable)  { \
-    auto valueRef = values[#variable]; \
-    NODE_STYLE_CHECK_UNDEFINED_VALUE(valueRef, variable) \
-    variable = valueRef.toDouble(); \
 }
 
 void
 NodeStyle::
 loadJsonFile(QString styleFile)
 {
-	QFile file(styleFile);
-
-	if (!file.open(QIODevice::ReadOnly))
+	QJsonObject obj = QJsonPhaser::readJsonObj(styleFile);
+	QJsonObject styleObj = obj["NodeStyle"].toObject();
+	if (styleObj.isEmpty())
 	{
-		qWarning() << "Couldn't open file " << styleFile;
-
-		return;
+		saveJsonFile(styleFile);
 	}
-
-	loadJsonFromByteArray(file.readAll());
+	else
+	{
+		QJsonPhaser::convertFromJson(obj["NodeStyle"].toObject(), *this);
+	}
 }
 
-
-void
-NodeStyle::
-loadJsonText(QString jsonText)
+void QtNodes::NodeStyle::saveJsonFile(QString fileName)
 {
-	loadJsonFromByteArray(jsonText.toUtf8());
-}
-
-
-void
-NodeStyle::
-loadJsonFromByteArray(QByteArray const& byteArray)
-{
-	QJsonDocument json(QJsonDocument::fromJson(byteArray));
-
-	QJsonObject topLevelObject = json.object();
-
-	QJsonValueRef nodeStyleValues = topLevelObject["NodeStyle"];
-
-	QJsonObject obj = nodeStyleValues.toObject();
-
-	NODE_STYLE_READ_COLOR(obj, NormalBoundaryColor);
-	NODE_STYLE_READ_COLOR(obj, SelectedBoundaryColor);
-	NODE_STYLE_READ_COLOR(obj, BackgroundColor);
-	NODE_STYLE_READ_COLOR(obj, TitileColor);
-	NODE_STYLE_READ_COLOR(obj, GradientColor0);
-	NODE_STYLE_READ_COLOR(obj, GradientColor1);
-	NODE_STYLE_READ_COLOR(obj, GradientColor2);
-	NODE_STYLE_READ_COLOR(obj, GradientColor3);
-	NODE_STYLE_READ_COLOR(obj, ShadowColor);
-	NODE_STYLE_READ_COLOR(obj, FontColor);
-	NODE_STYLE_READ_COLOR(obj, FontColorFaded);
-	NODE_STYLE_READ_COLOR(obj, ConnectionPointColor);
-	NODE_STYLE_READ_COLOR(obj, FilledConnectionPointColor);
-	NODE_STYLE_READ_COLOR(obj, WarningColor);
-	NODE_STYLE_READ_COLOR(obj, ErrorColor);
-
-	NODE_STYLE_READ_FLOAT(obj, PenWidth);
-	NODE_STYLE_READ_FLOAT(obj, HoveredPenWidth);
-	NODE_STYLE_READ_FLOAT(obj, ConnectionPointDiameter);
-
-	NODE_STYLE_READ_FLOAT(obj, Opacity);
+	QJsonObject obj = QJsonPhaser::readJsonObj(fileName);
+	obj.insert("NodeStyle", QJsonPhaser::convertToJson(*this));
+	QJsonPhaser::writeJsonObj(fileName, obj);
 }

@@ -57,11 +57,12 @@ public:
 
 	bool
 		resizable() const override { return false; }
-
+	QJsonObject save() const override;
+	void restore(QJsonObject const&) override;
 protected:
 	bool eventFilter(QObject* watched, QEvent* event) override;
 private:
-
+	QString imageName;
 	std::shared_ptr< HImageData> m_hImageData;
 	HImageViewWidget* m_image_view;
 

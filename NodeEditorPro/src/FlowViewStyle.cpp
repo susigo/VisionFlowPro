@@ -9,27 +9,26 @@
 #include <QDebug>
 
 #include "StyleCollection.hpp"
+#include "QJsonPhaser.hpp"
 
 using QtNodes::FlowViewStyle;
 
 inline void initResources() { Q_INIT_RESOURCE(resources); }
 
 FlowViewStyle::
-FlowViewStyle()
+FlowViewStyle() :
+	BackgroundColor(53, 53, 53, 255),
+	FineGridColor(60, 60, 60, 255),
+	CoarseGridColor(25, 25, 25, 255)
 {
-	// Explicit resources inialization for preventing the static initialization
-	// order fiasco: https://isocpp.org/wiki/faq/ctors#static-init-order
-	initResources();
-
-	// This configuration is stored inside the compiled unit and is loaded statically
-	loadJsonFile(":DefaultStyle.json");
+	loadJsonFile("DefaultStyle.json");
 }
 
 
 FlowViewStyle::
 FlowViewStyle(QString jsonText)
 {
-	loadJsonText(jsonText);
+	loadJsonFile(jsonText);
 }
 
 
@@ -42,70 +41,26 @@ setStyle(QString jsonText)
 	StyleCollection::setFlowViewStyle(style);
 }
 
-
-#ifdef STYLE_DEBUG
-#define FLOW_VIEW_STYLE_CHECK_UNDEFINED_VALUE(v, variable) { \
-      if (v.type() == QJsonValue::Undefined || \
-          v.type() == QJsonValue::Null) \
-        qWarning() << "Undefined value for parameter:" << #variable; \
-  }
-#else
-#define FLOW_VIEW_STYLE_CHECK_UNDEFINED_VALUE(v, variable)
-#endif
-
-#define FLOW_VIEW_STYLE_READ_COLOR(values, variable)  { \
-    auto valueRef = values[#variable]; \
-    FLOW_VIEW_STYLE_CHECK_UNDEFINED_VALUE(valueRef, variable) \
-    if (valueRef.isArray()) { \
-      auto colorArray = valueRef.toArray(); \
-      std::vector<int> rgb; rgb.reserve(3); \
-      for (auto it = colorArray.begin(); it != colorArray.end(); ++it) { \
-        rgb.push_back((*it).toInt()); \
-      } \
-      variable = QColor(rgb[0], rgb[1], rgb[2]); \
-    } else { \
-      variable = QColor(valueRef.toString()); \
-    } \
-}
-
 void
 FlowViewStyle::
 loadJsonFile(QString styleFile)
 {
-	QFile file(styleFile);
-
-	if (!file.open(QIODevice::ReadOnly))
+	QJsonObject obj = QJsonPhaser::readJsonObj(styleFile);
+	QJsonObject styleObj = obj["FlowViewStyle"].toObject();
+	if (styleObj.isEmpty())
 	{
-		qWarning() << "Couldn't open file " << styleFile;
-
-		return;
+		saveJsonFile(styleFile);
 	}
-
-	loadJsonFromByteArray(file.readAll());
+	else
+	{
+		QJsonPhaser::convertFromJson(obj["FlowViewStyle"].toObject(), *this);
+	}
 }
 
-
-void
-FlowViewStyle::
-loadJsonText(QString jsonText)
+void QtNodes::FlowViewStyle::saveJsonFile(QString fileName)
 {
-	loadJsonFromByteArray(jsonText.toUtf8());
+	QJsonObject obj = QJsonPhaser::readJsonObj(fileName);
+	obj.insert("FlowViewStyle", QJsonPhaser::convertToJson(*this));
+	QJsonPhaser::writeJsonObj(fileName, obj);
 }
 
-
-void
-FlowViewStyle::
-loadJsonFromByteArray(QByteArray const& byteArray)
-{
-	QJsonDocument json(QJsonDocument::fromJson(byteArray));
-
-	QJsonObject topLevelObject = json.object();
-
-	QJsonValueRef nodeStyleValues = topLevelObject["FlowViewStyle"];
-
-	QJsonObject obj = nodeStyleValues.toObject();
-
-	FLOW_VIEW_STYLE_READ_COLOR(obj, BackgroundColor);
-	FLOW_VIEW_STYLE_READ_COLOR(obj, FineGridColor);
-	FLOW_VIEW_STYLE_READ_COLOR(obj, CoarseGridColor);
-}

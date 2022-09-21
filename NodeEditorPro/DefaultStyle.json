@@ -1,0 +1,148 @@
+{
+    "ConnectionStyle": {
+        "BackgroundColor": {
+            "alpha": 255,
+            "blue": 20,
+            "green": 20,
+            "red": 20
+        },
+        "ConstructionLineWidth": 2,
+        "HoveredColor": {
+            "alpha": 255,
+            "blue": 255,
+            "green": 255,
+            "red": 225
+        },
+        "LineWidth": 3,
+        "NormalColor": {
+            "alpha": 255,
+            "blue": 139,
+            "green": 139,
+            "red": 0
+        },
+        "PointDiameter": 10,
+        "SelectedColor": {
+            "alpha": 255,
+            "blue": 100,
+            "green": 100,
+            "red": 100
+        },
+        "SelectedHaloColor": {
+            "alpha": 255,
+            "blue": 0,
+            "green": 165,
+            "red": 255
+        },
+        "UseDataDefinedColors": false
+    },
+    "FlowViewStyle": {
+        "BackgroundColor": {
+            "alpha": 255,
+            "blue": 53,
+            "green": 53,
+            "red": 53
+        },
+        "CoarseGridColor": {
+            "alpha": 255,
+            "blue": 25,
+            "green": 25,
+            "red": 25
+        },
+        "FineGridColor": {
+            "alpha": 255,
+            "blue": 60,
+            "green": 60,
+            "red": 60
+        }
+    },
+    "NodeStyle": {
+        "BackgroundColor": {
+            "alpha": 255,
+            "blue": 34,
+            "green": 34,
+            "red": 34
+        },
+        "ConnectionPointColor": {
+            "alpha": 255,
+            "blue": 169,
+            "green": 169,
+            "red": 169
+        },
+        "ConnectionPointDiameter": 8,
+        "ErrorColor": {
+            "alpha": 255,
+            "blue": 0,
+            "green": 0,
+            "red": 255
+        },
+        "FilledConnectionPointColor": {
+            "alpha": 255,
+            "blue": 255,
+            "green": 255,
+            "red": 0
+        },
+        "FontColorFaded": {
+            "alpha": 255,
+            "blue": 35,
+            "green": 35,
+            "red": 35
+        },
+        "GradientColor0": {
+            "alpha": 255,
+            "blue": 60,
+            "green": 60,
+            "red": 60
+        },
+        "GradientColor1": {
+            "alpha": 255,
+            "blue": 80,
+            "green": 80,
+            "red": 80
+        },
+        "GradientColor2": {
+            "alpha": 255,
+            "blue": 64,
+            "green": 64,
+            "red": 64
+        },
+        "GradientColor3": {
+            "alpha": 255,
+            "blue": 58,
+            "green": 58,
+            "red": 58
+        },
+        "HoveredPenWidth": 1.5,
+        "NormalBoundaryColor": {
+            "alpha": 255,
+            "blue": 255,
+            "green": 255,
+            "red": 255
+        },
+        "Opacity": 0.800000011920929,
+        "PenWidth": 1,
+        "SelectedBoundaryColor": {
+            "alpha": 255,
+            "blue": 0,
+            "green": 165,
+            "red": 255
+        },
+        "ShadowColor": {
+            "alpha": 255,
+            "blue": 20,
+            "green": 20,
+            "red": 20
+        },
+        "TitileColor": {
+            "alpha": 255,
+            "blue": 82,
+            "green": 204,
+            "red": 253
+        },
+        "WarningColor": {
+            "alpha": 255,
+            "blue": 0,
+            "green": 128,
+            "red": 128
+        }
+    }
+}

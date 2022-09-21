@@ -18,15 +18,13 @@ namespace QtNodes
 
 	public:
 
-		static void setConnectionStyle(QString jsonText);
+		static void setConnectionStyle(QString fileName);
 
 	private:
 
-		void loadJsonText(QString jsonText) override;
-
 		void loadJsonFile(QString fileName) override;
 
-		void loadJsonFromByteArray(QByteArray const& byteArray) override;
+		void saveJsonFile(QString fileName) override;
 
 	public:
 
@@ -43,7 +41,7 @@ namespace QtNodes
 
 		bool useDataDefinedColors() const;
 
-	private:
+	public:
 
 		QColor ConstructionColor;
 		QColor NormalColor;
