@@ -91,12 +91,13 @@ QJsonObject QJsonPhaser::convertToJson(const QtNodes::NodeStyle& _obj)
 	result.insert("NormalBoundaryColor", convertToJson(_obj.NormalBoundaryColor));
 	result.insert("SelectedBoundaryColor", convertToJson(_obj.SelectedBoundaryColor));
 	result.insert("BackgroundColor", convertToJson(_obj.BackgroundColor));
-	result.insert("TitileColor", convertToJson(_obj.TitileColor));
+	result.insert("TitleColor", convertToJson(_obj.TitleColor));
 	result.insert("GradientColor0", convertToJson(_obj.GradientColor0));
 	result.insert("GradientColor1", convertToJson(_obj.GradientColor1));
 	result.insert("GradientColor2", convertToJson(_obj.GradientColor2));
 	result.insert("GradientColor3", convertToJson(_obj.GradientColor3));
 	result.insert("ShadowColor", convertToJson(_obj.ShadowColor));
+	result.insert("FontColor", convertToJson(_obj.FontColor));
 	result.insert("FontColorFaded", convertToJson(_obj.FontColorFaded));
 	result.insert("ConnectionPointColor", convertToJson(_obj.ConnectionPointColor));
 	result.insert("FilledConnectionPointColor", convertToJson(_obj.FilledConnectionPointColor));
@@ -114,7 +115,7 @@ void QJsonPhaser::convertFromJson(const QJsonObject& _json, QtNodes::NodeStyle& 
 	convertFromJson(_json["NormalBoundaryColor"].toObject(), _obj.NormalBoundaryColor);
 	convertFromJson(_json["SelectedBoundaryColor"].toObject(), _obj.SelectedBoundaryColor);
 	convertFromJson(_json["BackgroundColor"].toObject(), _obj.BackgroundColor);
-	convertFromJson(_json["TitileColor"].toObject(), _obj.TitileColor);
+	convertFromJson(_json["TitleColor"].toObject(), _obj.TitleColor);
 	convertFromJson(_json["GradientColor0"].toObject(), _obj.GradientColor0);
 	convertFromJson(_json["GradientColor1"].toObject(), _obj.GradientColor1);
 	convertFromJson(_json["GradientColor2"].toObject(), _obj.GradientColor2);

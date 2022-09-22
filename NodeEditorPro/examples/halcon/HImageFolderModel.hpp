@@ -60,7 +60,9 @@ public:
 
 	bool
 		resizable() const override { return false; }
-
+	QJsonObject save() const override;
+	void restore(QJsonObject const&) override;
+	void loadImageFolder(QString path, int index = 0);
 protected:
 	bool eventFilter(QObject* watched, QEvent* event) override;
 private:

@@ -30,7 +30,7 @@ namespace QtNodes
 		QColor NormalBoundaryColor;
 		QColor SelectedBoundaryColor;
 		QColor BackgroundColor;
-		QColor TitileColor;
+		QColor TitleColor;
 		QColor GradientColor0;
 		QColor GradientColor1;
 		QColor GradientColor2;

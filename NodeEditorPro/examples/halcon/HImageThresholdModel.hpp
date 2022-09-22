@@ -61,6 +61,11 @@ public:
 		validationState() const override;
 	QString
 		validationMessage() const override;
+
+	QJsonObject save() const override;
+
+	void restore(QJsonObject const&) override;
+
 protected:
 	bool RunTask();
 	bool eventFilter(QObject* watched, QEvent* event) override;

@@ -59,6 +59,7 @@ public:
 		resizable() const override { return false; }
 	QJsonObject save() const override;
 	void restore(QJsonObject const&) override;
+	void loadImage(QString fileName);
 protected:
 	bool eventFilter(QObject* watched, QEvent* event) override;
 private:

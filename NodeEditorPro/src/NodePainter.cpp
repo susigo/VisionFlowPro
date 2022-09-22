@@ -95,10 +95,9 @@ drawNodeRect(QPainter* painter,
 	painter->drawRoundedRect(boundary, radius, radius);
 
 	//绘制标题栏
-	painter->setBrush(nodeStyle.TitileColor);
+	painter->setBrush(nodeStyle.TitleColor);
 	painter->setPen(Qt::NoPen);
 	painter->drawRoundedRect(-diam + 1, -diam + 1, 2.0 * diam + geom.width() - 2, 25, radius, radius);
-
 
 }
 

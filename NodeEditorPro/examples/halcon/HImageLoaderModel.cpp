@@ -40,6 +40,10 @@ QJsonObject HImageLoaderModel::save() const
 		HTuple width, height;
 		int chanels = m_hImageData->hImage()->CountChannels();
 		m_hImageData->hImage()->GetImageSize(&width, &height);
+		modelJson.insert("width", width.D());
+		modelJson.insert("height", height.D());
+		modelJson.insert("chanels", chanels);
+		modelJson.insert("imageName", imageName);
 	}
 
 	return modelJson;
@@ -47,10 +51,20 @@ QJsonObject HImageLoaderModel::save() const
 
 void HImageLoaderModel::restore(QJsonObject const& p)
 {
-	QJsonValue val_img = p["imagedata"];
-	QJsonValue val_width = p["width"];
-	QJsonValue val_height = p["chanel"];
+	imageName = p["imageName"].toString();
+	loadImage(imageName);
+}
 
+void HImageLoaderModel::loadImage(QString fileName)
+{
+	if (fileName == "")
+	{
+		return;
+	}
+	HImage tmpImg;
+	tmpImg.ReadImage(fileName.toStdString().c_str());
+	m_hImageData->setHImage(tmpImg);
+	m_image_view->showImage(*m_hImageData->hImage());
 }
 
 bool HImageLoaderModel::eventFilter(QObject* object, QEvent* event)
@@ -69,10 +83,7 @@ bool HImageLoaderModel::eventFilter(QObject* object, QEvent* event)
 				return false;
 			}
 
-			HImage tmpImg;
-			tmpImg.ReadImage(imageName.toStdString().c_str());
-			m_hImageData->setHImage(tmpImg);
-			m_image_view->showImage(*m_hImageData->hImage());
+			loadImage(imageName);
 
 			Q_EMIT dataUpdated(0);
 

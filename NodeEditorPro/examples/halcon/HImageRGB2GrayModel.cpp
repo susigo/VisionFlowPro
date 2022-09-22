@@ -12,6 +12,7 @@ HImageRGB2GrayModel::HImageRGB2GrayModel()
 
 bool HImageRGB2GrayModel::RunTask()
 {
+	Q_EMIT computingStarted();
 	PortIndex const outPortIndex = 0;
 	try
 	{
@@ -34,7 +35,7 @@ bool HImageRGB2GrayModel::RunTask()
 	}
 
 	Q_EMIT dataUpdated(outPortIndex);
-
+	Q_EMIT computingFinished();
 	return true;
 }
 

@@ -83,9 +83,15 @@
         },
         "FontColorFaded": {
             "alpha": 255,
-            "blue": 35,
-            "green": 35,
-            "red": 35
+            "blue": 120,
+            "green": 120,
+            "red": 120
+        },
+		"FontColor": {
+            "alpha": 255,
+            "blue": 255,
+            "green": 255,
+            "red": 255
         },
         "GradientColor0": {
             "alpha": 255,
@@ -132,11 +138,11 @@
             "green": 20,
             "red": 20
         },
-        "TitileColor": {
+        "TitleColor": {
             "alpha": 255,
-            "blue": 82,
-            "green": 204,
-            "red": 253
+            "blue": 12,
+            "green": 12,
+            "red": 12
         },
         "WarningColor": {
             "alpha": 255,

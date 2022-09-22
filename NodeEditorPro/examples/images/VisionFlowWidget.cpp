@@ -7,13 +7,16 @@ VisionFlowWidget::VisionFlowWidget(QWidget* parent)
 	header_layout = new QHBoxLayout();
 	btn_load_scheme = new QPushButton(u8"Load");
 	btn_save_scheme = new QPushButton(u8"Save");
+	btn_clear_scene = new QPushButton(u8"Clear");
 	header_layout->setAlignment(Qt::AlignLeft);
 	btn_load_scheme->setFixedWidth(120);
 	btn_save_scheme->setFixedWidth(120);
+	btn_clear_scene->setFixedWidth(120);
 	this->setLayout(main_layout);
 	main_layout->addLayout(header_layout);
 	header_layout->addWidget(btn_load_scheme);
 	header_layout->addWidget(btn_save_scheme);
+	header_layout->addWidget(btn_clear_scene);
 	header_layout->setContentsMargins(0, 0, 0, 0);
 	main_layout->setContentsMargins(1, 1, 1, 1);
 	main_layout->setSpacing(1);
@@ -39,5 +42,9 @@ void VisionFlowWidget::setConnection()
 	connect(btn_save_scheme, &QPushButton::clicked, [=]()
 		{
 			m_scene->save();
+		});
+	connect(btn_clear_scene, &QPushButton::clicked, [=]()
+		{
+			m_scene->clearScene();
 		});
 }

@@ -64,8 +64,10 @@ private:
 	QHBoxLayout* header_layout;
 	QPushButton* btn_load_scheme;
 	QPushButton* btn_save_scheme;
+	QPushButton* btn_clear_scene;
 	FlowScene* m_scene;
 	FlowView* m_view;
+
 private:
 	void setConnection();
 };

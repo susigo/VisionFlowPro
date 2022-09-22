@@ -7,9 +7,7 @@
 #include <QtCore/QJsonObject>
 #include <QtCore/QJsonValueRef>
 #include <QtCore/QJsonArray>
-
 #include <QDebug>
-
 #include "StyleCollection.hpp"
 #include "QJsonPhaser.hpp"
 
@@ -22,14 +20,14 @@ NodeStyle() :
 	NormalBoundaryColor(255, 255, 255, 255),
 	SelectedBoundaryColor(255, 165, 0, 255),
 	BackgroundColor(34, 34, 34, 255),
-	TitileColor(253, 204, 82, 255),
+	TitleColor(253, 204, 82, 255),
 	GradientColor0(60, 60, 60, 255),
 	GradientColor1(80, 80, 80, 255),
 	GradientColor2(64, 64, 64, 255),
 	GradientColor3(58, 58, 58, 255),
 	ShadowColor(20, 20, 20, 255),
 	FontColor(255, 255, 255, 255),
-	FontColorFaded(35, 35, 35, 255),
+	FontColorFaded(120, 120, 120, 255),
 	ConnectionPointColor(169, 169, 169, 255),
 	FilledConnectionPointColor(0, 255, 255, 255),
 	WarningColor(128, 128, 0, 255),
@@ -39,7 +37,6 @@ NodeStyle() :
 	ConnectionPointDiameter(8.0),
 	Opacity(0.8)
 {
-
 	// This configuration is stored inside the compiled unit and is loaded statically
 	loadJsonFile("DefaultStyle.json");
 }

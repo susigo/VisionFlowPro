@@ -56,6 +56,45 @@ unsigned int HImageFolderModel::nPorts(PortType portType) const
 	return result;
 }
 
+QJsonObject HImageFolderModel::save() const
+{
+	QJsonObject result = NodeDataModel::save();
+	result.insert("folderPath", folderPath);
+	result.insert("curIndex", curIndex);
+	return result;
+}
+
+void HImageFolderModel::restore(QJsonObject const& json_values)
+{
+	//NodeDataModel::restore(json_values);
+	folderPath = json_values["folderPath"].toString();
+	curIndex = json_values["curIndex"].toInt(0);
+	loadImageFolder(folderPath, curIndex);
+}
+
+void HImageFolderModel::loadImageFolder(QString path, int index)
+{
+	if (folderPath == "")
+	{
+		return;
+	}
+	HalconCpp::ListFiles(path.toStdString().c_str(), "files", &fileListStr);
+	TupleRegexpSelect(fileListStr, "\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$", &imgListStr);
+	imageCounst = imgListStr.Length();
+	if (imageCounst == 0)
+	{
+		return;
+	}
+	if (index >= imageCounst)
+	{
+		index = 0;
+	}
+	curIndex = index;
+	tmpImg.ReadImage(imgListStr[curIndex].ToTuple());
+	m_hImageData->setHImage(tmpImg);
+	m_image_view->showImage(*m_hImageData->hImage());
+}
+
 bool HImageFolderModel::eventFilter(QObject* object, QEvent* event)
 {
 	if (object == btn_selectFolder)
@@ -70,17 +109,9 @@ bool HImageFolderModel::eventFilter(QObject* object, QEvent* event)
 			{
 				return false;
 			}
-			HalconCpp::ListFiles(folderPath.toStdString().c_str(), "files", &fileListStr);
-			TupleRegexpSelect(fileListStr, "\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$", &imgListStr);
-			imageCounst = imgListStr.Length();
-			if (imageCounst == 0)
-			{
-				return false;
-			}
-			curIndex = 0;
-			tmpImg.ReadImage(imgListStr[curIndex].ToTuple());
-			m_hImageData->setHImage(tmpImg);
-			m_image_view->showImage(*m_hImageData->hImage());
+
+			loadImageFolder(folderPath);
+
 			Q_EMIT dataUpdated(0);
 
 			return true;

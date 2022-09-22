@@ -116,6 +116,20 @@ QString HImageThresholdModel::validationMessage() const
 	return modelValidationError;
 }
 
+QJsonObject HImageThresholdModel::save() const
+{
+	QJsonObject result;
+	result.insert("m_minGraySlider", m_minGraySlider->value());
+	result.insert("m_maxGraySlider", m_maxGraySlider->value());
+	return result;
+}
+
+void HImageThresholdModel::restore(QJsonObject const& p)
+{
+	m_minGraySlider->setValue(p["m_minGraySlider"].toInt(0));
+	m_maxGraySlider->setValue(p["m_maxGraySlider"].toInt(255));
+}
+
 NodeDataType
 HImageThresholdModel::dataType(PortType, PortIndex) const
 {
