@@ -143,9 +143,12 @@
     <ClInclude Include="examples\calculator\DecimalData.hpp" />
     <ClInclude Include="examples\calculator\DivisionModel.hpp" />
     <ClInclude Include="examples\calculator\IntegerData.hpp" />
+    <ClInclude Include="examples\calculator\MathNodes.hpp" />
     <ClInclude Include="examples\calculator\MultiplicationModel.hpp" />
     <ClInclude Include="examples\calculator\SubtractionModel.hpp" />
+    <ClInclude Include="examples\halcon\HalconNodes.hpp" />
     <ClInclude Include="examples\halcon\HImageData.hpp" />
+    <ClInclude Include="examples\halcon\HRegionData.hpp" />
     <ClInclude Include="examples\images\VisionFlowWidget.hpp" />
     <ClInclude Include="src\QDataStreamPhaser.hpp" />
     <ClInclude Include="src\QJsonPhaser.hpp" />

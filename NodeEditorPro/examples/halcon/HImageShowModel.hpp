@@ -8,6 +8,7 @@
 #include "NodeDataModel.hpp"
 #include "halconcpp/HalconCpp.h"
 #include "HImageData.hpp"
+#include "HRegionData.hpp"
 #include "HImageViewWidget.hpp"
 
 using QtNodes::PortType;
@@ -69,5 +70,6 @@ public:
 	QString modelValidationError = QString(u8"图片输入未连接!");
 private:
 	std::shared_ptr<HImageData> m_hImage;
+	std::shared_ptr<HRegionData> m_hRegion;
 	HImageViewWidget* m_image_view;
 };

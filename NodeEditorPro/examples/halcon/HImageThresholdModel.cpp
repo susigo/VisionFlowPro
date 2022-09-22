@@ -26,7 +26,7 @@ HImageThresholdModel::HImageThresholdModel()
 	m_maxGraySlider->setValue(255);
 
 	m_hImage = std::make_shared<HImageData>();
-	m_result = std::make_shared<HImageData>();
+	m_result = std::make_shared<HRegionData>();
 
 	connect(m_minGraySlider, &QSlider::valueChanged, [=]()
 		{
@@ -61,9 +61,8 @@ bool HImageThresholdModel::RunTask()
 		double minVal = m_minGraySlider->value();
 		double maxVal = m_maxGraySlider->value();
 
-		HRegion tmpReg = m_hImage->hImage()->Threshold(minVal, maxVal);
-		m_result->setHImage(tmpReg.RegionToBin(255, 0, m_hImage->hImage()->Width(), m_hImage->hImage()->Height()));
-		tmpReg.Clear();
+		m_result->setHRegion(m_hImage->hImage()->Threshold(minVal, maxVal));
+		m_result->setSize(QSize(m_hImage->hImage()->Width().D(), m_hImage->hImage()->Height().D()));
 		tmp_img.Clear();
 		modelValidationState = NodeValidationState::Valid;
 		modelValidationError = QString();
@@ -118,7 +117,7 @@ QString HImageThresholdModel::validationMessage() const
 
 QJsonObject HImageThresholdModel::save() const
 {
-	QJsonObject result;
+	QJsonObject result = NodeDataModel::save();
 	result.insert("m_minGraySlider", m_minGraySlider->value());
 	result.insert("m_maxGraySlider", m_maxGraySlider->value());
 	return result;
@@ -158,7 +157,17 @@ setInData(std::shared_ptr<NodeData> data, int portIndex)
 
 std::shared_ptr<NodeData>
 HImageThresholdModel::
-outData(PortIndex)
+outData(PortIndex index)
 {
+	switch (index)
+	{
+	case 0:
+		return std::dynamic_pointer_cast<NodeData>(m_result);
+		break;
+	case 1:
+		break;
+	default:
+		break;
+	}
 	return std::dynamic_pointer_cast<NodeData>(m_result);
 }

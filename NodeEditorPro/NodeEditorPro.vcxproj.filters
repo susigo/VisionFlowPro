@@ -345,6 +345,15 @@
     <ClInclude Include="examples\images\VisionFlowWidget.hpp">
       <Filter>examples\images</Filter>
     </ClInclude>
+    <ClInclude Include="examples\halcon\HalconNodes.hpp">
+      <Filter>examples\halcon</Filter>
+    </ClInclude>
+    <ClInclude Include="examples\calculator\MathNodes.hpp">
+      <Filter>examples\calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="examples\halcon\HRegionData.hpp">
+      <Filter>examples\halcon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\DefaultStyle.json">

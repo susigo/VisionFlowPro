@@ -8,6 +8,7 @@
 #include "NodeDataModel.hpp"
 #include "halconcpp/HalconCpp.h"
 #include "HImageData.hpp"
+#include "HRegionData.hpp"
 #include "HImageViewWidget.hpp"
 
 using QtNodes::PortType;
@@ -30,7 +31,7 @@ public:
 public:
 	QString caption() const override
 	{
-		return QString(u8"Threshold");
+		return QString(u8"二值化节点");
 	}
 	QString name() const override
 	{
@@ -38,7 +39,7 @@ public:
 	}
 	virtual QString modelName() const
 	{
-		return QString(u8"二值化");
+		return QString(u8"二值化节点");
 	}
 	unsigned int
 		nPorts(PortType portType) const override;
@@ -74,7 +75,7 @@ public:
 	QString modelValidationError = QString(u8"图片输入未连接!");
 private:
 	std::shared_ptr<HImageData> m_hImage;
-	std::shared_ptr<HImageData> m_result;
+	std::shared_ptr<HRegionData> m_result;
 	QSlider* m_minGraySlider;
 	QSlider* m_maxGraySlider;
 	QWidget* m_widget;

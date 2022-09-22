@@ -9,6 +9,7 @@ HImageShowModel::HImageShowModel()
 	m_image_view->installEventFilter(this);
 	m_image_view->resize(200, 200);
 	m_hImage = std::make_shared<HImageData>();
+	m_hRegion = std::make_shared<HRegionData>();
 }
 
 bool HImageShowModel::RunTask()
@@ -79,20 +80,32 @@ HImageShowModel::dataType(PortType, PortIndex) const
 void HImageShowModel::
 setInData(std::shared_ptr<NodeData> data, int portIndex)
 {
-	auto hImageData =
-		std::dynamic_pointer_cast<HImageData>(data);
-
-	switch (portIndex)
+	if (data == nullptr)
 	{
-	case 0:
-		if (hImageData == nullptr)
+		return;
+	}
+	if (data->type() == m_hImage->type())
+	{
+		auto dataPtr = std::dynamic_pointer_cast<HImageData>(data);
+		if (!dataPtr->hImage()->IsInitialized())
 		{
-			break;
+			return;
 		}
-		m_hImage->setHImage(*hImageData->hImage());
-		break;
-	default:
-		break;
+		m_hImage->setHImage(*dataPtr->hImage());
+
+	}
+	else if (data->type() == m_hRegion->type())
+	{
+		auto dataPtr = std::dynamic_pointer_cast<HRegionData>(data);
+		if (!dataPtr->hRegion()->IsInitialized())
+		{
+			return;
+		}
+		m_hRegion->setHRegion(*dataPtr->hRegion());
+		m_hRegion->setSize(dataPtr->getSize());
+		HImage tmpImg = m_hRegion->hRegion()->RegionToBin(255, 0,
+			m_hRegion->getSize().width(), m_hRegion->getSize().height());
+		m_hImage->setHImage(tmpImg);
 	}
 	RunTask();
 }
