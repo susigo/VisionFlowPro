@@ -9,17 +9,37 @@ HRegionSelectModel::HRegionSelectModel()
 {
 	m_widget = new QWidget();
 	m_widget->setAttribute(Qt::WA_NoSystemBackground);
-	m_widget->setFixedSize(130, 70);
+	m_widget->setFixedSize(150, 140);
 	m_minValue = new QLineEdit(m_widget);
 	m_maxValue = new QLineEdit(m_widget);
-
+	combo_feature = new QComboBox(m_widget);
+	combo_operation = new QComboBox(m_widget);
 	m_minValue->resize(120, 25);
 	m_maxValue->resize(120, 25);
-	m_minValue->move(0, 0);
-	m_maxValue->move(0, 35);
+	combo_feature->move(0, 0);
+	combo_operation->move(0, 35);
+	m_minValue->move(0, 70);
+	m_maxValue->move(0, 105);
 
 	m_minValue->setText("0");
 	m_maxValue->setText("99999");
+
+	combo_feature->addItem("area");
+	combo_feature->addItem("row");
+	combo_feature->addItem("column");
+	combo_feature->addItem("width");
+	combo_feature->addItem("height");
+	combo_feature->addItem("circularity");
+	combo_feature->addItem("compactness");
+	combo_feature->addItem("contlength");
+	combo_feature->addItem("convexity");
+	combo_feature->addItem("rectangularity");
+	combo_feature->addItem("inner_width");
+	combo_feature->addItem("inner_height");
+	combo_feature->addItem("roundness");
+
+	combo_operation->addItem("and");
+	combo_operation->addItem("or");
 
 	m_InRegion = std::make_shared<HRegionData>();
 	m_result = std::make_shared<HRegionData>();
@@ -29,6 +49,14 @@ HRegionSelectModel::HRegionSelectModel()
 			RunTask();
 		});
 	connect(m_maxValue, &QLineEdit::textEdited, [=]()
+		{
+			RunTask();
+		});
+	connect(combo_feature, &QComboBox::currentTextChanged, [=]()
+		{
+			RunTask();
+		});
+	connect(combo_operation, &QComboBox::currentTextChanged, [=]()
 		{
 			RunTask();
 		});
@@ -43,11 +71,15 @@ bool HRegionSelectModel::RunTask()
 	}
 	try
 	{
-
-		double minVal = m_minValue->text().toDouble();
-		double maxVal = m_maxValue->text().toDouble();
-
-		m_result->setHRegion(m_InRegion->hRegion()->Union1());
+		minVal = m_minValue->text().toDouble();
+		maxVal = m_maxValue->text().toDouble();
+		m_cur_feature = combo_feature->currentText();
+		m_cur_operation = combo_operation->currentText();
+		m_result->setHRegion(m_InRegion->hRegion()->SelectShape(
+			combo_feature->currentText().toStdString().c_str(),
+			combo_operation->currentText().toStdString().c_str(),
+			minVal, maxVal
+		));
 		m_result->setSize(m_InRegion->getSize());
 
 		modelValidationState = NodeValidationState::Valid;

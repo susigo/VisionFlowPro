@@ -83,4 +83,8 @@ private:
 	QLineEdit* m_minValue;
 	QLineEdit* m_maxValue;
 	QWidget* m_widget;
+	QString m_cur_feature;
+	QString m_cur_operation;
+	int minVal;
+	int maxVal;
 };
