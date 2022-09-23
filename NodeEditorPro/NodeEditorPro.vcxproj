@@ -105,6 +105,7 @@
     <ClCompile Include="examples\halcon\HRegionConnectModel.cpp" />
     <ClCompile Include="examples\halcon\HRegionSelectModel.cpp" />
     <ClCompile Include="examples\halcon\HImageViewWidget.cpp" />
+    <ClCompile Include="examples\halcon\HRegionShapeTransModel.cpp" />
     <ClCompile Include="examples\images\ImageLoaderModel.cpp" />
     <ClCompile Include="examples\images\ImageShowModel.cpp" />
     <ClCompile Include="examples\images\main.cpp" />
@@ -153,6 +154,7 @@
     <QtMoc Include="examples\halcon\HRegionSelectModel.hpp" />
     <QtMoc Include="examples\halcon\HRegionConnectModel.hpp" />
     <ClInclude Include="examples\halcon\HRegionData.hpp" />
+    <QtMoc Include="examples\halcon\HRegionShapeTransModel.hpp" />
     <ClInclude Include="examples\images\VisionFlowWidget.hpp" />
     <ClInclude Include="src\QDataStreamPhaser.hpp" />
     <ClInclude Include="src\QJsonPhaser.hpp" />

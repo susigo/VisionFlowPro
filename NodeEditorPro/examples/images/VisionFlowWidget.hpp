@@ -45,6 +45,7 @@ registerDataModels()
 	ret->registerModel<HImageThresholdModel>(imageNodeType);
 	ret->registerModel<HRegionSelectModel>(imageNodeType);
 	ret->registerModel<HRegionConnectModel>(imageNodeType);
+	ret->registerModel<HRegionShapeTransModel>(imageNodeType);
 
 
 	return ret;
