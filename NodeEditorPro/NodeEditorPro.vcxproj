@@ -102,6 +102,8 @@
     <ClCompile Include="examples\halcon\HImageShowModel.cpp" />
     <ClCompile Include="examples\halcon\HImageSplitChanelModel.cpp" />
     <ClCompile Include="examples\halcon\HImageThresholdModel.cpp" />
+    <ClCompile Include="examples\halcon\HRegionConnectModel.cpp" />
+    <ClCompile Include="examples\halcon\HRegionSelectModel.cpp" />
     <ClCompile Include="examples\halcon\HImageViewWidget.cpp" />
     <ClCompile Include="examples\images\ImageLoaderModel.cpp" />
     <ClCompile Include="examples\images\ImageShowModel.cpp" />
@@ -148,6 +150,8 @@
     <ClInclude Include="examples\calculator\SubtractionModel.hpp" />
     <ClInclude Include="examples\halcon\HalconNodes.hpp" />
     <ClInclude Include="examples\halcon\HImageData.hpp" />
+    <QtMoc Include="examples\halcon\HRegionSelectModel.hpp" />
+    <QtMoc Include="examples\halcon\HRegionConnectModel.hpp" />
     <ClInclude Include="examples\halcon\HRegionData.hpp" />
     <ClInclude Include="examples\images\VisionFlowWidget.hpp" />
     <ClInclude Include="src\QDataStreamPhaser.hpp" />
@@ -206,10 +210,14 @@
     <QtRcc Include="resources\resources.qrc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="showcase\QQ录屏20220918133548[00_00_02--00_00_22].gif" />
+    <Image Include="showcase\showcase1.gif" />
+    <Image Include="showcase\showcase3.gif" />
+    <Image Include="showcase\showcase4.gif" />
+    <Image Include="showcase\showcase5.png" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="showcase\QQ录屏20220921011918.mp4" />
+    <Media Include="showcase\showcase2.mp4" />
+    <Media Include="showcase\showcase6.mp4" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

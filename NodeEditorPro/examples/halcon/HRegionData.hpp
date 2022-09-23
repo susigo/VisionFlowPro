@@ -44,7 +44,7 @@ public:
 	{
 		return m_size;
 	}
-	void setSize(QSize _size)
+	void setSize(QSize const& _size)
 	{
 		m_size = _size;
 	}

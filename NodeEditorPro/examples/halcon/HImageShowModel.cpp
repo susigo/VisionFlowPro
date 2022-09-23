@@ -103,9 +103,19 @@ setInData(std::shared_ptr<NodeData> data, int portIndex)
 		}
 		m_hRegion->setHRegion(*dataPtr->hRegion());
 		m_hRegion->setSize(dataPtr->getSize());
+		//if (m_hRegion->hRegion()->CountObj() > 1)
+		//{
+		//	HRegion tmpReg = m_hRegion->hRegion()->Union1();
+		//	HImage tmpImg = tmpReg.RegionToBin(255, 0,
+		//		m_hRegion->getSize().width(), m_hRegion->getSize().height());
+		//	m_hImage->setHImage(tmpImg);
+		//}
+		//else
+		//{
 		HImage tmpImg = m_hRegion->hRegion()->RegionToBin(255, 0,
 			m_hRegion->getSize().width(), m_hRegion->getSize().height());
 		m_hImage->setHImage(tmpImg);
+		//}
 	}
 	RunTask();
 }

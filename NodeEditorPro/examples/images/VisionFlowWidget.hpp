@@ -43,6 +43,8 @@ registerDataModels()
 	ret->registerModel<HImageRGB2GrayModel>(imageNodeType);
 	ret->registerModel<HImageSplitChanelModel>(imageNodeType);
 	ret->registerModel<HImageThresholdModel>(imageNodeType);
+	ret->registerModel<HRegionSelectModel>(imageNodeType);
+	ret->registerModel<HRegionConnectModel>(imageNodeType);
 
 
 	return ret;

@@ -164,6 +164,12 @@
     <ClCompile Include="examples\images\VisionFlowWidget.cpp">
       <Filter>examples\images</Filter>
     </ClCompile>
+    <ClCompile Include="examples\halcon\HRegionSelectModel.cpp">
+      <Filter>examples\halcon</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\halcon\HRegionConnectModel.cpp">
+      <Filter>examples\halcon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="examples\images\ImageLoaderModel.hpp">
@@ -221,6 +227,12 @@
       <Filter>examples\halcon</Filter>
     </QtMoc>
     <QtMoc Include="examples\halcon\HImageThresholdModel.hpp">
+      <Filter>examples\halcon</Filter>
+    </QtMoc>
+    <QtMoc Include="examples\halcon\HRegionSelectModel.hpp">
+      <Filter>examples\halcon</Filter>
+    </QtMoc>
+    <QtMoc Include="examples\halcon\HRegionConnectModel.hpp">
       <Filter>examples\halcon</Filter>
     </QtMoc>
   </ItemGroup>
@@ -366,12 +378,24 @@
     </QtRcc>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="showcase\QQ录屏20220918133548[00_00_02--00_00_22].gif">
+    <Image Include="showcase\showcase1.gif">
+      <Filter>showcase</Filter>
+    </Image>
+    <Image Include="showcase\showcase3.gif">
+      <Filter>showcase</Filter>
+    </Image>
+    <Image Include="showcase\showcase4.gif">
+      <Filter>showcase</Filter>
+    </Image>
+    <Image Include="showcase\showcase5.png">
       <Filter>showcase</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="showcase\QQ录屏20220921011918.mp4">
+    <Media Include="showcase\showcase2.mp4">
+      <Filter>showcase</Filter>
+    </Media>
+    <Media Include="showcase\showcase6.mp4">
       <Filter>showcase</Filter>
     </Media>
   </ItemGroup>
