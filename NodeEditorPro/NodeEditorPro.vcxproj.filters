@@ -173,6 +173,9 @@
     <ClCompile Include="examples\halcon\HRegionShapeTransModel.cpp">
       <Filter>examples\halcon</Filter>
     </ClCompile>
+    <ClCompile Include="src\RegionDrawer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="examples\images\ImageLoaderModel.hpp">
@@ -371,6 +374,9 @@
     </ClInclude>
     <ClInclude Include="examples\halcon\HRegionData.hpp">
       <Filter>examples\halcon</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RegionDrawer.hpp">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

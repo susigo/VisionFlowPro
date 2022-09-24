@@ -25,7 +25,6 @@ VisionFlowWidget::VisionFlowWidget(QWidget* parent)
 	main_layout->addWidget(m_view);
 	this->setWindowTitle(u8"节点编辑器");
 	this->resize(1280, 1024);
-
 	setConnection();
 }
 

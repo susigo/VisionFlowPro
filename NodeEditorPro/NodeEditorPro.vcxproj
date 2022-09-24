@@ -132,6 +132,7 @@
     <ClCompile Include="src\Properties.cpp" />
     <ClCompile Include="src\QDataStreamPhaser.cpp" />
     <ClCompile Include="src\QJsonPhaser.cpp" />
+    <ClCompile Include="src\RegionDrawer.cpp" />
     <ClCompile Include="src\StyleCollection.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +152,7 @@
     <ClInclude Include="examples\calculator\SubtractionModel.hpp" />
     <ClInclude Include="examples\halcon\HalconNodes.hpp" />
     <ClInclude Include="examples\halcon\HImageData.hpp" />
+    <ClInclude Include="src\RegionDrawer.hpp" />
     <QtMoc Include="examples\halcon\HRegionSelectModel.hpp" />
     <QtMoc Include="examples\halcon\HRegionConnectModel.hpp" />
     <ClInclude Include="examples\halcon\HRegionData.hpp" />

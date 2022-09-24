@@ -47,7 +47,6 @@ registerDataModels()
 	ret->registerModel<HRegionConnectModel>(imageNodeType);
 	ret->registerModel<HRegionShapeTransModel>(imageNodeType);
 
-
 	return ret;
 }
 
