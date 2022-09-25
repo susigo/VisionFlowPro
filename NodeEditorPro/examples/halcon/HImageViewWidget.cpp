@@ -100,6 +100,53 @@ void HImageViewWidget::HImageToQPixmap(HImage const& _img, QPixmap& tar_pixmap)
 	tar_pixmap = QPixmap::fromImage(tar_img);
 }
 
+void HImageViewWidget::QPixmapToHRegion(QPixmap const& _pix, HRegion& tar_reg)
+{
+	HImage tmpImag;
+	QImage tmpQImag = _pix.toImage();
+	bool trans = HImageViewWidget::QImage2HImage(tmpQImag, tmpImag);
+	if (trans)
+	{
+		tar_reg = tmpImag.Threshold(100, 255);
+	}
+	tmpImag.Clear();
+
+}
+
+/**
+ * @brief QImage2HImage 将 Qt QImage 转换为 Halcon 的 HImage
+ * @param from 输入的 QImage
+ * @param to 输出的 HImage ，from 和 to 不共享内存数据。 每次都会为 to 重新分配内存。
+ * @return true 表示转换成功，false 表示转换失败。
+ */
+bool HImageViewWidget::QImage2HImage(QImage& from, HalconCpp::HImage& to)
+{
+	if (from.isNull()) return false;
+
+	int width = from.width(), height = from.height();
+	QImage::Format format = from.format();
+
+	if (format == QImage::Format_RGB32 ||
+		format == QImage::Format_ARGB32 ||
+		format == QImage::Format_ARGB32_Premultiplied)
+	{
+		to.GenImageInterleaved(from.bits(), "rgbx", width, height, 0, "byte", width, height, 0, 0, 8, 0);
+		return true;
+	}
+	else if (format == QImage::Format_RGB888)
+	{
+		to.GenImageInterleaved(from.bits(), "rgb", width, height, 0, "byte", width, height, 0, 0, 8, 0);
+		return true;
+	}
+	else if (format == QImage::Format_Grayscale8 || format == QImage::Format_Indexed8)
+	{
+		to.GenImage1("byte", width, height, from.bits());
+		return true;
+	}
+	return false;
+}
+
+
 void HImageViewWidget::paintEvent(QPaintEvent* event)
 {
 	//QPainter painter(this);

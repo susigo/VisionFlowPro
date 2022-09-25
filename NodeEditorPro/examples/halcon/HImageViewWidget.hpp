@@ -17,6 +17,8 @@ public:
 	void showImage(HImage const& _himg);
 public:
 	static void HImageToQPixmap(HImage const& _img, QPixmap& tar_img);
+	static bool QImage2HImage(QImage& from, HalconCpp::HImage& to);
+	static void QPixmapToHRegion(QPixmap const& _pix, HRegion& tar_img);
 protected:
 	void paintEvent(QPaintEvent* event) override;
 private:

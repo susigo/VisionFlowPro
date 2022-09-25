@@ -10,4 +10,4 @@
 #include "halcon/HRegionSelectModel.hpp"
 #include "halcon/HRegionConnectModel.hpp"
 #include "halcon/HRegionShapeTransModel.hpp"
-
+#include "halcon/HImageReduceDomainModel.hpp"

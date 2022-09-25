@@ -185,6 +185,9 @@
     <ClCompile Include="..\ShapeDrawer\ShapeDrawView.cpp">
       <Filter>ShapeDrawer</Filter>
     </ClCompile>
+    <ClCompile Include="examples\halcon\HImageReduceDomainModel.cpp">
+      <Filter>examples\halcon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="examples\images\ImageLoaderModel.hpp">
@@ -251,6 +254,9 @@
       <Filter>examples\halcon</Filter>
     </QtMoc>
     <QtMoc Include="examples\halcon\HRegionShapeTransModel.hpp">
+      <Filter>examples\halcon</Filter>
+    </QtMoc>
+    <QtMoc Include="examples\halcon\HImageReduceDomainModel.hpp">
       <Filter>examples\halcon</Filter>
     </QtMoc>
   </ItemGroup>
