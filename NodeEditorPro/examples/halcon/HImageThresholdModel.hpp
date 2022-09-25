@@ -75,6 +75,7 @@ public:
 	QString modelValidationError = QString(u8"图片输入未连接!");
 private:
 	std::shared_ptr<HImageData> m_hImage;
+	std::shared_ptr<HRegionData> m_domain;
 	std::shared_ptr<HRegionData> m_result;
 	QSlider* m_minGraySlider;
 	QSlider* m_maxGraySlider;

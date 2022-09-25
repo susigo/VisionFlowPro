@@ -9,6 +9,7 @@ ShapeDrawView::ShapeDrawView(QWidget* parent)
 	}
 	penColor = QColor(0, 255, 0, 200);
 	brushColor = QColor(0, 255, 0, 100);
+	brushDivColor = QColor(255, 0, 0, 100);
 	bgColor = QColor(34, 34, 34);
 	pen = QPen(penColor, 2);
 	brush = QBrush(brushColor);
@@ -67,6 +68,7 @@ void ShapeDrawView::mousePressEvent(QMouseEvent* event)
 		path.clear();
 		polygon.clear();
 		comformPath.append(tmpPath);
+		comformOp.append(shapeOperation);
 		drawingFlag = false;
 	}
 	this->update();
@@ -106,6 +108,10 @@ void ShapeDrawView::paintEvent(QPaintEvent* event)
 	painter.setBrush(brush);
 	drawBackGroundImage(painter);
 	drawCurrentShape(painter);
+	if (drawingFlag)
+	{
+		drawHintLines(painter);
+	}
 	QWidget::paintEvent(event);
 }
 
@@ -115,6 +121,7 @@ void ShapeDrawView::MenuInit()
 	QMenu* addMenu = new QMenu(u8"相加");
 	QMenu* divMenu = new QMenu(u8"去除");
 	QAction* act_openImage = new QAction(u8"打开");
+	QAction* act_saveImage = new QAction(u8"保存");
 	QAction* act_fitShow = new QAction(u8"还原");
 	QAction* act_drawLine = new QAction(u8"绘制直线");
 	QAction* act_drawRect1 = new QAction(u8"绘制正矩形");
@@ -124,6 +131,7 @@ void ShapeDrawView::MenuInit()
 	QAction* act_drawDivRect2 = new QAction(u8"绘制斜矩形");
 	QAction* act_drawDivPolygon = new QAction(u8"绘制多边形");
 	m_actMenu->addAction(act_openImage);
+	m_actMenu->addAction(act_saveImage);
 	m_actMenu->addAction(act_fitShow);
 	m_actMenu->addSeparator();
 	m_actMenu->addAction(act_drawLine);
@@ -143,6 +151,16 @@ void ShapeDrawView::MenuInit()
 			if (fileName != "")
 			{
 				LoadImage(fileName);
+			}
+		});
+	connect(act_saveImage, &QAction::triggered, [=]()
+		{
+			QString fileName = QFileDialog::getSaveFileName(this, tr("Save As"), "", tr("Curve TagName Files (*.jpeg)"));
+			if (fileName != "")
+			{
+				QPixmap tmpPix;
+				createRegionPixmap(comformPath, tmpPix);
+				tmpPix.save(fileName);
 			}
 		});
 	connect(act_drawLine, &QAction::triggered, [=]()
@@ -203,28 +221,56 @@ void ShapeDrawView::drawBackGroundImage(QPainter& painter)
 	{
 		painter.drawPixmap(this->rect(), curImage.scaled(this->width(), this->height(), Qt::KeepAspectRatio));
 	}
-	painter.setBrush(brushColor);
+	painter.setPen(Qt::NoPen);
 	//已经绘制的图形
 	for (int i = 0; i < comformPath.count(); i++)
 	{
+		if (comformOp[i] == oAdd)
+		{
+			painter.setBrush(brushColor);
+		}
+		else
+		{
+			painter.setBrush(brushDivColor);
+		}
 		painter.drawPath(comformPath[i]);
 	}
 }
 
 void ShapeDrawView::drawCurrentShape(QPainter& painter)
 {
+	if (shapeOperation == oAdd)
+	{
+		pen.setColor(brushColor);
+		painter.setBrush(brushColor);
+	}
+	else
+	{
+		pen.setColor(brushDivColor);
+		painter.setBrush(brushDivColor);
+	}
+	painter.setPen(pen);
 	//正在绘制的图形
 	path.addPolygon(polygon);
 	painter.drawPath(path);
 }
 
-void ShapeDrawView::createRegionPixmap(QVector< QPolygonF >const& _polygon, QPixmap& pix)
+void ShapeDrawView::drawHintLines(QPainter& painter)
 {
+	pen.setColor(Qt::red);
+	pen.setWidth(1);
+	painter.setPen(pen);
+	painter.setBrush(Qt::NoBrush);
+	painter.drawLine(m_pos.x(), 0, m_pos.x(), this->height());
+	painter.drawLine(0, m_pos.y(), this->width(), m_pos.y());
+}
+
+void ShapeDrawView::createRegionPixmap(QVector<QPainterPath >const& _polygon, QPixmap& ori_pix)
+{
+	QPixmap pix = QPixmap(this->size());
+	pix.fill(Qt::black);
 	QPainter painter(&pix);
 	painter.setPen(Qt::NoPen);
-	painter.setBrush(Qt::black);
-	painter.drawRect(pix.rect());
-	painter.setBrush(Qt::white);
 	for (int i = 0; i < _polygon.count(); i++)
 	{
 		if (comformOp[i] == oAdd)
@@ -235,7 +281,8 @@ void ShapeDrawView::createRegionPixmap(QVector< QPolygonF >const& _polygon, QPix
 		{
 			painter.setBrush(Qt::black);
 		}
-		painter.drawPolygon(_polygon[i]);
+		painter.drawPath(_polygon[i]);
 	}
-
+	QSize ori_size = curImage.size();
+	ori_pix = pix.scaled(ori_size);
 }

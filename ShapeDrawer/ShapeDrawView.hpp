@@ -28,6 +28,12 @@ public:
 	ShapeDrawView(QWidget* parent = Q_NULLPTR);
 	void FitShowImage(QPixmap const& pix);
 	void LoadImage(QString const& fileName);
+	/**
+	 * \brief 根据在
+	 * \param _polygon
+	 * \param pix
+	 */
+	void createRegionPixmap(QVector< QPainterPath > const& _polygon, QPixmap& pix);
 protected:
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseReleaseEvent(QMouseEvent* event) override;
@@ -39,23 +45,19 @@ private:
 	void drawFinish();
 	void drawBackGroundImage(QPainter& painter);
 	void drawCurrentShape(QPainter& painter);
-	/**
-	 * \brief 根据在
-	 * \param _polygon
-	 * \param pix
-	 */
-	void createRegionPixmap(QVector< QPolygonF > const& _polygon, QPixmap& pix);
+	void drawHintLines(QPainter& painter);
 private:
 	QMenu* m_actMenu;
 	QPen pen;
 	QBrush brush;
 	QColor penColor;
 	QColor brushColor;
+	QColor brushDivColor;
 	QColor bgColor;
 	QPainterPath path;
 	ShapeType shapeType;
 	ShapeOperation shapeOperation;
-	QVector< QPainterPath> comformPath;
+	QVector<QPainterPath> comformPath;
 	QVector<ShapeOperation> comformOp;
 	QPolygonF polygon;
 	QPointF m_pos;

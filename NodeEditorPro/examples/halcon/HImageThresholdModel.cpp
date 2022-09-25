@@ -26,6 +26,7 @@ HImageThresholdModel::HImageThresholdModel()
 	m_maxGraySlider->setValue(255);
 
 	m_hImage = std::make_shared<HImageData>();
+	m_domain = std::make_shared<HRegionData>();
 	m_result = std::make_shared<HRegionData>();
 
 	connect(m_minGraySlider, &QSlider::valueChanged, [=]()
@@ -47,6 +48,10 @@ bool HImageThresholdModel::RunTask()
 	}
 	try
 	{
+		if (m_domain->hRegion()->IsInitialized())
+		{
+			m_hImage->hImage()->ReduceDomain(*m_domain->hRegion());
+		}
 		int imgChanels = m_hImage->hImage()->CountChannels();
 		HImage tmp_img;
 		if (imgChanels == 3)
@@ -92,7 +97,7 @@ nPorts(PortType portType) const
 	switch (portType)
 	{
 	case PortType::In:
-		result = 1;
+		result = 2;
 		break;
 
 	case PortType::Out:
@@ -130,27 +135,53 @@ void HImageThresholdModel::restore(QJsonObject const& p)
 }
 
 NodeDataType
-HImageThresholdModel::dataType(PortType, PortIndex) const
+HImageThresholdModel::dataType(PortType portType, PortIndex portIndex) const
 {
+	if (portType == PortType::In)
+	{
+		switch (portIndex)
+		{
+		case 0:
+			return HImageData().type();
+			break;
+		case 1:
+			return HRegionData().type();
+			break;
+		}
+	}
+	else
+	{
+		switch (portIndex)
+		{
+		case 0:
+			return HRegionData().type();
+			break;
+		}
+	}
 	return HImageData().type();
 }
 
 void HImageThresholdModel::
 setInData(std::shared_ptr<NodeData> data, int portIndex)
 {
-	auto hImageData =
-		std::dynamic_pointer_cast<HImageData>(data);
-	if (hImageData == nullptr)
+	if (portIndex == 0)
 	{
-		return;
-	}
-	switch (portIndex)
-	{
-	case 0:
+		auto hImageData =
+			std::dynamic_pointer_cast<HImageData>(data);
+		if (hImageData == nullptr)
+		{
+			return;
+		}
 		m_hImage->setHImage(*hImageData->hImage());
-		break;
-	default:
-		break;
+	}
+	else if (portIndex == 1)
+	{
+		auto hImageData =
+			std::dynamic_pointer_cast<HRegionData>(data);
+		if (hImageData != nullptr)
+		{
+			m_domain->setHRegion(*hImageData->hRegion());
+		}
 	}
 	RunTask();
 }
