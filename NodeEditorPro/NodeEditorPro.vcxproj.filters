@@ -45,6 +45,9 @@
     <Filter Include="showcase">
       <UniqueIdentifier>{e33d0eb7-423e-495d-96bb-71d4ecf57e5f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ShapeDrawer">
+      <UniqueIdentifier>{678d160a-53aa-4f3b-8683-cee586ef65bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="examples\images\ImageLoaderModel.cpp">
@@ -175,6 +178,12 @@
     </ClCompile>
     <ClCompile Include="src\RegionDrawer.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ShapeDrawer\ShapeItemBase.cpp">
+      <Filter>ShapeDrawer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ShapeDrawer\ShapeDrawView.cpp">
+      <Filter>ShapeDrawer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -377,6 +386,15 @@
     </ClInclude>
     <ClInclude Include="src\RegionDrawer.hpp">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ShapeDrawer\ShapeCommon.hpp">
+      <Filter>ShapeDrawer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ShapeDrawer\ShapeItemBase.hpp">
+      <Filter>ShapeDrawer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ShapeDrawer\ShapeDrawView.hpp">
+      <Filter>ShapeDrawer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

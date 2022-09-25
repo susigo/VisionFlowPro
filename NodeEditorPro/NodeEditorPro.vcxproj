@@ -59,10 +59,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <IncludePath>$(ProjectDir)include;$(ProjectDir)examples;$(ProjectDir)src;$(ProjectDir)include\nodes;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)include;$(ProjectDir)examples;$(ProjectDir)src;$(ProjectDir)include\nodes;$(ProjectDir)..\ShapeDrawer;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <IncludePath>$(ProjectDir)include;$(ProjectDir)examples;$(ProjectDir)src;$(ProjectDir)include\nodes;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)include;$(ProjectDir)examples;$(ProjectDir)src;$(ProjectDir)include\nodes;$(ProjectDir)..\ShapeDrawer;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
@@ -91,6 +91,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\ShapeDrawer\ShapeDrawView.cpp" />
+    <ClCompile Include="..\ShapeDrawer\ShapeItemBase.cpp" />
     <ClCompile Include="examples\calculator\Converters.cpp" />
     <ClCompile Include="examples\calculator\MathOperationDataModel.cpp" />
     <ClCompile Include="examples\calculator\ModuloModel.cpp" />
@@ -142,6 +144,9 @@
     <QtMoc Include="examples\images\ImageShowModel.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\ShapeDrawer\ShapeDrawView.hpp" />
+    <ClInclude Include="..\ShapeDrawer\ShapeItemBase.hpp" />
+    <ClInclude Include="..\ShapeDrawer\ShapeCommon.hpp" />
     <ClInclude Include="examples\calculator\AdditionModel.hpp" />
     <ClInclude Include="examples\calculator\Converters.hpp" />
     <ClInclude Include="examples\calculator\DecimalData.hpp" />
