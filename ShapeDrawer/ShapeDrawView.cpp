@@ -285,4 +285,21 @@ void ShapeDrawView::createRegionPixmap(QVector<QPainterPath >const& _polygon, QP
 	}
 	QSize ori_size = curImage.size();
 	ori_pix = pix.scaled(ori_size);
+	comformOp.clear();
+	comformPath.clear();
 }
+
+void ShapeDrawView::getPixmap(QPixmap& pix)
+{
+	pix = std::move(curImage);
+	comformOp.clear();
+	comformPath.clear();
+}
+
+QPixmap ShapeDrawView::getPixmap()
+{
+	return curImage;
+	comformOp.clear();
+	comformPath.clear();
+}
+

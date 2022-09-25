@@ -6,6 +6,7 @@
 #include <QPainter>
 #include <QPaintEvent>
 #include <QMenu>
+#include "halconcpp/HalconCpp.h"
 
 enum ShapeOperation
 {
@@ -34,6 +35,8 @@ public:
 	 * \param pix
 	 */
 	void createRegionPixmap(QVector< QPainterPath > const& _polygon, QPixmap& pix);
+	void getPixmap(QPixmap& pix);
+	QPixmap getPixmap();
 protected:
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseReleaseEvent(QMouseEvent* event) override;

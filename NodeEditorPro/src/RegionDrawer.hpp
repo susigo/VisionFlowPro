@@ -22,6 +22,7 @@ public:
 	RegionDrawer(QWidget* parent = Q_NULLPTR);
 	~RegionDrawer();
 	void ShowHImage(HalconCpp::HImage& h_image);
+	QPixmap GetPixmap();
 private:
 	QPushButton* btn_comform;
 	QPushButton* btn_cancel;
@@ -30,6 +31,7 @@ private:
 	ShapeDrawView* m_view;
 	QPixmap m_pixmap;
 public:
+	bool viewResult = false;
 	static std::shared_ptr< RegionDrawer> instance;
 	static std::mutex s_mutex;
 public:

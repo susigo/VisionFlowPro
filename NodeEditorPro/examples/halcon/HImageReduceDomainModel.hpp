@@ -10,6 +10,7 @@
 #include "halconcpp/HalconCpp.h"
 #include "HImageData.hpp"
 #include "HImageViewWidget.hpp"
+#include "ShapeDrawView.hpp"
 
 using QtNodes::PortType;
 using QtNodes::PortIndex;
@@ -62,15 +63,19 @@ public:
 		validationState() const override;
 	QString
 		validationMessage() const override;
+	QJsonObject save() const override;
+	void restore(QJsonObject const&) override;
 protected:
 	bool RunTask();
-
 public:
 	NodeValidationState modelValidationState = NodeValidationState::Warning;
 	QString modelValidationError = QString(u8"图片输入未连接!");
 private:
+
 	QPushButton* btn_drawReg;
 	HRegion m_domain;
+	QVector<QPainterPath> comformPath;
+	QVector<ShapeOperation> comformOp;
 	std::shared_ptr<HImageData> m_hImage;
 	std::shared_ptr<HImageData> m_result;
 };

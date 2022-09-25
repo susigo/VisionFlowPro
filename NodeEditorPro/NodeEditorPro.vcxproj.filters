@@ -179,9 +179,6 @@
     <ClCompile Include="src\RegionDrawer.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\ShapeDrawer\ShapeItemBase.cpp">
-      <Filter>ShapeDrawer</Filter>
-    </ClCompile>
     <ClCompile Include="..\ShapeDrawer\ShapeDrawView.cpp">
       <Filter>ShapeDrawer</Filter>
     </ClCompile>
@@ -394,9 +391,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\ShapeDrawer\ShapeCommon.hpp">
-      <Filter>ShapeDrawer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ShapeDrawer\ShapeItemBase.hpp">
       <Filter>ShapeDrawer</Filter>
     </ClInclude>
     <ClInclude Include="..\ShapeDrawer\ShapeDrawView.hpp">

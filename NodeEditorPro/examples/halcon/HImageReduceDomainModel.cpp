@@ -13,7 +13,13 @@ HImageReduceDomainModel::HImageReduceDomainModel()
 
 	connect(btn_drawReg, &QPushButton::clicked, [=]()
 		{
+			RegionDrawer::GetInst()->ShowHImage(*m_hImage->hImage());
 			RegionDrawer::GetInst()->show();
+			if (RegionDrawer::GetInst()->viewResult)
+			{
+				HImageViewWidget::QPixmapToHRegion(RegionDrawer::GetInst()->GetPixmap(), m_domain);
+				RunTask();
+			}
 		});
 }
 
@@ -26,6 +32,10 @@ bool HImageReduceDomainModel::RunTask()
 		if (m_domain.IsInitialized())
 		{
 			m_result->setHImage(m_hImage->hImage()->ReduceDomain(m_domain));
+		}
+		else
+		{
+			m_result->setHImage(*m_hImage->hImage());
 		}
 		modelValidationState = NodeValidationState::Valid;
 		modelValidationError = QString();
@@ -70,6 +80,17 @@ NodeValidationState HImageReduceDomainModel::validationState() const
 QString HImageReduceDomainModel::validationMessage() const
 {
 	return modelValidationError;
+}
+
+QJsonObject HImageReduceDomainModel::save() const
+{
+	QJsonObject result = NodeDataModel::save();
+
+	return result;
+}
+
+void HImageReduceDomainModel::restore(QJsonObject const&)
+{
 }
 
 NodeDataType

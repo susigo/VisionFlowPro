@@ -92,7 +92,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\ShapeDrawer\ShapeDrawView.cpp" />
-    <ClCompile Include="..\ShapeDrawer\ShapeItemBase.cpp" />
     <ClCompile Include="examples\calculator\Converters.cpp" />
     <ClCompile Include="examples\calculator\MathOperationDataModel.cpp" />
     <ClCompile Include="examples\calculator\ModuloModel.cpp" />
@@ -146,7 +145,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ShapeDrawer\ShapeDrawView.hpp" />
-    <ClInclude Include="..\ShapeDrawer\ShapeItemBase.hpp" />
     <ClInclude Include="..\ShapeDrawer\ShapeCommon.hpp" />
     <ClInclude Include="examples\calculator\AdditionModel.hpp" />
     <ClInclude Include="examples\calculator\Converters.hpp" />
