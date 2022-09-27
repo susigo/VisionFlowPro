@@ -74,8 +74,7 @@ private:
 
 	QPushButton* btn_drawReg;
 	HRegion m_domain;
-	QVector<QPainterPath> comformPath;
-	QVector<ShapeOperation> comformOp;
+	RegionPixmapData* m_region_data;
 	std::shared_ptr<HImageData> m_hImage;
 	std::shared_ptr<HImageData> m_result;
 };

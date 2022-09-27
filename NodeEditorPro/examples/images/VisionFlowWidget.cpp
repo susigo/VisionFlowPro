@@ -30,6 +30,7 @@ VisionFlowWidget::VisionFlowWidget(QWidget* parent)
 
 VisionFlowWidget::~VisionFlowWidget()
 {
+
 }
 
 void VisionFlowWidget::setConnection()

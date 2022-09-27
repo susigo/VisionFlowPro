@@ -176,9 +176,6 @@
     <ClCompile Include="examples\halcon\HRegionShapeTransModel.cpp">
       <Filter>examples\halcon</Filter>
     </ClCompile>
-    <ClCompile Include="src\RegionDrawer.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\ShapeDrawer\ShapeDrawView.cpp">
       <Filter>ShapeDrawer</Filter>
     </ClCompile>
@@ -255,6 +252,9 @@
     </QtMoc>
     <QtMoc Include="examples\halcon\HImageReduceDomainModel.hpp">
       <Filter>examples\halcon</Filter>
+    </QtMoc>
+    <QtMoc Include="..\ShapeDrawer\ShapeDrawView.hpp">
+      <Filter>ShapeDrawer</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -387,13 +387,7 @@
     <ClInclude Include="examples\halcon\HRegionData.hpp">
       <Filter>examples\halcon</Filter>
     </ClInclude>
-    <ClInclude Include="src\RegionDrawer.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\ShapeDrawer\ShapeCommon.hpp">
-      <Filter>ShapeDrawer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ShapeDrawer\ShapeDrawView.hpp">
       <Filter>ShapeDrawer</Filter>
     </ClInclude>
   </ItemGroup>

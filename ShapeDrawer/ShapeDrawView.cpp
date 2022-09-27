@@ -1,6 +1,10 @@
 ﻿#include "ShapeDrawView.hpp"
 #include <QFileDialog>
 
+ShapeDrawView* ShapeDrawView::instance = nullptr;
+
+extern std::mutex s_mutex;
+
 ShapeDrawView::ShapeDrawView(QWidget* parent)
 {
 	if (parent != Q_NULLPTR)
@@ -17,16 +21,20 @@ ShapeDrawView::ShapeDrawView(QWidget* parent)
 
 	MenuInit();
 
-	//LoadImage("C:/Users/Public/Documents/MVTec/HALCON-20.11-Steady/examples/images/die/die_01.png");
 }
 
-void ShapeDrawView::FitShowImage(QPixmap const& pix)
+void ShapeDrawView::FitShowImage(QPixmap const& pix, RegionPixmapData reg_data)
 {
 	if (curImage != pix)
 	{
 		curImage = pix;
 	}
+	drawComform = false;
+	reg_data.width = pix.width();
+	reg_data.height = pix.height();
+	region_data = reg_data;
 	this->update();
+	this->show();
 }
 
 void ShapeDrawView::LoadImage(QString const& fileName)
@@ -35,7 +43,7 @@ void ShapeDrawView::LoadImage(QString const& fileName)
 	{
 		return;
 	}
-	FitShowImage(curImage);
+	FitShowImage(curImage, this->region_data);
 }
 
 void ShapeDrawView::mousePressEvent(QMouseEvent* event)
@@ -64,11 +72,16 @@ void ShapeDrawView::mousePressEvent(QMouseEvent* event)
 		}
 		QPainterPath tmpPath;
 		tmpPath.addPolygon(polygon);
+		QPolygonF tmpPoly;
+		tmpPoly = std::move(polygon);
+		region_data.comformPolygon.append(tmpPoly);
 
 		path.clear();
 		polygon.clear();
-		comformPath.append(tmpPath);
-		comformOp.append(shapeOperation);
+
+		region_data.comformPath.append(tmpPath);
+		region_data.comformOp.append(shapeOperation);
+
 		drawingFlag = false;
 	}
 	this->update();
@@ -120,6 +133,8 @@ void ShapeDrawView::MenuInit()
 	m_actMenu = new QMenu(this);
 	QMenu* addMenu = new QMenu(u8"相加");
 	QMenu* divMenu = new QMenu(u8"去除");
+	QAction* act_saveRegion = new QAction(u8"确认");
+	QAction* act_cancel = new QAction(u8"取消");
 	QAction* act_openImage = new QAction(u8"打开");
 	QAction* act_saveImage = new QAction(u8"保存");
 	QAction* act_fitShow = new QAction(u8"还原");
@@ -130,6 +145,8 @@ void ShapeDrawView::MenuInit()
 	QAction* act_drawDivRect1 = new QAction(u8"绘制正矩形");
 	QAction* act_drawDivRect2 = new QAction(u8"绘制斜矩形");
 	QAction* act_drawDivPolygon = new QAction(u8"绘制多边形");
+	m_actMenu->addAction(act_saveRegion);
+	m_actMenu->addAction(act_cancel);
 	m_actMenu->addAction(act_openImage);
 	m_actMenu->addAction(act_saveImage);
 	m_actMenu->addAction(act_fitShow);
@@ -145,6 +162,19 @@ void ShapeDrawView::MenuInit()
 	divMenu->addAction(act_drawDivRect2);
 	divMenu->addAction(act_drawDivPolygon);
 
+	connect(act_saveRegion, &QAction::triggered, [=]()
+		{
+			drawComform = true;
+			emit RegionFinished(region_data);
+			this->hide();
+		});
+
+	connect(act_saveRegion, &QAction::triggered, [=]()
+		{
+			drawComform = false;
+			this->hide();
+		});
+
 	connect(act_openImage, &QAction::triggered, [=]()
 		{
 			QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "C:/", tr("Image Files (*.png *.jpg *.bmp)"));
@@ -158,9 +188,7 @@ void ShapeDrawView::MenuInit()
 			QString fileName = QFileDialog::getSaveFileName(this, tr("Save As"), "", tr("Curve TagName Files (*.jpeg)"));
 			if (fileName != "")
 			{
-				QPixmap tmpPix;
-				createRegionPixmap(comformPath, tmpPix);
-				tmpPix.save(fileName);
+
 			}
 		});
 	connect(act_drawLine, &QAction::triggered, [=]()
@@ -223,9 +251,9 @@ void ShapeDrawView::drawBackGroundImage(QPainter& painter)
 	}
 	painter.setPen(Qt::NoPen);
 	//已经绘制的图形
-	for (int i = 0; i < comformPath.count(); i++)
+	for (int i = 0; i < (int)region_data.comformPath.size(); i++)
 	{
-		if (comformOp[i] == oAdd)
+		if (region_data.comformOp[i] == oAdd)
 		{
 			painter.setBrush(brushColor);
 		}
@@ -233,7 +261,7 @@ void ShapeDrawView::drawBackGroundImage(QPainter& painter)
 		{
 			painter.setBrush(brushDivColor);
 		}
-		painter.drawPath(comformPath[i]);
+		painter.drawPath(region_data.comformPath[i]);
 	}
 }
 
@@ -273,7 +301,7 @@ void ShapeDrawView::createRegionPixmap(QVector<QPainterPath >const& _polygon, QP
 	painter.setPen(Qt::NoPen);
 	for (int i = 0; i < _polygon.count(); i++)
 	{
-		if (comformOp[i] == oAdd)
+		if (region_data.comformOp[i] == oAdd)
 		{
 			painter.setBrush(Qt::white);
 		}
@@ -285,21 +313,66 @@ void ShapeDrawView::createRegionPixmap(QVector<QPainterPath >const& _polygon, QP
 	}
 	QSize ori_size = curImage.size();
 	ori_pix = pix.scaled(ori_size);
-	comformOp.clear();
-	comformPath.clear();
 }
 
 void ShapeDrawView::getPixmap(QPixmap& pix)
 {
 	pix = std::move(curImage);
-	comformOp.clear();
-	comformPath.clear();
 }
 
 QPixmap ShapeDrawView::getPixmap()
 {
 	return curImage;
-	comformOp.clear();
-	comformPath.clear();
 }
 
+RegionPixmapData ShapeDrawView::getRegionData()
+{
+	return region_data;
+}
+
+void ShapeDrawView::getRegionData(RegionPixmapData* data) const
+{
+	s_mutex.lock();
+	data->height = region_data.height;
+	data->width = region_data.width;
+
+	for (int i = 0; i < (int)region_data.comformOp.size(); i++)
+	{
+		data->comformOp.push_back(region_data.comformOp[i]);
+		data->comformPath.push_back(region_data.comformPath[i]);
+		data->comformPolygon.push_back(region_data.comformPolygon[i]);
+	}
+	s_mutex.unlock();
+}
+
+void ShapeDrawView::GetHRegionFromData(HalconCpp::HRegion* reg, RegionPixmapData& data)
+{
+	HalconCpp::HRegion region_add;
+	for (size_t i = 0; i < data.comformPolygon.size(); i++)
+	{
+		HalconCpp::HTuple Hrow;
+		HalconCpp::HTuple Hcol;
+		for (int j = 0; j < data.comformPolygon[i].length(); j++)
+		{
+			Hrow.Append(data.comformPolygon[i].data()->x());
+			Hcol.Append(data.comformPolygon[i].data()->y());
+		}
+		region_add.GenRegionPolygonFilled(Hrow, Hcol);
+		//HalconCpp::HTuple tmp_result;
+		//HalconCpp::HRegion emptyreg;
+		//HalconCpp::GenEmptyRegion(&emptyreg);
+		//HalconCpp::TestEqualRegion(emptyreg, reg, &tmp_result);
+		//if (tmp_result.Length() == 0)
+		//{
+		//	reg = region_add;
+		//}
+		if (data.comformOp[i] == oAdd)
+		{
+			HalconCpp::Union2(region_add, *reg, reg);
+		}
+		else
+		{
+			HalconCpp::Difference(region_add, *reg, reg);
+		}
+	}
+}

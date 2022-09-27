@@ -1,31 +1,50 @@
 ﻿#include "HImageReduceDomainModel.hpp"
+
+#include <QApplication>
 #include <QtCore/QEvent>
-#include "RegionDrawer.hpp"
+#include "ShapeDrawView.hpp"
 #include "halconcpp/HalconCpp.h"
 
 using namespace HalconCpp;
+
 
 HImageReduceDomainModel::HImageReduceDomainModel()
 {
 	m_hImage = std::make_shared<HImageData>();
 	m_result = std::make_shared<HImageData>();
 	btn_drawReg = new QPushButton(u8"绘制区域");
+	m_region_data = new RegionPixmapData();
+	HalconCpp::GenEmptyRegion(&m_domain);
+
+	connect(ShapeDrawView::GetInst(), &ShapeDrawView::RegionFinished, [=](RegionPixmapData _data)
+		{
+			if (!ShapeDrawView::GetInst()->getDrawFlag())
+			{
+				return;
+			}
+			this->m_region_data = new RegionPixmapData();
+			//this->m_region_data = RegionPixmapData();
+			//this->m_region_data.height = _data.height;
+			//this->m_region_data.width = _data.width;
+			//this->m_region_data.comformPolygon.clear();
+			//this->m_region_data.comformPath.clear();
+			//this->m_region_data.comformOp.clear();
+			*this->m_region_data = _data;
+			ShapeDrawView::GetHRegionFromData(&m_domain, *m_region_data);
+			RunTask();
+		});
 
 	connect(btn_drawReg, &QPushButton::clicked, [=]()
 		{
-			RegionDrawer::GetInst()->ShowHImage(*m_hImage->hImage());
-			RegionDrawer::GetInst()->show();
-			if (RegionDrawer::GetInst()->viewResult)
-			{
-				HImageViewWidget::QPixmapToHRegion(RegionDrawer::GetInst()->GetPixmap(), m_domain);
-				RunTask();
-			}
+			QPixmap tmpPix;
+			HImageViewWidget::HImageToQPixmap(*m_hImage->hImage(), tmpPix);
+			ShapeDrawView::GetInst()->FitShowImage(tmpPix, *m_region_data);
 		});
 }
 
 bool HImageReduceDomainModel::RunTask()
 {
-	Q_EMIT computingStarted();
+	//Q_EMIT computingStarted();
 	PortIndex const outPortIndex = 0;
 	try
 	{
@@ -47,7 +66,7 @@ bool HImageReduceDomainModel::RunTask()
 	}
 
 	Q_EMIT dataUpdated(outPortIndex);
-	Q_EMIT computingFinished();
+	//Q_EMIT computingFinished();
 	return true;
 }
 
