@@ -185,6 +185,12 @@
     <ClCompile Include="..\ShapeDrawer\ShapeItemBase.cpp">
       <Filter>ShapeDrawer</Filter>
     </ClCompile>
+    <ClCompile Include="examples\halcon\HRegionFillUpShapeModel.cpp">
+      <Filter>examples\halcon</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\halcon\HRegionOpenCircleModel.cpp">
+      <Filter>examples\halcon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="examples\images\ImageLoaderModel.hpp">
@@ -258,6 +264,12 @@
     </QtMoc>
     <QtMoc Include="..\ShapeDrawer\ShapeDrawView.hpp">
       <Filter>ShapeDrawer</Filter>
+    </QtMoc>
+    <QtMoc Include="examples\halcon\HRegionFillUpShapeModel.hpp">
+      <Filter>examples\halcon</Filter>
+    </QtMoc>
+    <QtMoc Include="examples\halcon\HRegionOpenCircleModel.hpp">
+      <Filter>examples\halcon</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

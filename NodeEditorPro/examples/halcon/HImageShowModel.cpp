@@ -46,11 +46,11 @@ nPorts(PortType portType) const
 	switch (portType)
 	{
 	case PortType::In:
-		result = 1;
+		result = 2;
 		break;
 
 	case PortType::Out:
-		result = 1;
+		result = 2;
 
 	default:
 		break;
@@ -76,8 +76,17 @@ bool HImageShowModel::eventFilter(QObject* object, QEvent* event)
 }
 
 NodeDataType
-HImageShowModel::dataType(PortType, PortIndex) const
+HImageShowModel::dataType(PortType, PortIndex index) const
 {
+	switch (index)
+	{
+	case 0:
+		return HImageData().type();
+		break;
+	case 1:
+		return HRegionData().type();
+		break;
+	}
 	return HImageData().type();
 }
 
@@ -123,14 +132,22 @@ setInData(std::shared_ptr<NodeData> data, int portIndex)
 		HImage tmpImg = m_hRegion->hRegion()->RegionToBin(255, 0,
 			m_hRegion->getSize().width(), m_hRegion->getSize().height());
 		m_hImage->setHImage(tmpImg);
-
 	}
 	RunTask();
 }
 
 std::shared_ptr<NodeData>
 HImageShowModel::
-outData(PortIndex)
+outData(PortIndex index)
 {
-	return std::dynamic_pointer_cast<NodeData>(m_hImage);
+	switch (index)
+	{
+	case 0:
+		return std::dynamic_pointer_cast<HImageData>(m_hImage);
+		break;
+	case 1:
+		return std::dynamic_pointer_cast<HRegionData>(m_hRegion);
+		break;
+	}
+	return std::dynamic_pointer_cast<HImageData>(m_hImage);
 }

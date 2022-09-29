@@ -79,7 +79,7 @@ QString HRegionConnectModel::validationMessage() const
 NodeDataType
 HRegionConnectModel::dataType(PortType, PortIndex) const
 {
-	return HImageData().type();
+	return HRegionData().type();
 }
 
 void HRegionConnectModel::
@@ -110,12 +110,12 @@ outData(PortIndex index)
 	switch (index)
 	{
 	case 0:
-		return std::dynamic_pointer_cast<NodeData>(m_result);
+		return std::dynamic_pointer_cast<HRegionData>(m_result);
 		break;
 	case 1:
 		break;
 	default:
 		break;
 	}
-	return std::dynamic_pointer_cast<NodeData>(m_result);
+	return std::dynamic_pointer_cast<HRegionData>(m_result);
 }

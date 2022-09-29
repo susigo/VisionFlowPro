@@ -116,6 +116,8 @@
     <ClCompile Include="examples\halcon\HImageSplitChanelModel.cpp" />
     <ClCompile Include="examples\halcon\HImageThresholdModel.cpp" />
     <ClCompile Include="examples\halcon\HRegionConnectModel.cpp" />
+    <ClCompile Include="examples\halcon\HRegionFillUpShapeModel.cpp" />
+    <ClCompile Include="examples\halcon\HRegionOpenCircleModel.cpp" />
     <ClCompile Include="examples\halcon\HRegionSelectModel.cpp" />
     <ClCompile Include="examples\halcon\HImageViewWidget.cpp" />
     <ClCompile Include="examples\halcon\HRegionShapeTransModel.cpp" />
@@ -171,6 +173,8 @@
     <QtMoc Include="examples\halcon\HRegionConnectModel.hpp" />
     <ClInclude Include="examples\halcon\HRegionData.hpp" />
     <QtMoc Include="examples\halcon\HRegionShapeTransModel.hpp" />
+    <QtMoc Include="examples\halcon\HRegionFillUpShapeModel.hpp" />
+    <QtMoc Include="examples\halcon\HRegionOpenCircleModel.hpp" />
     <ClInclude Include="examples\images\VisionFlowWidget.hpp" />
     <ClInclude Include="src\QDataStreamPhaser.hpp" />
     <ClInclude Include="src\QJsonPhaser.hpp" />

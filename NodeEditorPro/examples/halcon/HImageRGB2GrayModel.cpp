@@ -25,7 +25,6 @@ bool HImageRGB2GrayModel::RunTask()
 		}
 		modelValidationState = NodeValidationState::Valid;
 		modelValidationError = QString();
-		m_hImage = std::shared_ptr<HImageData>(m_hImage);
 	}
 	catch (...)
 	{
@@ -99,5 +98,5 @@ std::shared_ptr<NodeData>
 HImageRGB2GrayModel::
 outData(PortIndex)
 {
-	return std::dynamic_pointer_cast<NodeData>(m_hImage);
+	return std::dynamic_pointer_cast<HImageData>(m_hImage);
 }

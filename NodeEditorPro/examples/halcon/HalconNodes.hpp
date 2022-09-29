@@ -11,3 +11,5 @@
 #include "halcon/HRegionConnectModel.hpp"
 #include "halcon/HRegionShapeTransModel.hpp"
 #include "halcon/HImageReduceDomainModel.hpp"
+#include "halcon/HRegionFillUpShapeModel.hpp"
+#include "halcon/HRegionOpenCircleModel.hpp"
