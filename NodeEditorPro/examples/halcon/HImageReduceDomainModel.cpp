@@ -4,7 +4,7 @@
 #include <QtCore/QEvent>
 #include "ShapeDrawView.hpp"
 #include "halconcpp/HalconCpp.h"
-
+#include "QJsonPhaser.hpp"
 using namespace HalconCpp;
 
 
@@ -106,12 +106,14 @@ QString HImageReduceDomainModel::validationMessage() const
 QJsonObject HImageReduceDomainModel::save() const
 {
 	QJsonObject result = NodeDataModel::save();
-
+	result.insert("m_region_data", QJsonPhaser::convertToJson(*m_region_data));
 	return result;
 }
 
-void HImageReduceDomainModel::restore(QJsonObject const&)
+void HImageReduceDomainModel::restore(QJsonObject const& _json)
 {
+	QJsonPhaser::convertFromJson(_json.value("m_region_data").toObject(), *m_region_data);
+	m_domain = shapeDrawer->GetHRegionFromData(*m_region_data);
 }
 
 NodeDataType

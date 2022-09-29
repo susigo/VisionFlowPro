@@ -34,21 +34,14 @@ public:
 	int height = 512;
 	double w_ratio = 1.0;
 	double h_ratio = 1.0;
-	std::vector<QPolygonF> comformPolygon;
-	QList<QPainterPath> comformPath;
-	QList<int> comformOp;
+	QVector<QPolygonF> comformPolygon;
+	QVector<QPainterPath> comformPath;
+	QVector<int> comformOp;
 public:
 	RegionPixmapData()
 	{
 		width = 512;
 		height = 512;
-
-		//comformPolygon = QList<QPolygonF>();
-		comformPath = QList<QPainterPath>();
-		comformOp = QList<int>();
-		comformOp.clear();
-		comformPath.clear();
-		comformPolygon.clear();
 	}
 	~RegionPixmapData()
 	{

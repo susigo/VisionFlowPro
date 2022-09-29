@@ -26,7 +26,6 @@ bool HImageRGB2GrayModel::RunTask()
 		modelValidationState = NodeValidationState::Valid;
 		modelValidationError = QString();
 		m_hImage = std::shared_ptr<HImageData>(m_hImage);
-
 	}
 	catch (...)
 	{

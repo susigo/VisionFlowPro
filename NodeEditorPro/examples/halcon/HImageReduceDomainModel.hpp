@@ -58,7 +58,7 @@ public:
 		embeddedWidget() override { return btn_drawReg; }
 
 	bool
-		resizable() const override { return true; }
+		resizable() const override { return false; }
 	NodeValidationState
 		validationState() const override;
 	QString

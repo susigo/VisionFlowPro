@@ -56,7 +56,7 @@ public:
 		embeddedWidget() override { return Q_NULLPTR; }
 
 	bool
-		resizable() const override { return true; }
+		resizable() const override { return false; }
 	NodeValidationState
 		validationState() const override;
 	QString
@@ -69,5 +69,4 @@ public:
 	QString modelValidationError = QString(u8"图片输入未连接!");
 private:
 	std::shared_ptr<HImageData> m_hImage;
-	//std::shared_ptr<HImageData> m_result;
 };

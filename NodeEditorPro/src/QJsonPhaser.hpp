@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include <QColor>
 #include <QJsonObject>
+#include <QJsonArray>
+#include <QVector>
 #include "halconcpp/HalconCpp.h"
 #include "NodeStyle.hpp"
 #include "FlowViewStyle.hpp"
@@ -11,7 +13,7 @@ namespace QJsonPhaser
 {
 
 	QJsonObject readJsonObj(const QString& fileName);
-	bool writeJsonObj(const QString& fileName, const QJsonObject& json);
+	bool writeJsonObj(const QString& fileName, QJsonObject& json);
 
 	QJsonObject convertToJson(const QPoint& _point);
 	void convertFromJson(const QJsonObject& _obj, QPoint& _point);
@@ -22,9 +24,8 @@ namespace QJsonPhaser
 	QJsonObject convertToJson(const QColor& _color);
 	void convertFromJson(const QJsonObject& _obj, QColor& _color);
 
-	QJsonObject convertToJson(const QPolygonF& _color);
-
-	void convertFromJson(const QJsonObject& _obj, QPolygonF& _color);
+	QJsonObject convertToJson(const QPolygonF& _obj);
+	void convertFromJson(const QJsonObject& _json, QPolygonF& _obj);
 
 	QJsonObject convertToJson(const QtNodes::NodeStyle& _obj);
 	void convertFromJson(const QJsonObject& _json, QtNodes::NodeStyle& _obj);
@@ -38,63 +39,11 @@ namespace QJsonPhaser
 	QJsonObject convertToJson(const RegionPixmapData& _obj);
 	void convertFromJson(const QJsonObject& _json, RegionPixmapData& _obj);
 
-	template<typename ElemType>
-	inline QJsonObject convertToJson(const QVector<ElemType>& obj)
-	{
-		QJsonObject result;
-		QJsonArray arr;
 
-		for (auto& elem : obj)
-		{
-			arr.append(convertToJson(elem));
-		}
+	QJsonObject convertToJson(const QVector<QPolygonF>& obj);
+	void convertFromJson(const QJsonObject& json, QVector<QPolygonF>& obj);
 
-		result.insert("vector", arr);
+	QJsonObject convertToJson(const QVector<int>& obj);
+	void convertFromJson(const QJsonObject& json, QVector<int>& obj);
 
-		return result;
-	}
-	template<typename ElemType>
-	inline void convertFromJson(const QJsonObject& json, QVector<ElemType>& obj)
-	{
-		QJsonArray arr = json.value("vector").toArray();
-		obj.clear();
-
-		for (auto& elem : arr)
-		{
-			ElemType temp_elem;
-
-			convertFromJson(elem.toObject(), temp_elem);
-			obj.push_back(std::move(temp_elem));
-		}
-	}
-
-	template<typename ElemType>
-	inline QJsonObject convertToJson(const std::vector<ElemType>& obj)
-	{
-		QJsonObject result;
-		QJsonArray arr;
-
-		for (auto& elem : obj)
-		{
-			arr.append(convertToJson(elem));
-		}
-
-		result.insert("vector", arr);
-
-		return result;
-	}
-	template<typename ElemType>
-	inline void convertFromJson(const QJsonObject& json, std::vector<ElemType>& obj)
-	{
-		QJsonArray arr = json.value("vector").toArray();
-		obj.clear();
-
-		for (auto& elem : arr)
-		{
-			ElemType temp_elem;
-
-			convertFromJson(elem.toObject(), temp_elem);
-			obj.push_back(std::move(temp_elem));
-		}
-	}
 };
