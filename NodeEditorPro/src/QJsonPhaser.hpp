@@ -5,6 +5,7 @@
 #include "NodeStyle.hpp"
 #include "FlowViewStyle.hpp"
 #include "ConnectionStyle.hpp"
+#include "ShapeDrawView.hpp"
 
 namespace QJsonPhaser
 {
@@ -21,6 +22,10 @@ namespace QJsonPhaser
 	QJsonObject convertToJson(const QColor& _color);
 	void convertFromJson(const QJsonObject& _obj, QColor& _color);
 
+	QJsonObject convertToJson(const QPolygonF& _color);
+
+	void convertFromJson(const QJsonObject& _obj, QPolygonF& _color);
+
 	QJsonObject convertToJson(const QtNodes::NodeStyle& _obj);
 	void convertFromJson(const QJsonObject& _json, QtNodes::NodeStyle& _obj);
 
@@ -30,7 +35,8 @@ namespace QJsonPhaser
 	QJsonObject convertToJson(const QtNodes::ConnectionStyle& _obj);
 	void convertFromJson(const QJsonObject& _json, QtNodes::ConnectionStyle& _obj);
 
-
+	QJsonObject convertToJson(const RegionPixmapData& _obj);
+	void convertFromJson(const QJsonObject& _json, RegionPixmapData& _obj);
 
 	template<typename ElemType>
 	inline QJsonObject convertToJson(const QVector<ElemType>& obj)

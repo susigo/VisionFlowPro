@@ -35,7 +35,6 @@ public:
 	double w_ratio = 1.0;
 	double h_ratio = 1.0;
 	std::vector<QPolygonF> comformPolygon;
-	//QList<QPolygonF> comformPolygon;
 	QList<QPainterPath> comformPath;
 	QList<int> comformOp;
 public:

@@ -85,6 +85,18 @@ void QJsonPhaser::convertFromJson(const QJsonObject& _obj, QColor& _color)
 		_obj.value("alpha").toInt());
 }
 
+QJsonObject QJsonPhaser::convertToJson(const QPolygonF& _color)
+{
+	QJsonObject result;
+
+	return result;
+}
+
+void QJsonPhaser::convertFromJson(const QJsonObject& _obj, QPolygonF& _color)
+{
+
+}
+
 QJsonObject QJsonPhaser::convertToJson(const QtNodes::NodeStyle& _obj)
 {
 	QJsonObject result;
@@ -170,5 +182,21 @@ QJsonObject QJsonPhaser::convertToJson(const QtNodes::ConnectionStyle& _obj)
 
 void QJsonPhaser::convertFromJson(const QJsonObject& _json, QtNodes::ConnectionStyle& _obj)
 {
+}
+
+QJsonObject QJsonPhaser::convertToJson(const RegionPixmapData& _obj)
+{
+	QJsonObject result;
+	result.insert("width", _obj.width);
+	result.insert("height", _obj.height);
+	result.insert("w_ratio", _obj.w_ratio);
+	result.insert("h_ratio", _obj.h_ratio);
+
+	return result;
+}
+
+void QJsonPhaser::convertFromJson(const QJsonObject& _json, RegionPixmapData& _obj)
+{
+
 }
 
