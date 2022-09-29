@@ -18,6 +18,9 @@ using QtNodes::NodeDataType;
 using QtNodes::NodeDataModel;
 using QtNodes::NodeValidationState;
 using namespace HalconCpp;
+
+//#define SHOWHALCON_OBJ
+
 /**
  * \brief halcon 图像输入节点
  */
@@ -69,6 +72,10 @@ public:
 	NodeValidationState modelValidationState = NodeValidationState::Warning;
 	QString modelValidationError = QString(u8"图片输入未连接!");
 private:
+#ifdef SHOWHALCON_OBJ
+	HWindow* h_window;
+#endif
+
 	std::shared_ptr<HImageData> m_hImage;
 	std::shared_ptr<HRegionData> m_hRegion;
 	HImageViewWidget* m_image_view;

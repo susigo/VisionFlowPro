@@ -1,9 +1,7 @@
 ﻿#include "ShapeDrawView.hpp"
 #include <QFileDialog>
 
-ShapeDrawView* ShapeDrawView::instance = nullptr;
-
-extern std::mutex s_mutex;
+ShapeDrawView* shapeDrawer = nullptr;
 
 ShapeDrawView::ShapeDrawView(QWidget* parent)
 {
@@ -32,18 +30,21 @@ void ShapeDrawView::FitShowImage(QPixmap const& pix, RegionPixmapData reg_data)
 	drawComform = false;
 	reg_data.width = pix.width();
 	reg_data.height = pix.height();
+	reg_data.w_ratio = 1.0 * pix.width() / this->width();
+	reg_data.h_ratio = 1.0 * pix.height() / this->height();
 	region_data = reg_data;
+
 	this->update();
 	this->show();
 }
 
-void ShapeDrawView::LoadImage(QString const& fileName)
+void ShapeDrawView::LoadFileImage(QString const& fileName)
 {
 	if (!curImage.load(fileName))
 	{
 		return;
 	}
-	FitShowImage(curImage, this->region_data);
+	this->FitShowImage(curImage, this->region_data);
 }
 
 void ShapeDrawView::mousePressEvent(QMouseEvent* event)
@@ -52,11 +53,41 @@ void ShapeDrawView::mousePressEvent(QMouseEvent* event)
 	m_pos = event->pos();
 	if (event->button() == Qt::LeftButton && drawingFlag == true)
 	{
-		if (polygon.count() == 0)
+		if (shapeCreate == true)
 		{
-			polygon.append(m_pos);
+			shapeCreate = false;
+			if (polygon.count() == 0)
+			{
+				polygon.append(m_pos);
+			}
+			//根据绘制类型生成图形
+			if (shapeType == tLine)
+			{
+				polygon.append(m_pos);
+			}
+			else if (shapeType == tRectangle1 || shapeType == tRectangle2)
+			{
+				polygon.append(m_pos);
+				polygon.append(m_pos);
+				polygon.append(m_pos);
+				polygon.append(m_pos);
+			}
+			else if (shapeType == tPolygon)
+			{
+				polygon.append(m_pos);
+			}
 		}
-		polygon.append(m_pos);
+		else
+		{
+			if (shapeType == tPolygon)
+			{
+				polygon.append(m_pos);
+			}
+			else
+			{
+				DrawFinished();
+			}
+		}
 	}
 	else if (event->button() == Qt::RightButton)
 	{
@@ -65,24 +96,16 @@ void ShapeDrawView::mousePressEvent(QMouseEvent* event)
 			m_actMenu->exec(event->screenPos().toPoint());
 			return;
 		}
-		if (polygon.count() > 0)
+		shapeCreate = true;
+		if (shapeType == tPolygon)
 		{
-			polygon.removeLast();
-			polygon.append(polygon[0]);
+			if (polygon.count() > 0)
+			{
+				polygon.removeLast();
+				polygon.append(polygon[0]);
+			}
 		}
-		QPainterPath tmpPath;
-		tmpPath.addPolygon(polygon);
-		QPolygonF tmpPoly;
-		tmpPoly = std::move(polygon);
-		region_data.comformPolygon.append(tmpPoly);
-
-		path.clear();
-		polygon.clear();
-
-		region_data.comformPath.append(tmpPath);
-		region_data.comformOp.append(shapeOperation);
-
-		drawingFlag = false;
+		DrawFinished();
 	}
 	this->update();
 }
@@ -97,12 +120,9 @@ void ShapeDrawView::mouseMoveEvent(QMouseEvent* event)
 {
 	QWidget::mouseMoveEvent(event);
 	m_pos = event->pos();
-	if (drawingFlag)
+	if (drawingFlag || polygon.count() > 0)
 	{
-		if (polygon.count() > 0)
-		{
-			polygon[polygon.count() - 1] = m_pos;
-		}
+		calculateShapePolygon();
 	}
 	this->update();
 }
@@ -126,6 +146,15 @@ void ShapeDrawView::paintEvent(QPaintEvent* event)
 		drawHintLines(painter);
 	}
 	QWidget::paintEvent(event);
+}
+
+void ShapeDrawView::resizeEvent(QResizeEvent* event)
+{
+	if (!curImage.isNull())
+	{
+		region_data.w_ratio = 1.0 * curImage.width() / this->width();
+		region_data.h_ratio = 1.0 * curImage.height() / this->height();
+	}
 }
 
 void ShapeDrawView::MenuInit()
@@ -180,7 +209,7 @@ void ShapeDrawView::MenuInit()
 			QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "C:/", tr("Image Files (*.png *.jpg *.bmp)"));
 			if (fileName != "")
 			{
-				LoadImage(fileName);
+				this->LoadFileImage(fileName);
 			}
 		});
 	connect(act_saveImage, &QAction::triggered, [=]()
@@ -250,8 +279,9 @@ void ShapeDrawView::drawBackGroundImage(QPainter& painter)
 		painter.drawPixmap(this->rect(), curImage.scaled(this->width(), this->height(), Qt::KeepAspectRatio));
 	}
 	painter.setPen(Qt::NoPen);
+	QPainterPath tmpPath;
 	//已经绘制的图形
-	for (int i = 0; i < (int)region_data.comformPath.size(); i++)
+	for (int i = 0; i < (int)region_data.comformPolygon.size(); i++)
 	{
 		if (region_data.comformOp[i] == oAdd)
 		{
@@ -261,7 +291,8 @@ void ShapeDrawView::drawBackGroundImage(QPainter& painter)
 		{
 			painter.setBrush(brushDivColor);
 		}
-		painter.drawPath(region_data.comformPath[i]);
+		tmpPath.addPolygon(region_data.comformPolygon[i]);
+		painter.drawPath(tmpPath);
 	}
 }
 
@@ -278,9 +309,11 @@ void ShapeDrawView::drawCurrentShape(QPainter& painter)
 		painter.setBrush(brushDivColor);
 	}
 	painter.setPen(pen);
-	//正在绘制的图形
-	path.addPolygon(polygon);
-	painter.drawPath(path);
+	if (!polygon.isEmpty())
+	{
+		path.addPolygon(polygon);
+		painter.drawPath(path);
+	}
 }
 
 void ShapeDrawView::drawHintLines(QPainter& painter)
@@ -291,6 +324,47 @@ void ShapeDrawView::drawHintLines(QPainter& painter)
 	painter.setBrush(Qt::NoBrush);
 	painter.drawLine(m_pos.x(), 0, m_pos.x(), this->height());
 	painter.drawLine(0, m_pos.y(), this->width(), m_pos.y());
+}
+
+void ShapeDrawView::calculateShapePolygon()
+{
+	if (polygon.count() == 0)
+	{
+		return;
+	}
+	if (shapeType == tLine || shapeType == tPolygon)
+	{
+		polygon[polygon.count() - 1] = m_pos;
+	}
+	else if (shapeType == tRectangle1)
+	{
+		polygon[2] = m_pos;
+		polygon[1].setX(polygon[2].x());
+		polygon[1].setY(polygon[0].y());
+
+		polygon[3].setX(polygon[0].x());
+		polygon[3].setY(polygon[2].y());
+
+	}
+	else if (shapeType == tRectangle2)
+	{
+
+	}
+}
+
+void ShapeDrawView::DrawFinished()
+{
+	//保存的是在图片中的比例
+	this->region_data.comformPolygon.push_back(polygon);
+	path.addPolygon(polygon);
+	this->region_data.comformPath.push_back(path);
+	this->region_data.comformOp.push_back(shapeOperation);
+
+	path = QPainterPath();
+	polygon = QPolygonF();
+
+	drawingFlag = false;
+	shapeCreate = true;
 }
 
 void ShapeDrawView::createRegionPixmap(QVector<QPainterPath >const& _polygon, QPixmap& ori_pix)
@@ -332,7 +406,7 @@ RegionPixmapData ShapeDrawView::getRegionData()
 
 void ShapeDrawView::getRegionData(RegionPixmapData* data) const
 {
-	s_mutex.lock();
+
 	data->height = region_data.height;
 	data->width = region_data.width;
 
@@ -342,7 +416,7 @@ void ShapeDrawView::getRegionData(RegionPixmapData* data) const
 		data->comformPath.push_back(region_data.comformPath[i]);
 		data->comformPolygon.push_back(region_data.comformPolygon[i]);
 	}
-	s_mutex.unlock();
+
 }
 
 void ShapeDrawView::GetHRegionFromData(HalconCpp::HRegion* reg, RegionPixmapData& data)
@@ -358,21 +432,52 @@ void ShapeDrawView::GetHRegionFromData(HalconCpp::HRegion* reg, RegionPixmapData
 			Hcol.Append(data.comformPolygon[i].data()->y());
 		}
 		region_add.GenRegionPolygonFilled(Hrow, Hcol);
+
 		//HalconCpp::HTuple tmp_result;
 		//HalconCpp::HRegion emptyreg;
 		//HalconCpp::GenEmptyRegion(&emptyreg);
 		//HalconCpp::TestEqualRegion(emptyreg, reg, &tmp_result);
 		//if (tmp_result.Length() == 0)
 		//{
-		//	reg = region_add;
+		*reg = region_add;
 		//}
+		//if (data.comformOp[i] == oAdd)
+		//{
+		//	HalconCpp::Union2(region_add, *reg, reg);
+		//}
+		//else
+		//{
+		//	HalconCpp::Difference(region_add, *reg, reg);
+		//}
+	}
+}
+
+HalconCpp::HRegion ShapeDrawView::GetHRegionFromData(RegionPixmapData const& data)
+{
+	HalconCpp::HRegion region_add;
+	HalconCpp::HRegion region_result;
+	HalconCpp::GenEmptyRegion(&region_result);
+
+	for (size_t i = 0; i < data.comformPolygon.size(); i++)
+	{
+		HalconCpp::HTuple Hrow;
+		HalconCpp::HTuple Hcol;
+		for (int j = 0; j < data.comformPolygon[i].length(); j++)
+		{
+			Hrow.Append(data.comformPolygon[i][j].y() * data.h_ratio);
+			Hcol.Append(data.comformPolygon[i][j].x() * data.w_ratio);
+		}
+
+		region_add.GenRegionPolygonFilled(Hrow, Hcol);
+
 		if (data.comformOp[i] == oAdd)
 		{
-			HalconCpp::Union2(region_add, *reg, reg);
+			HalconCpp::Union2(region_add, region_result, &region_result);
 		}
 		else
 		{
-			HalconCpp::Difference(region_add, *reg, reg);
+			HalconCpp::Difference(region_result, region_add, &region_result);
 		}
 	}
+	return region_result;
 }

@@ -13,32 +13,17 @@ HImageReduceDomainModel::HImageReduceDomainModel()
 	m_hImage = std::make_shared<HImageData>();
 	m_result = std::make_shared<HImageData>();
 	btn_drawReg = new QPushButton(u8"绘制区域");
-	m_region_data = new RegionPixmapData();
-	HalconCpp::GenEmptyRegion(&m_domain);
+	m_region_data = std::make_shared<RegionPixmapData>();
+	m_domain.GenEmptyRegion();
 
-	connect(ShapeDrawView::GetInst(), &ShapeDrawView::RegionFinished, [=](RegionPixmapData _data)
-		{
-			if (!ShapeDrawView::GetInst()->getDrawFlag())
-			{
-				return;
-			}
-			this->m_region_data = new RegionPixmapData();
-			//this->m_region_data = RegionPixmapData();
-			//this->m_region_data.height = _data.height;
-			//this->m_region_data.width = _data.width;
-			//this->m_region_data.comformPolygon.clear();
-			//this->m_region_data.comformPath.clear();
-			//this->m_region_data.comformOp.clear();
-			*this->m_region_data = _data;
-			ShapeDrawView::GetHRegionFromData(&m_domain, *m_region_data);
-			RunTask();
-		});
+	connect(shapeDrawer, SIGNAL(RegionFinished(RegionPixmapData)),
+		this, SLOT(OnNewRegionData(RegionPixmapData)));
 
 	connect(btn_drawReg, &QPushButton::clicked, [=]()
 		{
 			QPixmap tmpPix;
 			HImageViewWidget::HImageToQPixmap(*m_hImage->hImage(), tmpPix);
-			ShapeDrawView::GetInst()->FitShowImage(tmpPix, *m_region_data);
+			shapeDrawer->FitShowImage(tmpPix, *m_region_data);
 		});
 }
 
@@ -48,9 +33,11 @@ bool HImageReduceDomainModel::RunTask()
 	PortIndex const outPortIndex = 0;
 	try
 	{
-		if (m_domain.IsInitialized())
+		if ((int)m_region_data->comformPolygon.size() > 0)
 		{
-			m_result->setHImage(m_hImage->hImage()->ReduceDomain(m_domain));
+			HImage tmpImage;
+			HalconCpp::ReduceDomain(*m_hImage->hImage(), m_domain, &tmpImage);
+			m_result->setHImage(tmpImage);
 		}
 		else
 		{
@@ -66,8 +53,23 @@ bool HImageReduceDomainModel::RunTask()
 	}
 
 	Q_EMIT dataUpdated(outPortIndex);
-	//Q_EMIT computingFinished();
 	return true;
+}
+
+void HImageReduceDomainModel::OnNewRegionData(RegionPixmapData _data)
+{
+	if (!shapeDrawer->getDrawFlag())
+	{
+		return;
+	}
+	m_region_data->width = _data.width;
+	m_region_data->height = _data.height;
+	m_region_data->w_ratio = _data.w_ratio;
+	m_region_data->h_ratio = _data.h_ratio;
+	m_region_data->comformPolygon = _data.comformPolygon;
+	m_region_data->comformOp = _data.comformOp;
+	m_domain = shapeDrawer->GetHRegionFromData(*m_region_data);
+	RunTask();
 }
 
 unsigned int HImageReduceDomainModel::
@@ -142,5 +144,5 @@ std::shared_ptr<NodeData>
 HImageReduceDomainModel::
 outData(PortIndex)
 {
-	return std::dynamic_pointer_cast<NodeData>(m_result);
+	return std::dynamic_pointer_cast<HImageData>(m_result);
 }

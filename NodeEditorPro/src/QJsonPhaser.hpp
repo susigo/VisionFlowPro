@@ -30,6 +30,8 @@ namespace QJsonPhaser
 	QJsonObject convertToJson(const QtNodes::ConnectionStyle& _obj);
 	void convertFromJson(const QJsonObject& _json, QtNodes::ConnectionStyle& _obj);
 
+
+
 	template<typename ElemType>
 	inline QJsonObject convertToJson(const QVector<ElemType>& obj)
 	{
@@ -47,6 +49,36 @@ namespace QJsonPhaser
 	}
 	template<typename ElemType>
 	inline void convertFromJson(const QJsonObject& json, QVector<ElemType>& obj)
+	{
+		QJsonArray arr = json.value("vector").toArray();
+		obj.clear();
+
+		for (auto& elem : arr)
+		{
+			ElemType temp_elem;
+
+			convertFromJson(elem.toObject(), temp_elem);
+			obj.push_back(std::move(temp_elem));
+		}
+	}
+
+	template<typename ElemType>
+	inline QJsonObject convertToJson(const std::vector<ElemType>& obj)
+	{
+		QJsonObject result;
+		QJsonArray arr;
+
+		for (auto& elem : obj)
+		{
+			arr.append(convertToJson(elem));
+		}
+
+		result.insert("vector", arr);
+
+		return result;
+	}
+	template<typename ElemType>
+	inline void convertFromJson(const QJsonObject& json, std::vector<ElemType>& obj)
 	{
 		QJsonArray arr = json.value("vector").toArray();
 		obj.clear();

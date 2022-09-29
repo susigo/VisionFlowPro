@@ -9,11 +9,14 @@
 #include <QMenu>
 #include "halconcpp/HalconCpp.h"
 
-enum ShapeOperation
-{
-	oAdd,
-	oDiv
-};
+//enum ShapeOperation
+//{
+//	oAdd,
+//	oDiv
+//};
+
+const int oAdd = 0;
+const int oDiv = 1;
 
 enum ShapeType
 {
@@ -29,18 +32,21 @@ class RegionPixmapData
 public:
 	int width = 512;
 	int height = 512;
-	QList<QPolygonF> comformPolygon;
+	double w_ratio = 1.0;
+	double h_ratio = 1.0;
+	std::vector<QPolygonF> comformPolygon;
+	//QList<QPolygonF> comformPolygon;
 	QList<QPainterPath> comformPath;
-	QList<ShapeOperation> comformOp;
+	QList<int> comformOp;
 public:
 	RegionPixmapData()
 	{
 		width = 512;
 		height = 512;
 
-		comformPolygon = QList<QPolygonF>();
+		//comformPolygon = QList<QPolygonF>();
 		comformPath = QList<QPainterPath>();
-		comformOp = QList<ShapeOperation>();
+		comformOp = QList<int>();
 		comformOp.clear();
 		comformPath.clear();
 		comformPolygon.clear();
@@ -51,14 +57,13 @@ public:
 	}
 };
 
-static std::mutex s_mutex;
 class ShapeDrawView :public QWidget
 {
 	Q_OBJECT
 public:
 	ShapeDrawView(QWidget* parent = Q_NULLPTR);
 	void FitShowImage(QPixmap const& pix, RegionPixmapData reg_data);
-	void LoadImage(QString const& fileName);
+	void LoadFileImage(QString const& fileName);
 	/**
 	 * \brief 根据在
 	 * \param _polygon
@@ -86,12 +91,15 @@ public:
 		//s_mutex.unlock();
 		return instance;
 	}
-	static void GetHRegionFromData(HalconCpp::HRegion* reg, RegionPixmapData& data);
+	void GetHRegionFromData(HalconCpp::HRegion* reg, RegionPixmapData& data);
+	HalconCpp::HRegion GetHRegionFromData(RegionPixmapData const& data);
 protected:
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseReleaseEvent(QMouseEvent* event) override;
 	void mouseMoveEvent(QMouseEvent* event) override;
 	void paintEvent(QPaintEvent* event) override;
+	void resizeEvent(QResizeEvent* event) override;
+
 private:
 	void MenuInit();
 	void drawStart();
@@ -99,7 +107,8 @@ private:
 	void drawBackGroundImage(QPainter& painter);
 	void drawCurrentShape(QPainter& painter);
 	void drawHintLines(QPainter& painter);
-
+	void calculateShapePolygon();
+	void DrawFinished();
 signals:
 	void RegionFinished(RegionPixmapData region_data);
 private:
@@ -115,8 +124,9 @@ private:
 	QPainterPath path;
 
 	ShapeType shapeType;
-	ShapeOperation shapeOperation;
-
+	int shapeOperation;
+	double w_ratio = 1.0;
+	double h_ratio = 1.0;
 	RegionPixmapData region_data;
 
 	QPolygonF polygon;
@@ -124,6 +134,7 @@ private:
 	QVector<QPointF> points;
 	bool drawingFlag = false;
 	bool drawComform = false;
+	bool shapeCreate = true;
 	/**
 	 * \brief 显示所有确认的图片与区域
 	 */
@@ -135,6 +146,6 @@ private:
 
 };
 
-
+extern ShapeDrawView* shapeDrawer;
 
 

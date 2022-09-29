@@ -26,7 +26,7 @@ class HImageThresholdModel :public NodeDataModel
 	Q_OBJECT
 public:
 	HImageThresholdModel();
-	virtual ~HImageThresholdModel() {}
+	virtual ~HImageThresholdModel() = default;
 
 public:
 	QString caption() const override

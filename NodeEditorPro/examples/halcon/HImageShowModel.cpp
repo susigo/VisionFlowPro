@@ -10,6 +10,10 @@ HImageShowModel::HImageShowModel()
 	m_image_view->resize(200, 200);
 	m_hImage = std::make_shared<HImageData>();
 	m_hRegion = std::make_shared<HRegionData>();
+#ifdef SHOWHALCON_OBJ
+	h_window = new HWindow(0, 0, 512, 512, nullptr, "visible", "");
+#endif
+
 }
 
 bool HImageShowModel::RunTask()
@@ -92,7 +96,19 @@ setInData(std::shared_ptr<NodeData> data, int portIndex)
 			return;
 		}
 		m_hImage->setHImage(*dataPtr->hImage());
-
+#ifdef SHOWHALCON_OBJ
+		h_window->ClearWindow();
+		h_window->SetPart(HTuple(0), HTuple(0), m_hImage->hImage()->Height(), m_hImage->hImage()->Width());
+		HTuple chanels = m_hImage->hImage()->CountChannels();
+		if (chanels == 1)
+		{
+			h_window->DispImage(*m_hImage->hImage());
+		}
+		else
+		{
+			h_window->DispColor(*m_hImage->hImage());
+		}
+#endif
 	}
 	else if (data->type() == m_hRegion->type())
 	{
@@ -103,19 +119,11 @@ setInData(std::shared_ptr<NodeData> data, int portIndex)
 		}
 		m_hRegion->setHRegion(*dataPtr->hRegion());
 		m_hRegion->setSize(dataPtr->getSize());
-		//if (m_hRegion->hRegion()->CountObj() > 1)
-		//{
-		//	HRegion tmpReg = m_hRegion->hRegion()->Union1();
-		//	HImage tmpImg = tmpReg.RegionToBin(255, 0,
-		//		m_hRegion->getSize().width(), m_hRegion->getSize().height());
-		//	m_hImage->setHImage(tmpImg);
-		//}
-		//else
-		//{
+
 		HImage tmpImg = m_hRegion->hRegion()->RegionToBin(255, 0,
 			m_hRegion->getSize().width(), m_hRegion->getSize().height());
 		m_hImage->setHImage(tmpImg);
-		//}
+
 	}
 	RunTask();
 }

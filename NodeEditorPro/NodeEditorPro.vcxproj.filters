@@ -176,11 +176,14 @@
     <ClCompile Include="examples\halcon\HRegionShapeTransModel.cpp">
       <Filter>examples\halcon</Filter>
     </ClCompile>
+    <ClCompile Include="examples\halcon\HImageReduceDomainModel.cpp">
+      <Filter>examples\halcon</Filter>
+    </ClCompile>
     <ClCompile Include="..\ShapeDrawer\ShapeDrawView.cpp">
       <Filter>ShapeDrawer</Filter>
     </ClCompile>
-    <ClCompile Include="examples\halcon\HImageReduceDomainModel.cpp">
-      <Filter>examples\halcon</Filter>
+    <ClCompile Include="..\ShapeDrawer\ShapeItemBase.cpp">
+      <Filter>ShapeDrawer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -387,7 +390,7 @@
     <ClInclude Include="examples\halcon\HRegionData.hpp">
       <Filter>examples\halcon</Filter>
     </ClInclude>
-    <ClInclude Include="..\ShapeDrawer\ShapeCommon.hpp">
+    <ClInclude Include="..\ShapeDrawer\ShapeItemBase.hpp">
       <Filter>ShapeDrawer</Filter>
     </ClInclude>
   </ItemGroup>
@@ -395,6 +398,7 @@
     <None Include="resources\DefaultStyle.json">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\README.md" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\resources.qrc">

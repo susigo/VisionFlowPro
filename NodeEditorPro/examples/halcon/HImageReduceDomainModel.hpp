@@ -67,14 +67,17 @@ public:
 	void restore(QJsonObject const&) override;
 protected:
 	bool RunTask();
+
+public slots:
+	void OnNewRegionData(RegionPixmapData _data);
 public:
 	NodeValidationState modelValidationState = NodeValidationState::Warning;
 	QString modelValidationError = QString(u8"图片输入未连接!");
 private:
-
+	//HWindow* h_window;
 	QPushButton* btn_drawReg;
 	HRegion m_domain;
-	RegionPixmapData* m_region_data;
+	std::shared_ptr<RegionPixmapData> m_region_data;
 	std::shared_ptr<HImageData> m_hImage;
 	std::shared_ptr<HImageData> m_result;
 };
