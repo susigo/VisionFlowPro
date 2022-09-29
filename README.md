@@ -9,6 +9,12 @@ by susigo@foxmail.com
 
 ## 二、更新日志
 ***
+1.完成了一个halcon样例。小demo。
+
+![reducedomain showcase](https://github.com/susigo/VisionFlowPro/blob/master/NodeEditorPro/showcase/selectBallTest.png)
+
+2022/09/30
+***
 1.更新了选区节点，现在可以坐下一步操作了。如绘制区域训练片训练匹配模型。
 
 ![reducedomain showcase](https://github.com/susigo/VisionFlowPro/blob/master/NodeEditorPro/showcase/ReduceDomain.gif)
