@@ -16,14 +16,14 @@ HImageReduceDomainModel::HImageReduceDomainModel()
 	m_region_data = std::make_shared<RegionPixmapData>();
 	m_domain.GenEmptyRegion();
 
-	connect(shapeDrawer, SIGNAL(RegionFinished(RegionPixmapData)),
+	connect(ShapeDrawView::getInst(), SIGNAL(RegionFinished(RegionPixmapData)),
 		this, SLOT(OnNewRegionData(RegionPixmapData)));
 
 	connect(btn_drawReg, &QPushButton::clicked, [=]()
 		{
 			QPixmap tmpPix;
 			HImageViewWidget::HImageToQPixmap(*m_hImage->hImage(), tmpPix);
-			shapeDrawer->FitShowImage(tmpPix, *m_region_data);
+			ShapeDrawView::getInst()->FitShowImage(tmpPix, *m_region_data);
 		});
 }
 
@@ -58,7 +58,7 @@ bool HImageReduceDomainModel::RunTask()
 
 void HImageReduceDomainModel::OnNewRegionData(RegionPixmapData _data)
 {
-	if (!shapeDrawer->getDrawFlag())
+	if (!ShapeDrawView::getInst()->getDrawFlag())
 	{
 		return;
 	}
@@ -68,7 +68,7 @@ void HImageReduceDomainModel::OnNewRegionData(RegionPixmapData _data)
 	m_region_data->h_ratio = _data.h_ratio;
 	m_region_data->comformPolygon = _data.comformPolygon;
 	m_region_data->comformOp = _data.comformOp;
-	m_domain = shapeDrawer->GetHRegionFromData(*m_region_data);
+	m_domain = ShapeDrawView::getInst()->GetHRegionFromData(*m_region_data);
 	RunTask();
 }
 
@@ -113,7 +113,7 @@ QJsonObject HImageReduceDomainModel::save() const
 void HImageReduceDomainModel::restore(QJsonObject const& _json)
 {
 	QJsonParser::convertFromJson(_json.value("m_region_data").toObject(), *m_region_data);
-	m_domain = shapeDrawer->GetHRegionFromData(*m_region_data);
+	m_domain = ShapeDrawView::getInst()->GetHRegionFromData(*m_region_data);
 }
 
 NodeDataType

@@ -1,7 +1,8 @@
 ﻿#include "ShapeDrawView.hpp"
 #include <QFileDialog>
 
-ShapeDrawView* shapeDrawer = nullptr;
+ShapeDrawView* ShapeDrawView::instance = nullptr;
+std::mutex s_mutex;
 
 ShapeDrawView::ShapeDrawView(QWidget* parent)
 {
@@ -264,14 +265,6 @@ void ShapeDrawView::MenuInit()
 		});
 }
 
-void ShapeDrawView::drawStart()
-{
-}
-
-void ShapeDrawView::drawFinish()
-{
-}
-
 void ShapeDrawView::drawBackGroundImage(QPainter& painter)
 {
 	if (!curImage.isNull())
@@ -478,4 +471,16 @@ HalconCpp::HRegion ShapeDrawView::GetHRegionFromData(RegionPixmapData const& dat
 		}
 	}
 	return region_result;
+}
+
+ShapeDrawView* ShapeDrawView::getInst()
+{
+	if (instance == nullptr)
+	{
+		s_mutex.lock();
+		instance = new ShapeDrawView();
+		s_mutex.unlock();
+	}
+
+	return instance;
 }

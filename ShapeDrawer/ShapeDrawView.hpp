@@ -23,6 +23,7 @@ enum ShapeType
 	tPolygon
 };
 
+extern std::mutex s_mutex;
 
 class ShapeDrawView :public QWidget
 {
@@ -31,35 +32,15 @@ public:
 	ShapeDrawView(QWidget* parent = Q_NULLPTR);
 	void FitShowImage(QPixmap const& pix, RegionPixmapData reg_data);
 	void LoadFileImage(QString const& fileName);
-	/**
-	 * \brief 根据在
-	 * \param _polygon
-	 * \param pix
-	 */
 	void createRegionPixmap(QVector< QPainterPath > const& _polygon, QPixmap& pix);
 	void getPixmap(QPixmap& pix);
 	QPixmap getPixmap();
 	RegionPixmapData getRegionData();
 	void getRegionData(RegionPixmapData* data) const;
 	bool getDrawFlag() { return drawComform; }
-	static ShapeDrawView* GetInst()
-	{
-		if (instance == nullptr)
-		{
-			instance = new ShapeDrawView();
-		}
-		//s_mutex.lock();
-		if (instance != nullptr)
-		{
-			//s_mutex.unlock();
-			return instance;
-		}
-		instance = new ShapeDrawView();
-		//s_mutex.unlock();
-		return instance;
-	}
 	void GetHRegionFromData(HalconCpp::HRegion* reg, RegionPixmapData& data);
 	HalconCpp::HRegion GetHRegionFromData(RegionPixmapData const& data);
+	static ShapeDrawView* getInst();
 protected:
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseReleaseEvent(QMouseEvent* event) override;
@@ -69,8 +50,6 @@ protected:
 
 private:
 	void MenuInit();
-	void drawStart();
-	void drawFinish();
 	void drawBackGroundImage(QPainter& painter);
 	void drawCurrentShape(QPainter& painter);
 	void drawHintLines(QPainter& painter);
@@ -113,6 +92,6 @@ private:
 
 };
 
-extern ShapeDrawView* shapeDrawer;
+//extern ShapeDrawView* shapeDrawer;
 
 
