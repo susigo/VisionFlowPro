@@ -357,7 +357,6 @@ void ShapeDrawView::DrawFinished()
 	//保存的是在图片中的比例
 	this->region_data.comformPolygon.push_back(polygon);
 	path.addPolygon(polygon);
-	this->region_data.comformPath.push_back(path);
 	this->region_data.comformOp.push_back(shapeOperation);
 
 	path = QPainterPath();
@@ -413,7 +412,6 @@ void ShapeDrawView::getRegionData(RegionPixmapData* data) const
 	for (int i = 0; i < (int)region_data.comformOp.size(); i++)
 	{
 		data->comformOp.push_back(region_data.comformOp[i]);
-		data->comformPath.push_back(region_data.comformPath[i]);
 		data->comformPolygon.push_back(region_data.comformPolygon[i]);
 	}
 

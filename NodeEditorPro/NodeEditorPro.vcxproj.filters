@@ -182,9 +182,6 @@
     <ClCompile Include="..\ShapeDrawer\ShapeDrawView.cpp">
       <Filter>ShapeDrawer</Filter>
     </ClCompile>
-    <ClCompile Include="..\ShapeDrawer\ShapeItemBase.cpp">
-      <Filter>ShapeDrawer</Filter>
-    </ClCompile>
     <ClCompile Include="examples\halcon\HRegionFillUpShapeModel.cpp">
       <Filter>examples\halcon</Filter>
     </ClCompile>
@@ -420,7 +417,7 @@
     <ClInclude Include="examples\halcon\HRegionData.hpp">
       <Filter>examples\halcon</Filter>
     </ClInclude>
-    <ClInclude Include="..\ShapeDrawer\ShapeItemBase.hpp">
+    <ClInclude Include="..\ShapeDrawer\RegionPixmapData.hpp">
       <Filter>ShapeDrawer</Filter>
     </ClInclude>
   </ItemGroup>

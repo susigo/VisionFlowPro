@@ -8,12 +8,8 @@
 #include <QPaintEvent>
 #include <QMenu>
 #include "halconcpp/HalconCpp.h"
+#include "RegionPixmapData.hpp"
 
-//enum ShapeOperation
-//{
-//	oAdd,
-//	oDiv
-//};
 
 const int oAdd = 0;
 const int oDiv = 1;
@@ -27,27 +23,6 @@ enum ShapeType
 	tPolygon
 };
 
-class RegionPixmapData
-{
-public:
-	int width = 512;
-	int height = 512;
-	double w_ratio = 1.0;
-	double h_ratio = 1.0;
-	QVector<QPolygonF> comformPolygon;
-	QVector<QPainterPath> comformPath;
-	QVector<int> comformOp;
-public:
-	RegionPixmapData()
-	{
-		width = 512;
-		height = 512;
-	}
-	~RegionPixmapData()
-	{
-
-	}
-};
 
 class ShapeDrawView :public QWidget
 {
