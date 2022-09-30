@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QWidget>
 #include <QSlider>
+#include <QComboBox>
 #include <QLineEdit>
 #include "DataModelRegistry.hpp"
 #include "NodeDataModel.hpp"
@@ -20,27 +21,27 @@ using QtNodes::NodeDataModel;
 using QtNodes::NodeValidationState;
 using namespace HalconCpp;
 /**
- * \brief halcon 图像rgb2gray节点
+ * \brief halcon shapeTrans节点
  */
-class HRegionConnectModel :public NodeDataModel
+class HRegionSelectShapeStdModel :public NodeDataModel
 {
 	Q_OBJECT
 public:
-	HRegionConnectModel();
-	virtual ~HRegionConnectModel() {}
+	HRegionSelectShapeStdModel();
+	virtual ~HRegionSelectShapeStdModel() {}
 
 public:
 	QString caption() const override
 	{
-		return QString(u8"非联通区域");
+		return QString(u8"选择形状");
 	}
 	QString name() const override
 	{
-		return QString(u8"非联通区域");
+		return QString(u8"选择形状");
 	}
 	virtual QString modelName() const
 	{
-		return QString(u8"非联通区域");
+		return QString(u8"选择形状");
 	}
 	unsigned int
 		nPorts(PortType portType) const override;
@@ -55,7 +56,7 @@ public:
 		setInData(std::shared_ptr<NodeData>, int) override;
 
 	QWidget*
-		embeddedWidget() override { return nullptr; }
+		embeddedWidget() override { return m_widget; }
 
 	bool
 		resizable() const override { return false; }
@@ -63,6 +64,10 @@ public:
 		validationState() const override;
 	QString
 		validationMessage() const override;
+
+	QJsonObject save() const override;
+
+	void restore(QJsonObject const&) override;
 
 protected:
 	bool RunTask();
@@ -73,4 +78,9 @@ public:
 private:
 	std::shared_ptr<HRegionData> m_InRegion;
 	std::shared_ptr<HRegionData> m_result;
+	QLineEdit* m_percentEdit;
+	QComboBox* combo_feature;
+	QWidget* m_widget;
+	QString m_cur_feature;
+	double m_percent;
 };

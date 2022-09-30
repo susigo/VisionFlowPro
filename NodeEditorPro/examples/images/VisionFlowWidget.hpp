@@ -49,6 +49,9 @@ registerDataModels()
 	ret->registerModel<HImageReduceDomainModel>(imageNodeType);
 	ret->registerModel<HRegionFillUpShapeModel>(imageNodeType);
 	ret->registerModel<HRegionOpenCircleModel>(imageNodeType);
+	ret->registerModel<HRegionUnionModel>(imageNodeType);
+	ret->registerModel<HRegionDifferenceModel>(imageNodeType);
+	ret->registerModel<HRegionSelectShapeStdModel>(imageNodeType);
 
 	return ret;
 }

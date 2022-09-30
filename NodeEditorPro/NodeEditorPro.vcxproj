@@ -116,11 +116,14 @@
     <ClCompile Include="examples\halcon\HImageSplitChanelModel.cpp" />
     <ClCompile Include="examples\halcon\HImageThresholdModel.cpp" />
     <ClCompile Include="examples\halcon\HRegionConnectModel.cpp" />
+    <ClCompile Include="examples\halcon\HRegionDifferenceModel.cpp" />
     <ClCompile Include="examples\halcon\HRegionFillUpShapeModel.cpp" />
     <ClCompile Include="examples\halcon\HRegionOpenCircleModel.cpp" />
     <ClCompile Include="examples\halcon\HRegionSelectModel.cpp" />
     <ClCompile Include="examples\halcon\HImageViewWidget.cpp" />
+    <ClCompile Include="examples\halcon\HRegionSelectShapeStdModel.cpp" />
     <ClCompile Include="examples\halcon\HRegionShapeTransModel.cpp" />
+    <ClCompile Include="examples\halcon\HRegionUnionModel.cpp" />
     <ClCompile Include="examples\images\ImageLoaderModel.cpp" />
     <ClCompile Include="examples\images\ImageShowModel.cpp" />
     <ClCompile Include="examples\images\main.cpp" />
@@ -146,7 +149,7 @@
     <ClCompile Include="src\NodeStyle.cpp" />
     <ClCompile Include="src\Properties.cpp" />
     <ClCompile Include="src\QDataStreamPhaser.cpp" />
-    <ClCompile Include="src\QJsonPhaser.cpp" />
+    <ClCompile Include="src\QJsonParser.cpp" />
     <ClCompile Include="src\StyleCollection.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -175,9 +178,12 @@
     <QtMoc Include="examples\halcon\HRegionShapeTransModel.hpp" />
     <QtMoc Include="examples\halcon\HRegionFillUpShapeModel.hpp" />
     <QtMoc Include="examples\halcon\HRegionOpenCircleModel.hpp" />
+    <QtMoc Include="examples\halcon\HRegionUnionModel.hpp" />
+    <QtMoc Include="examples\halcon\HRegionDifferenceModel.hpp" />
+    <QtMoc Include="examples\halcon\HRegionSelectShapeStdModel.hpp" />
     <ClInclude Include="examples\images\VisionFlowWidget.hpp" />
     <ClInclude Include="src\QDataStreamPhaser.hpp" />
-    <ClInclude Include="src\QJsonPhaser.hpp" />
+    <ClInclude Include="src\QJsonParser.hpp" />
     <QtMoc Include="examples\halcon\HImageRGB2GrayModel.hpp" />
     <QtMoc Include="examples\halcon\HImageSplitChanelModel.hpp" />
     <QtMoc Include="examples\halcon\HImageFolderModel.hpp" />

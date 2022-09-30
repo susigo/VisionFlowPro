@@ -158,7 +158,7 @@
     <ClCompile Include="examples\halcon\HImageThresholdModel.cpp">
       <Filter>examples\halcon</Filter>
     </ClCompile>
-    <ClCompile Include="src\QJsonPhaser.cpp">
+    <ClCompile Include="src\QJsonParser.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\QDataStreamPhaser.cpp">
@@ -189,6 +189,15 @@
       <Filter>examples\halcon</Filter>
     </ClCompile>
     <ClCompile Include="examples\halcon\HRegionOpenCircleModel.cpp">
+      <Filter>examples\halcon</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\halcon\HRegionUnionModel.cpp">
+      <Filter>examples\halcon</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\halcon\HRegionDifferenceModel.cpp">
+      <Filter>examples\halcon</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\halcon\HRegionSelectShapeStdModel.cpp">
       <Filter>examples\halcon</Filter>
     </ClCompile>
   </ItemGroup>
@@ -269,6 +278,15 @@
       <Filter>examples\halcon</Filter>
     </QtMoc>
     <QtMoc Include="examples\halcon\HRegionOpenCircleModel.hpp">
+      <Filter>examples\halcon</Filter>
+    </QtMoc>
+    <QtMoc Include="examples\halcon\HRegionUnionModel.hpp">
+      <Filter>examples\halcon</Filter>
+    </QtMoc>
+    <QtMoc Include="examples\halcon\HRegionDifferenceModel.hpp">
+      <Filter>examples\halcon</Filter>
+    </QtMoc>
+    <QtMoc Include="examples\halcon\HRegionSelectShapeStdModel.hpp">
       <Filter>examples\halcon</Filter>
     </QtMoc>
   </ItemGroup>
@@ -384,7 +402,7 @@
     <ClInclude Include="examples\halcon\HObjectData.hpp">
       <Filter>examples\halcon</Filter>
     </ClInclude>
-    <ClInclude Include="src\QJsonPhaser.hpp">
+    <ClInclude Include="src\QJsonParser.hpp">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\QDataStreamPhaser.hpp">

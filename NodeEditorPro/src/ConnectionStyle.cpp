@@ -11,7 +11,7 @@
 #include <QDebug>
 
 #include <random>
-#include "QJsonPhaser.hpp"
+#include "QJsonParser.hpp"
 
 using QtNodes::ConnectionStyle;
 
@@ -54,7 +54,7 @@ void
 ConnectionStyle::
 loadJsonFile(QString styleFile)
 {
-	QJsonObject obj = QJsonPhaser::readJsonObj(styleFile);
+	QJsonObject obj = QJsonParser::readJsonObj(styleFile);
 	QJsonObject styleObj = obj["ConnectionStyle"].toObject();
 	if (styleObj.isEmpty())
 	{
@@ -62,15 +62,15 @@ loadJsonFile(QString styleFile)
 	}
 	else
 	{
-		QJsonPhaser::convertFromJson(obj["ConnectionStyle"].toObject(), *this);
+		QJsonParser::convertFromJson(obj["ConnectionStyle"].toObject(), *this);
 	}
 }
 
 void ConnectionStyle::saveJsonFile(QString fileName)
 {
-	QJsonObject obj = QJsonPhaser::readJsonObj(fileName);
-	obj.insert("ConnectionStyle", QJsonPhaser::convertToJson(*this));
-	QJsonPhaser::writeJsonObj(fileName, obj);
+	QJsonObject obj = QJsonParser::readJsonObj(fileName);
+	obj.insert("ConnectionStyle", QJsonParser::convertToJson(*this));
+	QJsonParser::writeJsonObj(fileName, obj);
 }
 
 QColor

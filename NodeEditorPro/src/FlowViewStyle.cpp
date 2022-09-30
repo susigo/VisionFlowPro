@@ -9,7 +9,7 @@
 #include <QDebug>
 
 #include "StyleCollection.hpp"
-#include "QJsonPhaser.hpp"
+#include "QJsonParser.hpp"
 
 using QtNodes::FlowViewStyle;
 
@@ -45,7 +45,7 @@ void
 FlowViewStyle::
 loadJsonFile(QString styleFile)
 {
-	QJsonObject obj = QJsonPhaser::readJsonObj(styleFile);
+	QJsonObject obj = QJsonParser::readJsonObj(styleFile);
 	QJsonObject styleObj = obj["FlowViewStyle"].toObject();
 	if (styleObj.isEmpty())
 	{
@@ -53,14 +53,14 @@ loadJsonFile(QString styleFile)
 	}
 	else
 	{
-		QJsonPhaser::convertFromJson(obj["FlowViewStyle"].toObject(), *this);
+		QJsonParser::convertFromJson(obj["FlowViewStyle"].toObject(), *this);
 	}
 }
 
 void QtNodes::FlowViewStyle::saveJsonFile(QString fileName)
 {
-	QJsonObject obj = QJsonPhaser::readJsonObj(fileName);
-	obj.insert("FlowViewStyle", QJsonPhaser::convertToJson(*this));
-	QJsonPhaser::writeJsonObj(fileName, obj);
+	QJsonObject obj = QJsonParser::readJsonObj(fileName);
+	obj.insert("FlowViewStyle", QJsonParser::convertToJson(*this));
+	QJsonParser::writeJsonObj(fileName, obj);
 }
 

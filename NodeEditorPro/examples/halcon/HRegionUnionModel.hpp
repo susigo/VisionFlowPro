@@ -22,25 +22,25 @@ using namespace HalconCpp;
 /**
  * \brief halcon 图像rgb2gray节点
  */
-class HRegionConnectModel :public NodeDataModel
+class HRegionUnionModel :public NodeDataModel
 {
 	Q_OBJECT
 public:
-	HRegionConnectModel();
-	virtual ~HRegionConnectModel() {}
+	HRegionUnionModel();
+	virtual ~HRegionUnionModel() {}
 
 public:
 	QString caption() const override
 	{
-		return QString(u8"非联通区域");
+		return QString(u8"联合区域");
 	}
 	QString name() const override
 	{
-		return QString(u8"非联通区域");
+		return QString(u8"联合区域");
 	}
 	virtual QString modelName() const
 	{
-		return QString(u8"非联通区域");
+		return QString(u8"联合区域");
 	}
 	unsigned int
 		nPorts(PortType portType) const override;
@@ -58,12 +58,13 @@ public:
 		embeddedWidget() override { return nullptr; }
 
 	bool
-		resizable() const override { return false; }
+		resizable() const override { return true; }
 	NodeValidationState
 		validationState() const override;
 	QString
 		validationMessage() const override;
-
+	bool portCaptionVisible(PortType, PortIndex) const override { return true; }
+	QString portCaption(PortType, PortIndex) const override;
 protected:
 	bool RunTask();
 	bool eventFilter(QObject* watched, QEvent* event) override;
@@ -72,5 +73,6 @@ public:
 	QString modelValidationError = QString(u8"区域输入未连接!");
 private:
 	std::shared_ptr<HRegionData> m_InRegion;
+	std::shared_ptr<HRegionData> m_InRegionAdd;
 	std::shared_ptr<HRegionData> m_result;
 };

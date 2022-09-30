@@ -13,3 +13,6 @@
 #include "halcon/HImageReduceDomainModel.hpp"
 #include "halcon/HRegionFillUpShapeModel.hpp"
 #include "halcon/HRegionOpenCircleModel.hpp"
+#include "halcon/HRegionUnionModel.hpp"
+#include "halcon/HRegionDifferenceModel.hpp"
+#include "halcon/HRegionSelectShapeStdModel.hpp"

@@ -9,7 +9,7 @@
 #include "ConnectionStyle.hpp"
 #include "ShapeDrawView.hpp"
 
-namespace QJsonPhaser
+namespace QJsonParser
 {
 
 	QJsonObject readJsonObj(const QString& fileName);

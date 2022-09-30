@@ -10,6 +10,9 @@ namespace QtNodes
 	struct NodeDataType
 	{
 		QString id;
+		/**
+		 * \brief 用于比较的名称
+		 */
 		QString name;
 
 		friend bool operator<(QtNodes::NodeDataType const& d1,
@@ -44,5 +47,6 @@ namespace QtNodes
 		 * \return 标签名字
 		 */
 		virtual NodeDataType type() const = 0;
+
 	};
 }
