@@ -3,6 +3,7 @@
 #include <QGraphicsItem>
 #include <QPixmap>
 #include <QGraphicsObject>
+#include <QVector>
 
 class RegionPixmapData
 {
@@ -12,8 +13,8 @@ public:
 	double w_ratio = 1.0;
 	double h_ratio = 1.0;
 	//绘制
-	QVector<QPolygonF> comformPolygon;
-	QVector<int> comformOp;
+	std::vector<QPolygonF> comformPolygon;
+	std::vector<int> comformOp;
 public:
 	RegionPixmapData()
 	{
