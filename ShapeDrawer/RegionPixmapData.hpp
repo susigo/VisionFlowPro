@@ -5,21 +5,23 @@
 #include <QGraphicsObject>
 #include <QVector>
 
-class RegionPixmapData
+struct RegionPixmapData
 {
 public:
-	int width = 512;
-	int height = 512;
-	double w_ratio = 1.0;
-	double h_ratio = 1.0;
+	int width;
+	int height;
+	double w_ratio;
+	double h_ratio;
 	//绘制
-	std::vector<QPolygonF> comformPolygon;
-	std::vector<int> comformOp;
+	QVector<QPolygonF> comformPolygon;
+	QVector<int> comformOp;
 public:
 	RegionPixmapData()
 	{
 		width = 512;
 		height = 512;
+		w_ratio = 1.0;
+		h_ratio = 1.0;
 	}
 	~RegionPixmapData()
 	{

@@ -3,6 +3,12 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QVector>
+#include <QString>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QFile>
+#include <QColor>
+#include <QPolygonF>
 #include "halconcpp/HalconCpp.h"
 #include "NodeStyle.hpp"
 #include "FlowViewStyle.hpp"
@@ -12,56 +18,39 @@
 namespace QJsonParser
 {
 
-	QJsonObject readJsonObj(const QString& fileName);
-	bool writeJsonObj(QString const& fileName, QJsonObject& json);
+	template<typename DataType>
+	QJsonObject convertToJson(const QVector<DataType>& obj);
 
-	QJsonObject convertToJson(const QPoint& _point);
-	void convertFromJson(QJsonObject const& _obj, QPoint& _point);
+	template<typename DataType>
+	void convertFromJson(const QJsonObject& json, QVector<DataType>& obj);
+
+	QJsonObject readJsonObj(const QString& fileName);
+	bool writeJsonObj(const QString& fileName, QJsonObject& json);
+
+	//QJsonObject convertToJson(const QPoint& _point);
+	//void convertFromJson(const QJsonObject& _obj, QPoint& _point);
 
 	QJsonObject convertToJson(const QPointF& _point);
-	void convertFromJson(QJsonObject const& _obj, QPointF& _point);
+	void convertFromJson(const QJsonObject& _obj, QPointF& _point);
 
 	QJsonObject convertToJson(const QColor& _color);
-	void convertFromJson(QJsonObject const& _obj, QColor& _color);
+	void convertFromJson(const QJsonObject& _obj, QColor& _color);
 
 	QJsonObject convertToJson(const QPolygonF& _obj);
-	void convertFromJson(QJsonObject const& _json, QPolygonF& _obj);
+	void convertFromJson(const QJsonObject& _json, QPolygonF& _obj);
 
 	QJsonObject convertToJson(const QtNodes::NodeStyle& _obj);
-	void convertFromJson(QJsonObject const& _json, QtNodes::NodeStyle& _obj);
+	void convertFromJson(const QJsonObject& _json, QtNodes::NodeStyle& _obj);
 
 	QJsonObject convertToJson(const QtNodes::FlowViewStyle& _obj);
-	void convertFromJson(QJsonObject const& _json, QtNodes::FlowViewStyle& _obj);
+	void convertFromJson(const QJsonObject& _json, QtNodes::FlowViewStyle& _obj);
 
 	QJsonObject convertToJson(const QtNodes::ConnectionStyle& _obj);
-	void convertFromJson(QJsonObject const& _json, QtNodes::ConnectionStyle& _obj);
+	void convertFromJson(const QJsonObject& _json, QtNodes::ConnectionStyle& _obj);
 
 	QJsonObject convertToJson(const RegionPixmapData& _obj);
-	void convertFromJson(QJsonObject const& _json, RegionPixmapData& _obj);
+	void convertFromJson(const QJsonObject& _json, RegionPixmapData& _obj);
 
-	template<typename DataType>
-	inline QJsonObject convertToJson(std::vector<DataType> const& obj)
-	{
-		QJsonObject result;
-		QJsonArray arr;
-		for (auto& elem : obj)
-		{
-			arr.append(convertToJson(elem));
-		}
-		result.insert("data", arr);
-		return result;
-	}
 
-	template<typename DataType>
-	inline void convertFromJson(QJsonObject const& json, std::vector<DataType>& obj)
-	{
-		auto jarr = json["data"].toArray();
-		for (auto elem : jarr)
-		{
-			DataType tmp_data;
-			QJsonParser::convertFromJson(elem.toObject(), tmp_data);
-			obj.push_back(tmp_data);
-		}
-	}
 };
 
