@@ -59,7 +59,7 @@ void
 NodeStyle::
 loadJsonFile(QString styleFile)
 {
-	QJsonObject obj = QJsonParser::readJsonObj(styleFile);
+	QJsonObject obj = QJsonConvert::readJsonObj(styleFile);
 	QJsonObject styleObj = obj["NodeStyle"].toObject();
 	if (styleObj.isEmpty())
 	{
@@ -67,13 +67,13 @@ loadJsonFile(QString styleFile)
 	}
 	else
 	{
-		QJsonParser::convertFromJson(obj["NodeStyle"].toObject(), *this);
+		QJsonConvert::convertFromJson(obj["NodeStyle"].toObject(), *this);
 	}
 }
 
 void QtNodes::NodeStyle::saveJsonFile(QString fileName)
 {
-	QJsonObject obj = QJsonParser::readJsonObj(fileName);
-	obj.insert("NodeStyle", QJsonParser::convertToJson(*this));
-	QJsonParser::writeJsonObj(fileName, obj);
+	QJsonObject obj = QJsonConvert::readJsonObj(fileName);
+	obj.insert("NodeStyle", QJsonConvert::convertToJson(*this));
+	QJsonConvert::writeJsonObj(fileName, obj);
 }

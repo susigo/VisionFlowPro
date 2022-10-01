@@ -34,18 +34,18 @@ public:
 	QString
 		caption() const override
 	{
-		return QString(u8"QPixmap输入");
+		return QStringLiteral("QPixmap输入");
 	}
 
 	QString
-		name() const override { return QString(u8"QPixmap输入"); }
+		name() const override { return QStringLiteral("QPixmap输入"); }
 
 public:
 
 	virtual QString
 		modelName() const
 	{
-		return QString(u8"QPixmap输入");
+		return QStringLiteral("QPixmap输入");
 	}
 
 	unsigned int

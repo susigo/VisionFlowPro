@@ -6,7 +6,7 @@
 
 ImageLoaderModel::
 ImageLoaderModel()
-	: _label(new QLabel(u8"点击加载图片!"))
+	: _label(new QLabel(QStringLiteral("点击加载图片!")))
 {
 	//_label->setAlignment(Qt::AlignHCenter);
 

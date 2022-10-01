@@ -31,15 +31,15 @@ public:
 public:
 	QString caption() const override
 	{
-		return QString(u8"二值化节点");
+		return QStringLiteral("二值化节点");
 	}
 	QString name() const override
 	{
-		return QString(u8"二值化节点");
+		return QStringLiteral("二值化节点");
 	}
 	virtual QString modelName() const
 	{
-		return QString(u8"二值化节点");
+		return QStringLiteral("二值化节点");
 	}
 	unsigned int
 		nPorts(PortType portType) const override;
@@ -72,7 +72,7 @@ protected:
 	bool eventFilter(QObject* watched, QEvent* event) override;
 public:
 	NodeValidationState modelValidationState = NodeValidationState::Warning;
-	QString modelValidationError = QString(u8"图片输入未连接!");
+	QString modelValidationError = QStringLiteral("图片输入未连接!");
 private:
 	std::shared_ptr<HImageData> m_hImage;
 	std::shared_ptr<HRegionData> m_domain;

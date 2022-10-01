@@ -15,16 +15,4 @@ public:
 	//绘制
 	QVector<QPolygonF> comformPolygon;
 	QVector<int> comformOp;
-public:
-	RegionPixmapData()
-	{
-		width = 512;
-		height = 512;
-		w_ratio = 1.0;
-		h_ratio = 1.0;
-	}
-	~RegionPixmapData()
-	{
-
-	}
 };

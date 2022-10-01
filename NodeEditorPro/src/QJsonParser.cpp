@@ -4,9 +4,53 @@
 #include <QJsonArray>
 #include <QFile>
 
+QJsonObject QJsonConvert::convertToJson(const QVector<QPolygonF>& obj)
+{
+	QJsonObject result;
+	QJsonArray arr;
+	for (auto& elem : obj)
+	{
+		arr.append(convertToJson(elem));
+	}
+	result.insert("data", arr);
+	return result;
+}
 
+void QJsonConvert::convertFromJson(const QJsonObject& json, QVector<QPolygonF>& obj)
+{
+	auto jarr = json["data"].toArray();
+	for (auto elem : jarr)
+	{
+		QPolygonF tmp_data;
+		QJsonConvert::convertFromJson(elem.toObject(), tmp_data);
+		obj.push_back(tmp_data);
+	}
+}
 
-QJsonObject QJsonParser::readJsonObj(const QString& fileName)
+QJsonObject QJsonConvert::convertToJson(const QVector<int>& obj)
+{
+	QJsonObject result;
+	QJsonArray arr;
+	for (auto& elem : obj)
+	{
+		arr.append(elem);
+	}
+	result.insert("data", arr);
+	return result;
+}
+
+void QJsonConvert::convertFromJson(const QJsonObject& json, QVector<int>& obj)
+{
+	auto jarr = json["data"].toArray();
+	for (auto elem : jarr)
+	{
+		int tmp_data;
+		tmp_data = elem.toInt(0);
+		obj.push_back(tmp_data);
+	}
+}
+
+QJsonObject QJsonConvert::readJsonObj(const QString& fileName)
 {
 	QFile file;
 
@@ -21,7 +65,7 @@ QJsonObject QJsonParser::readJsonObj(const QString& fileName)
 
 	return doc.object();
 }
-bool QJsonParser::writeJsonObj(const QString& fileName, QJsonObject& json)
+bool QJsonConvert::writeJsonObj(const QString& fileName, QJsonObject& json)
 {
 	QJsonDocument doc;
 	QFile file;
@@ -39,34 +83,57 @@ bool QJsonParser::writeJsonObj(const QString& fileName, QJsonObject& json)
 		file.write(bytes) == bytes.size());
 }
 
-//QJsonObject QJsonParser::convertToJson(const QPoint& _point)
-//{
-//	QJsonObject result;
-//	result.insert("x", _point.x());
-//	result.insert("y", _point.y());
-//	return result;
-//}
-//void QJsonParser::convertFromJson(const QJsonObject& _obj, QPoint& _point)
-//{
-//	_point.setX(_obj.value("x").toInt());
-//	_point.setY(_obj.value("y").toInt());
-//}
-
-QJsonObject QJsonParser::convertToJson(const QPointF& _point)
+QJsonObject QJsonConvert::convertToJson(const QPoint& _point)
 {
 	QJsonObject result;
 	result.insert("x", _point.x());
 	result.insert("y", _point.y());
 	return result;
 }
+void QJsonConvert::convertFromJson(const QJsonObject& _obj, QPoint& _point)
+{
+	_point.setX(_obj.value("x").toInt());
+	_point.setY(_obj.value("y").toInt());
+}
 
-void QJsonParser::convertFromJson(const QJsonObject& _obj, QPointF& _point)
+QJsonObject QJsonConvert::convertToJson(const QPointF& _point)
+{
+	QJsonObject result;
+	result.insert("x", _point.x());
+	result.insert("y", _point.y());
+	return result;
+}
+void QJsonConvert::convertFromJson(const QJsonObject& _obj, QPointF& _point)
 {
 	_point.setX(_obj.value("x").toDouble());
 	_point.setY(_obj.value("y").toDouble());
 }
 
-QJsonObject QJsonParser::convertToJson(const QColor& _color)
+QJsonObject QJsonConvert::convertToJson(const QPolygonF& _polygon)
+{
+	QJsonObject result;
+	QJsonArray json_array;
+	for (auto& elem : _polygon)
+	{
+		json_array.append(convertToJson(elem));
+	}
+	result.insert("poly_data", json_array);
+	return result;
+}
+
+void QJsonConvert::convertFromJson(const QJsonObject& _obj, QPolygonF& _polygon)
+{
+	_polygon.clear();
+	QJsonArray array = _obj["poly_data"].toArray();
+	for (auto elem : array)
+	{
+		QPointF tmp_point;
+		convertFromJson(elem.toObject(), tmp_point);
+		_polygon.push_back(tmp_point);
+	}
+}
+
+QJsonObject QJsonConvert::convertToJson(const QColor& _color)
 {
 	QJsonObject result;
 	result.insert("red", _color.red());
@@ -75,8 +142,7 @@ QJsonObject QJsonParser::convertToJson(const QColor& _color)
 	result.insert("alpha", _color.alpha());
 	return result;
 }
-
-void QJsonParser::convertFromJson(const QJsonObject& _obj, QColor& _color)
+void QJsonConvert::convertFromJson(const QJsonObject& _obj, QColor& _color)
 {
 	_color = QColor(
 		_obj.value("red").toInt(),
@@ -85,31 +151,7 @@ void QJsonParser::convertFromJson(const QJsonObject& _obj, QColor& _color)
 		_obj.value("alpha").toInt());
 }
 
-QJsonObject QJsonParser::convertToJson(const QPolygonF& _obj)
-{
-	QJsonObject result;
-	result.insert("count", _obj.count());
-	for (int i = 0; i < _obj.count(); i++)
-	{
-		result.insert(QString::number(i), convertToJson(_obj[i]));
-	}
-
-	return result;
-}
-void QJsonParser::convertFromJson(const QJsonObject& _json, QPolygonF& _obj)
-{
-	int count = _json.value("count").toInt();
-	QJsonValue jval;
-	QPointF tmpPoint;
-	for (int i = 0; i < count; i++)
-	{
-		jval = _json.value(QString::number(i));
-		convertFromJson(jval.toObject(), tmpPoint);
-		_obj.append(tmpPoint);
-	}
-}
-
-QJsonObject QJsonParser::convertToJson(const QtNodes::NodeStyle& _obj)
+QJsonObject QJsonConvert::convertToJson(const QtNodes::NodeStyle& _obj)
 {
 	QJsonObject result;
 	result.insert("NormalBoundaryColor", convertToJson(_obj.NormalBoundaryColor));
@@ -133,7 +175,7 @@ QJsonObject QJsonParser::convertToJson(const QtNodes::NodeStyle& _obj)
 	result.insert("Opacity", _obj.Opacity);
 	return result;
 }
-void QJsonParser::convertFromJson(const QJsonObject& _json, QtNodes::NodeStyle& _obj)
+void QJsonConvert::convertFromJson(const QJsonObject& _json, QtNodes::NodeStyle& _obj)
 {
 	convertFromJson(_json["NormalBoundaryColor"].toObject(), _obj.NormalBoundaryColor);
 	convertFromJson(_json["SelectedBoundaryColor"].toObject(), _obj.SelectedBoundaryColor);
@@ -158,8 +200,7 @@ void QJsonParser::convertFromJson(const QJsonObject& _json, QtNodes::NodeStyle& 
 
 }
 
-
-QJsonObject QJsonParser::convertToJson(const QtNodes::FlowViewStyle& _obj)
+QJsonObject QJsonConvert::convertToJson(const QtNodes::FlowViewStyle& _obj)
 {
 	QJsonObject result;
 	result.insert("BackgroundColor", convertToJson(_obj.BackgroundColor));
@@ -167,14 +208,14 @@ QJsonObject QJsonParser::convertToJson(const QtNodes::FlowViewStyle& _obj)
 	result.insert("FineGridColor", convertToJson(_obj.FineGridColor));
 	return result;
 }
-void QJsonParser::convertFromJson(const QJsonObject& _json, QtNodes::FlowViewStyle& _obj)
+void QJsonConvert::convertFromJson(const QJsonObject& _json, QtNodes::FlowViewStyle& _obj)
 {
 	convertFromJson(_json["BackgroundColor"].toObject(), _obj.BackgroundColor);
 	convertFromJson(_json["CoarseGridColor"].toObject(), _obj.CoarseGridColor);
 	convertFromJson(_json["FineGridColor"].toObject(), _obj.FineGridColor);
 }
 
-QJsonObject QJsonParser::convertToJson(const QtNodes::ConnectionStyle& _obj)
+QJsonObject QJsonConvert::convertToJson(const QtNodes::ConnectionStyle& _obj)
 {
 	QJsonObject result;
 	result.insert("BackgroundColor", convertToJson(_obj.ConstructionColor));
@@ -190,10 +231,11 @@ QJsonObject QJsonParser::convertToJson(const QtNodes::ConnectionStyle& _obj)
 
 	return result;
 }
-void QJsonParser::convertFromJson(const QJsonObject& _json, QtNodes::ConnectionStyle& _obj)
+void QJsonConvert::convertFromJson(const QJsonObject& _json, QtNodes::ConnectionStyle& _obj)
 {
 }
-QJsonObject QJsonParser::convertToJson(const RegionPixmapData& _obj)
+
+QJsonObject QJsonConvert::convertToJson(const RegionPixmapData& _obj)
 {
 	QJsonObject result;
 	result.insert("width", _obj.width);
@@ -205,19 +247,22 @@ QJsonObject QJsonParser::convertToJson(const RegionPixmapData& _obj)
 	result.insert("comformOp", convertToJson<int>(_obj.comformOp));
 	return result;
 }
-void QJsonParser::convertFromJson(const QJsonObject& _json, RegionPixmapData& _obj)
+
+void QJsonConvert::convertFromJson(const QJsonObject& _json, RegionPixmapData& _obj)
 {
 	_obj.width = _json.value("width").toInt();
 	_obj.height = _json.value("height").toInt();
 	_obj.w_ratio = _json.value("w_ratio").toDouble();
 	_obj.h_ratio = _json.value("h_ratio").toDouble();
 
-	convertFromJson<QPolygonF>(_json.value("comformPolygon").toObject(), _obj.comformPolygon);
-	convertFromJson<int>(_json.value("comformOp").toObject(), _obj.comformOp);
+	convertFromJson(_json.value("comformPolygon").toObject(), _obj.comformPolygon);
+	convertFromJson(_json.value("comformOp").toObject(), _obj.comformOp);
+
 }
 
+
 template<typename DataType>
-QJsonObject QJsonParser::convertToJson(const QVector<DataType>& obj)
+QJsonObject QJsonConvert::convertToJson(const QVector<DataType>& obj)
 {
 	QJsonObject result;
 	QJsonArray arr;
@@ -230,13 +275,13 @@ QJsonObject QJsonParser::convertToJson(const QVector<DataType>& obj)
 }
 
 template<typename DataType>
-void QJsonParser::convertFromJson(const QJsonObject& json, QVector<DataType>& obj)
+void QJsonConvert::convertFromJson(const QJsonObject& json, QVector<DataType>& obj)
 {
 	auto jarr = json["data"].toArray();
 	for (auto elem : jarr)
 	{
 		DataType tmp_data;
-		QJsonParser::convertFromJson(elem.toObject(), tmp_data);
+		QJsonConvert::convertFromJson(elem.toObject(), tmp_data);
 		obj.push_back(tmp_data);
 	}
 }

@@ -22,7 +22,7 @@ public:
 	NodeDataType type() const override
 	{
 		return NodeDataType{ "decimal",
-							 u8"浮点数" };
+							 QStringLiteral("浮点数") };
 	}
 
 	double number() const

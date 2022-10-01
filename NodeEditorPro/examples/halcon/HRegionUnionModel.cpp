@@ -19,10 +19,10 @@ QString HRegionUnionModel::portCaption(PortType port, PortIndex port_index) cons
 		switch (port_index)
 		{
 		case 0:
-			return u8"Ori";
+			return "Ori";
 			break;
 		case 1:
-			return u8"Add";
+			return "Add";
 			break;
 		}
 	}
@@ -31,7 +31,7 @@ QString HRegionUnionModel::portCaption(PortType port, PortIndex port_index) cons
 		switch (port_index)
 		{
 		case 0:
-			return u8"Res";
+			return "Res";
 			break;
 		}
 	}

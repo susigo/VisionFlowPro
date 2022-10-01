@@ -5,7 +5,7 @@
 #include <QVector>
 #include <QString>
 #include <QJsonDocument>
-#include <QJsonArray>
+#include <QPolygonF>
 #include <QFile>
 #include <QColor>
 #include <QPolygonF>
@@ -15,7 +15,7 @@
 #include "ConnectionStyle.hpp"
 #include "ShapeDrawView.hpp"
 
-namespace QJsonParser
+namespace QJsonConvert
 {
 
 	template<typename DataType>
@@ -24,20 +24,26 @@ namespace QJsonParser
 	template<typename DataType>
 	void convertFromJson(const QJsonObject& json, QVector<DataType>& obj);
 
+	QJsonObject convertToJson(const QVector<QPolygonF>& obj);
+	void convertFromJson(const QJsonObject& json, QVector<QPolygonF>& obj);
+
+	QJsonObject convertToJson(const QVector<int>& obj);
+	void convertFromJson(const QJsonObject& json, QVector<int>& obj);
+
 	QJsonObject readJsonObj(const QString& fileName);
 	bool writeJsonObj(const QString& fileName, QJsonObject& json);
 
-	//QJsonObject convertToJson(const QPoint& _point);
-	//void convertFromJson(const QJsonObject& _obj, QPoint& _point);
+	QJsonObject convertToJson(const QPoint& _point);
+	void convertFromJson(const QJsonObject& _obj, QPoint& _point);
 
 	QJsonObject convertToJson(const QPointF& _point);
 	void convertFromJson(const QJsonObject& _obj, QPointF& _point);
 
+	QJsonObject convertToJson(const QPolygonF& _polygon);
+	void convertFromJson(const QJsonObject& _obj, QPolygonF& _polygon);
+
 	QJsonObject convertToJson(const QColor& _color);
 	void convertFromJson(const QJsonObject& _obj, QColor& _color);
-
-	QJsonObject convertToJson(const QPolygonF& _obj);
-	void convertFromJson(const QJsonObject& _json, QPolygonF& _obj);
 
 	QJsonObject convertToJson(const QtNodes::NodeStyle& _obj);
 	void convertFromJson(const QJsonObject& _json, QtNodes::NodeStyle& _obj);
@@ -50,7 +56,6 @@ namespace QJsonParser
 
 	QJsonObject convertToJson(const RegionPixmapData& _obj);
 	void convertFromJson(const QJsonObject& _json, RegionPixmapData& _obj);
-
 
 };
 

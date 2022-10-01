@@ -32,15 +32,15 @@ public:
 public:
 	QString caption() const override
 	{
-		return QString(u8"图像目录输入");
+		return QStringLiteral("图像目录输入");
 	}
 	QString name() const override
 	{
-		return QString(u8"图像目录输入");
+		return QStringLiteral("图像目录输入");
 	}
 	virtual QString modelName() const
 	{
-		return QString(u8"图像目录输入");
+		return QStringLiteral("图像目录输入");
 	}
 	unsigned int
 		nPorts(PortType portType) const override;

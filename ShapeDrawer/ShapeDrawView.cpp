@@ -161,20 +161,20 @@ void ShapeDrawView::resizeEvent(QResizeEvent* event)
 void ShapeDrawView::MenuInit()
 {
 	m_actMenu = new QMenu(this);
-	QMenu* addMenu = new QMenu(u8"相加");
-	QMenu* divMenu = new QMenu(u8"去除");
-	QAction* act_saveRegion = new QAction(u8"确认");
-	QAction* act_cancel = new QAction(u8"取消");
-	QAction* act_openImage = new QAction(u8"打开");
-	QAction* act_saveImage = new QAction(u8"保存");
-	QAction* act_fitShow = new QAction(u8"还原");
-	QAction* act_drawLine = new QAction(u8"绘制直线");
-	QAction* act_drawRect1 = new QAction(u8"绘制正矩形");
-	QAction* act_drawRect2 = new QAction(u8"绘制斜矩形");
-	QAction* act_drawPolygon = new QAction(u8"绘制多边形");
-	QAction* act_drawDivRect1 = new QAction(u8"绘制正矩形");
-	QAction* act_drawDivRect2 = new QAction(u8"绘制斜矩形");
-	QAction* act_drawDivPolygon = new QAction(u8"绘制多边形");
+	QMenu* addMenu = new QMenu(QStringLiteral("相加"));
+	QMenu* divMenu = new QMenu(QStringLiteral("去除"));
+	QAction* act_saveRegion = new QAction(QStringLiteral("确认"));
+	QAction* act_cancel = new QAction(QStringLiteral("取消"));
+	QAction* act_openImage = new QAction(QStringLiteral("打开"));
+	QAction* act_saveImage = new QAction(QStringLiteral("保存"));
+	QAction* act_fitShow = new QAction(QStringLiteral("还原"));
+	QAction* act_drawLine = new QAction(QStringLiteral("绘制直线"));
+	QAction* act_drawRect1 = new QAction(QStringLiteral("绘制正矩形"));
+	QAction* act_drawRect2 = new QAction(QStringLiteral("绘制斜矩形"));
+	QAction* act_drawPolygon = new QAction(QStringLiteral("绘制多边形"));
+	QAction* act_drawDivRect1 = new QAction(QStringLiteral("绘制正矩形"));
+	QAction* act_drawDivRect2 = new QAction(QStringLiteral("绘制斜矩形"));
+	QAction* act_drawDivPolygon = new QAction(QStringLiteral("绘制多边形"));
 	m_actMenu->addAction(act_saveRegion);
 	m_actMenu->addAction(act_cancel);
 	m_actMenu->addAction(act_openImage);

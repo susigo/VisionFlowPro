@@ -34,15 +34,15 @@ public:
 public:
 	QString caption() const override
 	{
-		return QString(u8"填充区域");
+		return QStringLiteral("填充区域");
 	}
 	QString name() const override
 	{
-		return QString(u8"填充区域");
+		return QStringLiteral("填充区域");
 	}
 	virtual QString modelName() const
 	{
-		return QString(u8"填充区域");
+		return QStringLiteral("填充区域");
 	}
 	unsigned int
 		nPorts(PortType portType) const override;
@@ -73,7 +73,7 @@ protected:
 
 public:
 	NodeValidationState modelValidationState = NodeValidationState::Warning;
-	QString modelValidationError = QString(u8"图片输入未连接!");
+	QString modelValidationError = QStringLiteral("图片输入未连接!");
 private:
 	QString m_feature;
 	double m_minval = 0.0;

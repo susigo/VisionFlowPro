@@ -32,15 +32,15 @@ public:
 public:
 	QString caption() const override
 	{
-		return QString(u8"选区掩膜");
+		return QStringLiteral("选区掩膜");
 	}
 	QString name() const override
 	{
-		return QString(u8"选区掩膜");
+		return QStringLiteral("选区掩膜");
 	}
 	virtual QString modelName() const
 	{
-		return QString(u8"选区掩膜");
+		return QStringLiteral("选区掩膜");
 	}
 	unsigned int
 		nPorts(PortType portType) const override;
@@ -72,7 +72,7 @@ public slots:
 	void OnNewRegionData(RegionPixmapData _data);
 public:
 	NodeValidationState modelValidationState = NodeValidationState::Warning;
-	QString modelValidationError = QString(u8"图片输入未连接!");
+	QString modelValidationError = QStringLiteral("图片输入未连接!");
 private:
 	//HWindow* h_window;
 	QPushButton* btn_drawReg;

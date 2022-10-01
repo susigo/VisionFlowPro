@@ -12,7 +12,7 @@ HImageReduceDomainModel::HImageReduceDomainModel()
 {
 	m_hImage = std::make_shared<HImageData>();
 	m_result = std::make_shared<HImageData>();
-	btn_drawReg = new QPushButton(u8"绘制区域");
+	btn_drawReg = new QPushButton(QStringLiteral("绘制区域"));
 	m_region_data = std::make_shared<RegionPixmapData>();
 	m_domain.GenEmptyRegion();
 
@@ -106,13 +106,13 @@ QString HImageReduceDomainModel::validationMessage() const
 QJsonObject HImageReduceDomainModel::save() const
 {
 	QJsonObject result = NodeDataModel::save();
-	result.insert("m_region_data", QJsonParser::convertToJson(*m_region_data));
+	result.insert("m_region_data", QJsonConvert::convertToJson(*m_region_data));
 	return result;
 }
 
 void HImageReduceDomainModel::restore(QJsonObject const& _json)
 {
-	QJsonParser::convertFromJson(_json.value("m_region_data").toObject(), *m_region_data);
+	QJsonConvert::convertFromJson(_json.value("m_region_data").toObject(), *m_region_data);
 	m_domain = ShapeDrawView::getInst()->GetHRegionFromData(*m_region_data);
 }
 

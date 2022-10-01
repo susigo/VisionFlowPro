@@ -32,13 +32,13 @@ public:
 	QString
 		caption() const override
 	{
-		return QString(u8"QPixmap 显示");
+		return QStringLiteral("QPixmap 显示");
 	}
 
 	QString
 		name() const override
 	{
-		return QString(u8"QPixmap显示节点");
+		return QStringLiteral("QPixmap显示节点");
 	}
 
 public:
@@ -46,7 +46,7 @@ public:
 	virtual QString
 		modelName() const
 	{
-		return QString(u8"QPixmap显示");
+		return QStringLiteral("QPixmap显示");
 	}
 
 	unsigned int

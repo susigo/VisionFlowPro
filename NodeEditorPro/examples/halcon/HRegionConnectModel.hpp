@@ -32,15 +32,15 @@ public:
 public:
 	QString caption() const override
 	{
-		return QString(u8"非联通区域");
+		return QStringLiteral("非联通区域");
 	}
 	QString name() const override
 	{
-		return QString(u8"非联通区域");
+		return QStringLiteral("非联通区域");
 	}
 	virtual QString modelName() const
 	{
-		return QString(u8"非联通区域");
+		return QStringLiteral("非联通区域");
 	}
 	unsigned int
 		nPorts(PortType portType) const override;
@@ -69,7 +69,7 @@ protected:
 	bool eventFilter(QObject* watched, QEvent* event) override;
 public:
 	NodeValidationState modelValidationState = NodeValidationState::Warning;
-	QString modelValidationError = QString(u8"区域输入未连接!");
+	QString modelValidationError = QStringLiteral("区域输入未连接!");
 private:
 	std::shared_ptr<HRegionData> m_InRegion;
 	std::shared_ptr<HRegionData> m_result;

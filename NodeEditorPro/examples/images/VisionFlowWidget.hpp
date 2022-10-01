@@ -3,7 +3,8 @@
 #include "NodeData.hpp"
 #include "FlowScene.hpp"
 #include "FlowView.hpp"
-
+#include <QString>
+#include <QStringLiteral>
 #include <QtWidgets/QApplication>
 #include <QIcon>
 #include <QImage>
@@ -21,11 +22,11 @@ using QtNodes::FlowView;
 static std::shared_ptr<DataModelRegistry>
 registerDataModels()
 {
-	QString numberNodeType = u8"数学操作";
-	QString imageNodeType = u8"图像操作";
-	QString getImageNodeType = u8"获取图像";
-	QString dlNodeType = u8"深度学习";
-	QString matchNodeType = u8"模板匹配";
+	QString numberNodeType = QStringLiteral("数学操作");
+	QString imageNodeType = QStringLiteral("图像操作");
+	QString getImageNodeType = QStringLiteral("获取图像");
+	QString dlNodeType = QStringLiteral("深度学习");
+	QString matchNodeType = QStringLiteral("模板匹配");
 	auto ret = std::make_shared<DataModelRegistry>();
 
 	//数学节点

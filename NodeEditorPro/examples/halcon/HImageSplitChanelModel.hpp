@@ -30,15 +30,15 @@ public:
 public:
 	QString caption() const override
 	{
-		return QString(u8"SplitChanel");
+		return QStringLiteral("SplitChanel");
 	}
 	QString name() const override
 	{
-		return QString(u8"图像通道拆分");
+		return QStringLiteral("图像通道拆分");
 	}
 	virtual QString modelName() const
 	{
-		return QString(u8"通道拆分");
+		return QStringLiteral("通道拆分");
 	}
 	unsigned int
 		nPorts(PortType portType) const override;
@@ -66,7 +66,7 @@ protected:
 
 public:
 	NodeValidationState modelValidationState = NodeValidationState::Warning;
-	QString modelValidationError = QString(u8"图片输入未连接!");
+	QString modelValidationError = QStringLiteral("图片输入未连接!");
 private:
 	std::weak_ptr<HImageData> m_hImage;
 	std::shared_ptr<HImageData> m_resultR;

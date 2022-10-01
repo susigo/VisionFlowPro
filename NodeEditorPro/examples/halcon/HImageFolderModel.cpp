@@ -12,9 +12,9 @@ HImageFolderModel::HImageFolderModel()
 	m_host = new QVBoxLayout();
 	m_h_host = new QHBoxLayout();
 	m_paraWidget->setLayout(m_host);
-	btn_selectFolder = new QPushButton(u8"选择目录");
-	btn_last = new QPushButton(u8"上一张");
-	btn_next = new QPushButton(u8"下一张");
+	btn_selectFolder = new QPushButton(QStringLiteral("选择目录"));
+	btn_last = new QPushButton(QStringLiteral("上一张"));
+	btn_next = new QPushButton(QStringLiteral("下一张"));
 
 	btn_selectFolder->setFixedHeight(25);
 	btn_last->setFixedHeight(25);

@@ -54,7 +54,7 @@ void
 ConnectionStyle::
 loadJsonFile(QString styleFile)
 {
-	QJsonObject obj = QJsonParser::readJsonObj(styleFile);
+	QJsonObject obj = QJsonConvert::readJsonObj(styleFile);
 	QJsonObject styleObj = obj["ConnectionStyle"].toObject();
 	if (styleObj.isEmpty())
 	{
@@ -62,15 +62,15 @@ loadJsonFile(QString styleFile)
 	}
 	else
 	{
-		QJsonParser::convertFromJson(obj["ConnectionStyle"].toObject(), *this);
+		QJsonConvert::convertFromJson(obj["ConnectionStyle"].toObject(), *this);
 	}
 }
 
 void ConnectionStyle::saveJsonFile(QString fileName)
 {
-	QJsonObject obj = QJsonParser::readJsonObj(fileName);
-	obj.insert("ConnectionStyle", QJsonParser::convertToJson(*this));
-	QJsonParser::writeJsonObj(fileName, obj);
+	QJsonObject obj = QJsonConvert::readJsonObj(fileName);
+	obj.insert("ConnectionStyle", QJsonConvert::convertToJson(*this));
+	QJsonConvert::writeJsonObj(fileName, obj);
 }
 
 QColor

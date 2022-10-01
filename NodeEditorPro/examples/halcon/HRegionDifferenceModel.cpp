@@ -20,10 +20,10 @@ QString HRegionDifferenceModel::portCaption(PortType port, PortIndex port_index)
 		switch (port_index)
 		{
 		case 0:
-			return u8"Ori";
+			return "Ori";
 			break;
 		case 1:
-			return u8"Div";
+			return "Div";
 			break;
 		}
 	}
@@ -32,7 +32,7 @@ QString HRegionDifferenceModel::portCaption(PortType port, PortIndex port_index)
 		switch (port_index)
 		{
 		case 0:
-			return u8"Res";
+			return "Res";
 			break;
 		}
 	}

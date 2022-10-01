@@ -22,7 +22,7 @@ public:
 	NodeDataType type() const override
 	{
 		return NodeDataType{ "integer",
-							 u8"整数" };
+							 QStringLiteral("整数") };
 	}
 
 	int number() const

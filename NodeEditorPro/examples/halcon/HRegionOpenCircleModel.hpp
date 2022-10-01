@@ -34,15 +34,15 @@ public:
 public:
 	QString caption() const override
 	{
-		return QString(u8"开放圆");
+		return QStringLiteral("开放圆");
 	}
 	QString name() const override
 	{
-		return QString(u8"开放圆");
+		return QStringLiteral("开放圆");
 	}
 	virtual QString modelName() const
 	{
-		return QString(u8"开放圆");
+		return QStringLiteral("开放圆");
 	}
 	unsigned int
 		nPorts(PortType portType) const override;
@@ -73,7 +73,7 @@ protected:
 
 public:
 	NodeValidationState modelValidationState = NodeValidationState::Warning;
-	QString modelValidationError = QString(u8"图片输入未连接!");
+	QString modelValidationError = QStringLiteral("图片输入未连接!");
 private:
 	double m_maxval = 100.0;
 	std::shared_ptr<HRegionData> m_hRegion;

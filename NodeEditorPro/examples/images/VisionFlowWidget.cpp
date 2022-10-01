@@ -5,9 +5,9 @@ VisionFlowWidget::VisionFlowWidget(QWidget* parent)
 
 	main_layout = new QVBoxLayout();
 	header_layout = new QHBoxLayout();
-	btn_load_scheme = new QPushButton(u8"Load");
-	btn_save_scheme = new QPushButton(u8"Save");
-	btn_clear_scene = new QPushButton(u8"Clear");
+	btn_load_scheme = new QPushButton("Load");
+	btn_save_scheme = new QPushButton("Save");
+	btn_clear_scene = new QPushButton("Clear");
 	header_layout->setAlignment(Qt::AlignLeft);
 	btn_load_scheme->setFixedWidth(120);
 	btn_save_scheme->setFixedWidth(120);
@@ -23,7 +23,7 @@ VisionFlowWidget::VisionFlowWidget(QWidget* parent)
 	m_scene = new FlowScene(registerDataModels());
 	m_view = new FlowView(m_scene);
 	main_layout->addWidget(m_view);
-	this->setWindowTitle(u8"节点编辑器");
+	this->setWindowTitle(QStringLiteral("节点编辑器"));
 	this->resize(1280, 1024);
 	setConnection();
 }

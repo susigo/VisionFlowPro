@@ -34,15 +34,15 @@ public:
 public:
 	QString caption() const override
 	{
-		return QString(u8"图像显示");
+		return QStringLiteral("图像显示");
 	}
 	QString name() const override
 	{
-		return QString(u8"图像显示");
+		return QStringLiteral("图像显示");
 	}
 	virtual QString modelName() const
 	{
-		return QString(u8"图像显示");
+		return QStringLiteral("图像显示");
 	}
 	unsigned int
 		nPorts(PortType portType) const override;
@@ -70,7 +70,7 @@ protected:
 	bool eventFilter(QObject* watched, QEvent* event) override;
 public:
 	NodeValidationState modelValidationState = NodeValidationState::Warning;
-	QString modelValidationError = QString(u8"图片输入未连接!");
+	QString modelValidationError = QStringLiteral("图片输入未连接!");
 private:
 #ifdef SHOWHALCON_OBJ
 	HWindow* h_window;

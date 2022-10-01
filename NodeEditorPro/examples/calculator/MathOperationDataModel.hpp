@@ -65,5 +65,5 @@ protected:
 	std::shared_ptr<DecimalData> _result;
 
 	NodeValidationState modelValidationState = NodeValidationState::Warning;
-	QString modelValidationError = QString(u8"未连接或运行失败!");
+	QString modelValidationError = QStringLiteral("未连接或运行失败!");
 };
