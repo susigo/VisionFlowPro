@@ -11,7 +11,7 @@
 
 #include "ImageShowModel.hpp"
 #include "ImageLoaderModel.hpp"
-
+#include "DrawShapeView.hpp"
 #include "halcon/HalconNodes.hpp"
 #include "calculator/MathNodes.hpp"
 
@@ -68,9 +68,10 @@ private:
 	QPushButton* btn_load_scheme;
 	QPushButton* btn_save_scheme;
 	QPushButton* btn_clear_scene;
+	QPushButton* btn_test;
 	FlowScene* m_scene;
 	FlowView* m_view;
-
+	DrawShapeView* m_draw_shape_view;
 private:
 	void setConnection();
 };

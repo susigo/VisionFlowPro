@@ -197,6 +197,9 @@
     <ClCompile Include="examples\halcon\HRegionSelectShapeStdModel.cpp">
       <Filter>examples\halcon</Filter>
     </ClCompile>
+    <ClCompile Include="DrawShapeView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="examples\images\ImageLoaderModel.hpp">
@@ -419,6 +422,9 @@
     </ClInclude>
     <ClInclude Include="..\ShapeDrawer\RegionPixmapData.hpp">
       <Filter>ShapeDrawer</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawShapeView.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
