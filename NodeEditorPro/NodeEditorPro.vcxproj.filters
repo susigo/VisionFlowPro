@@ -289,6 +289,9 @@
     <QtMoc Include="examples\halcon\HRegionSelectShapeStdModel.hpp">
       <Filter>examples\halcon</Filter>
     </QtMoc>
+    <QtMoc Include="DrawShapeView.hpp">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="examples\images\PixmapData.hpp">
@@ -423,7 +426,7 @@
     <ClInclude Include="..\ShapeDrawer\RegionPixmapData.hpp">
       <Filter>ShapeDrawer</Filter>
     </ClInclude>
-    <ClInclude Include="DrawShapeView.hpp">
+    <ClInclude Include="DrawViewParams.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

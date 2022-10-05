@@ -161,7 +161,8 @@
   <ItemGroup>
     <QtMoc Include="..\ShapeDrawer\ShapeDrawView.hpp" />
     <ClInclude Include="..\ShapeDrawer\RegionPixmapData.hpp" />
-    <ClInclude Include="DrawShapeView.hpp" />
+    <QtMoc Include="DrawShapeView.hpp" />
+    <ClInclude Include="DrawViewParams.h" />
     <ClInclude Include="examples\calculator\AdditionModel.hpp" />
     <ClInclude Include="examples\calculator\Converters.hpp" />
     <ClInclude Include="examples\calculator\DecimalData.hpp" />
