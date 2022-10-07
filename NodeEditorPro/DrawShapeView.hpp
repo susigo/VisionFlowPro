@@ -9,7 +9,9 @@
 #include <QMenu>
 #include <QGraphicsTextItem>
 #include <QGraphicsPixmapItem>
-
+#include <QScrollBar>
+#include <QPainterPath>
+#include <QPolygonF>
 #include "DrawViewParams.h"
 
 class DrawShapeView :public QGraphicsView
@@ -34,20 +36,26 @@ private:
 	ViewMode view_mode = ViewMode::tNone;
 	EShapeType draw_shape;
 	ShapeMode shape_mode;
+	ShapeDataStruct shape_data;
 
 	QString cur_image_name;
 	QPixmap m_cur_pixmap;
 
-	qreal m_translateSpeed;  // 平移速度
-	qreal m_zoomDelta;  // 缩放的增量
-	QPoint m_lastMousePos;  // 鼠标最后按下的位置
-	qreal m_scale;  // 缩放值
-	//QMatrix m_matrix;
+	QPointF m_lastMousePos;  // 鼠标最后按下的位置
+	QPointF m_centerPos;  // 
+	qreal m_scale = 1.0;  // 缩放值
+
 	QTransform m_transform;
 
 	QMenu* m_menu;
-	QGraphicsTextItem* m_hint_text_item;
 	QGraphicsPixmapItem* m_pixmap_item;
+	QGraphicsPathItem* m_draw_path_item;
+	QPolygonF* m_draw_poly;
+	QPainterPath tmpPath;
+
+	QGraphicsLineItem* v_hint_line;
+	QGraphicsLineItem* h_hint_line;
+
 public:
 	void FitShowImage(const QPixmap& pixmap);
 private:
@@ -57,22 +65,27 @@ public slots:
 	void onOpenImage();
 	void onFitImageShow();
 	void onDrawLineShape();
-	void onDrawRectangle1(ShapeMode& mode);
-	void onDrawRectangle2(ShapeMode& mode);
-	void onDrawPolygon(ShapeMode& mode);
-	void onDrawFreeDraw(ShapeMode& mode);
+	void onDrawRectangle1(ShapeMode mode);
+	void onDrawRectangle2(ShapeMode mode);
+	void onDrawPolygon(ShapeMode mode);
+	void onDrawFreeDraw(ShapeMode mode);
 	void onDrawComform();
 	void onDrawCancel();
 signals:
 	void DrawFinished();
 private:
+
+	void drawFinished();
 	void drawHintInfo(QPainter* painter);
+	void drawCurrentShape(QPainter* painter);
 protected:
 	void mousePressEvent(QMouseEvent* event) override;
 
 	void mouseReleaseEvent(QMouseEvent* event) override;
 
 	void mouseMoveEvent(QMouseEvent* event) override;
+
+	void wheelEvent(QWheelEvent* event) override;
 
 	void paintEvent(QPaintEvent* event) override;
 

@@ -35,6 +35,7 @@ struct  ShapeDataStruct
 	QString name;
 	QVector<QPolygonF> shapePolygon;
 	QVector<EShapeType> shapeType;
+	QVector<ShapeMode> shapeMode;
 };
 
 
