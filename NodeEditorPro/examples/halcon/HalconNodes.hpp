@@ -16,3 +16,4 @@
 #include "halcon/HRegionUnionModel.hpp"
 #include "halcon/HRegionDifferenceModel.hpp"
 #include "halcon/HRegionSelectShapeStdModel.hpp"
+#include "halcon/HImageDLSegmentModel.hpp"

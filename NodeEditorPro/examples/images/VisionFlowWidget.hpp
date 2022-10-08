@@ -53,6 +53,7 @@ registerDataModels()
 	ret->registerModel<HRegionUnionModel>(imageNodeType);
 	ret->registerModel<HRegionDifferenceModel>(imageNodeType);
 	ret->registerModel<HRegionSelectShapeStdModel>(imageNodeType);
+	ret->registerModel<HImageDLSegmentModel>(imageNodeType);
 
 	return ret;
 }
@@ -71,7 +72,7 @@ private:
 	QPushButton* btn_test;
 	FlowScene* m_scene;
 	FlowView* m_view;
-	DrawShapeView* m_draw_shape_view;
+	//DrawShapeView* m_draw_shape_view;
 private:
 	void setConnection();
 };

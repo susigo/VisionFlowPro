@@ -2,7 +2,7 @@
 
 #include <QApplication>
 #include <QtCore/QEvent>
-#include "ShapeDrawView.hpp"
+#include "DrawShapeView.hpp"
 #include "halconcpp/HalconCpp.h"
 #include "QJsonParser.hpp"
 using namespace HalconCpp;
@@ -13,17 +13,17 @@ HImageReduceDomainModel::HImageReduceDomainModel()
 	m_hImage = std::make_shared<HImageData>();
 	m_result = std::make_shared<HImageData>();
 	btn_drawReg = new QPushButton(QStringLiteral("绘制区域"));
-	m_region_data = std::make_shared<RegionPixmapData>();
+	m_region_data = std::make_shared<ShapeDataStruct>();
 	m_domain.GenEmptyRegion();
 
-	connect(ShapeDrawView::getInst(), SIGNAL(RegionFinished(RegionPixmapData)),
+	connect(DrawShapeView::getInst(), SIGNAL(RegionFinished(RegionPixmapData)),
 		this, SLOT(OnNewRegionData(RegionPixmapData)));
 
 	connect(btn_drawReg, &QPushButton::clicked, [=]()
 		{
 			QPixmap tmpPix;
 			HImageViewWidget::HImageToQPixmap(*m_hImage->hImage(), tmpPix);
-			ShapeDrawView::getInst()->FitShowImage(tmpPix, *m_region_data);
+			//DrawShapeView::getInst()->FitShowImage(tmpPix, *m_region_data);
 		});
 }
 
@@ -33,16 +33,16 @@ bool HImageReduceDomainModel::RunTask()
 	PortIndex const outPortIndex = 0;
 	try
 	{
-		if ((int)m_region_data->comformPolygon.size() > 0)
-		{
-			HImage tmpImage;
-			HalconCpp::ReduceDomain(*m_hImage->hImage(), m_domain, &tmpImage);
-			m_result->setHImage(tmpImage);
-		}
-		else
-		{
-			m_result->setHImage(*m_hImage->hImage());
-		}
+		//if ((int)m_region_data->comformPolygon.size() > 0)
+		//{
+		//	HImage tmpImage;
+		//	HalconCpp::ReduceDomain(*m_hImage->hImage(), m_domain, &tmpImage);
+		//	m_result->setHImage(tmpImage);
+		//}
+		//else
+		//{
+		//	m_result->setHImage(*m_hImage->hImage());
+		//}
 		modelValidationState = NodeValidationState::Valid;
 		modelValidationError = QString();
 	}
@@ -56,19 +56,19 @@ bool HImageReduceDomainModel::RunTask()
 	return true;
 }
 
-void HImageReduceDomainModel::OnNewRegionData(RegionPixmapData _data)
+void HImageReduceDomainModel::OnNewRegionData(ShapeDataStruct _data)
 {
-	if (!ShapeDrawView::getInst()->getDrawFlag())
-	{
-		return;
-	}
-	m_region_data->width = _data.width;
-	m_region_data->height = _data.height;
-	m_region_data->w_ratio = _data.w_ratio;
-	m_region_data->h_ratio = _data.h_ratio;
-	m_region_data->comformPolygon = _data.comformPolygon;
-	m_region_data->comformOp = _data.comformOp;
-	m_domain = ShapeDrawView::getInst()->GetHRegionFromData(*m_region_data);
+	//if (!DrawShapeView::getInst()->getDrawFlag())
+	//{
+	//	return;
+	//}
+	//m_region_data->width = _data.width;
+	//m_region_data->height = _data.height;
+	//m_region_data->w_ratio = _data.w_ratio;
+	//m_region_data->h_ratio = _data.h_ratio;
+	//m_region_data->comformPolygon = _data.comformPolygon;
+	//m_region_data->comformOp = _data.comformOp;
+	//m_domain = ShapeDrawView::getInst()->GetHRegionFromData(*m_region_data);
 	RunTask();
 }
 
@@ -113,7 +113,7 @@ QJsonObject HImageReduceDomainModel::save() const
 void HImageReduceDomainModel::restore(QJsonObject const& _json)
 {
 	QJsonConvert::convertFromJson(_json.value("m_region_data").toObject(), *m_region_data);
-	m_domain = ShapeDrawView::getInst()->GetHRegionFromData(*m_region_data);
+	//m_domain = DrawShapeView::getInst()->GetHRegionFromData(*m_region_data);
 }
 
 NodeDataType

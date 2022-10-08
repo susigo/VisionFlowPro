@@ -2,7 +2,6 @@
 
 VisionFlowWidget::VisionFlowWidget(QWidget* parent)
 {
-	m_draw_shape_view = new DrawShapeView();
 	main_layout = new QVBoxLayout();
 	header_layout = new QHBoxLayout();
 	btn_load_scheme = new QPushButton("Load");
@@ -51,6 +50,6 @@ void VisionFlowWidget::setConnection()
 		});
 	connect(btn_test, &QPushButton::clicked, [=]()
 		{
-			m_draw_shape_view->show();
+			DrawShapeView::getInst()->show();
 		});
 }

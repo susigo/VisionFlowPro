@@ -13,7 +13,9 @@
 #include <QPainterPath>
 #include <QPolygonF>
 #include "DrawViewParams.h"
+#include "ShapeControlItem.h"
 
+static std::mutex draw_view_lock;
 class DrawShapeView :public QGraphicsView
 {
 	Q_OBJECT
@@ -21,7 +23,26 @@ public:
 
 	explicit DrawShapeView(QWidget* parent = Q_NULLPTR);
 
-	~DrawShapeView() = default;
+	~DrawShapeView() {};
+
+	static DrawShapeView* instance;
+
+	static DrawShapeView* getInst();
+	//DrawShapeView(const DrawShapeView&);
+	DrawShapeView& operator=(const DrawShapeView&);
+private:
+	class Deletor
+	{
+	public:
+		~Deletor()
+		{
+			if (DrawShapeView::instance != nullptr)
+			{
+				delete DrawShapeView::instance;
+			}
+		}
+	};
+	static Deletor deletor;
 private:
 	QGraphicsScene* m_scene;
 	QColor m_bg_color = QColor(34, 34, 34, 255);
@@ -55,6 +76,8 @@ private:
 
 	QGraphicsLineItem* v_hint_line;
 	QGraphicsLineItem* h_hint_line;
+
+	ShapeControlItem* test_handle;
 
 public:
 	void FitShowImage(const QPixmap& pixmap);

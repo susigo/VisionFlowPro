@@ -1,7 +1,8 @@
 ﻿
 #include "DrawShapeView.hpp"
-
 #include <QFileDialog>
+
+DrawShapeView* DrawShapeView::instance = nullptr;
 
 DrawShapeView::DrawShapeView(QWidget* parent) :
 	m_scene(new QGraphicsScene())
@@ -22,6 +23,24 @@ DrawShapeView::DrawShapeView(QWidget* parent) :
 	setResizeAnchor(QGraphicsView::AnchorUnderMouse);
 	MenuInit();
 	ParamInit();
+
+	test_handle = new ShapeControlItem(
+		nullptr,
+		QPointF(100, 100)
+		, EShapeType::sLine
+	);
+	m_scene->addItem(test_handle);
+}
+
+DrawShapeView* DrawShapeView::getInst()
+{
+	draw_view_lock.lock();
+	if (DrawShapeView::instance == nullptr)
+	{
+		DrawShapeView::instance = new DrawShapeView();
+	}
+	draw_view_lock.unlock();
+	return DrawShapeView::instance;
 }
 
 void DrawShapeView::FitShowImage(const QPixmap& pixmap)
@@ -225,6 +244,7 @@ void DrawShapeView::drawFinished()
 		m_draw_poly->last() = m_draw_poly->first();
 		shape_data.shapePolygon.append(*m_draw_poly);
 		shape_data.shapeType.append(draw_shape);
+		shape_data.shapeMode.append(shape_mode);
 		tmpPath.clear();
 		tmpPath.addPolygon(*m_draw_poly);
 		m_draw_path_item->setPath(tmpPath);
