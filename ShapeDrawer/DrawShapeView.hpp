@@ -13,7 +13,7 @@
 #include <QPainterPath>
 #include <QPolygonF>
 #include "DrawViewParams.h"
-#include "ShapeControlItem.h"
+#include "ShapeItemLine.h"
 
 static std::mutex draw_view_lock;
 class DrawShapeView :public QGraphicsView
@@ -77,7 +77,7 @@ private:
 	QGraphicsLineItem* v_hint_line;
 	QGraphicsLineItem* h_hint_line;
 
-	ShapeControlItem* test_handle;
+	ShapeItemLine* test_handle;
 
 public:
 	void FitShowImage(const QPixmap& pixmap);

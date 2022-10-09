@@ -2,17 +2,18 @@
 #include "ShapeItemBase.h"
 
 //构造函数
-ShapeControlItem::ShapeControlItem(QGraphicsItemGroup* parent, QPointF p, EShapeType type, int style)
+ShapeControlItem::ShapeControlItem(QGraphicsItemGroup* parent,
+	ControlItemType type,
+	QPointF p, int style)
 	: QAbstractGraphicsShapeItem(parent)
 {
 	setPos(p);
 	setAcceptHoverEvents(true);
-	if (type != EShapeType::sNone)       //模式选择 自定义模式用于显示亚像素轮廓和Region  不设定任何属性
-	{
-		this->setFlags(QGraphicsItem::ItemIsSelectable |
-			QGraphicsItem::ItemIsMovable |
-			QGraphicsItem::ItemIsFocusable);
-	}
+	handle_type = type;
+	this->setFlags(QGraphicsItem::ItemIsSelectable |
+		QGraphicsItem::ItemIsMovable |
+		QGraphicsItem::ItemIsFocusable);
+
 	bounding_rect = QRectF(-handle_size * 0.5, -handle_size * 0.5,
 		handle_size, handle_size);
 }
@@ -55,16 +56,23 @@ void ShapeControlItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
 //鼠标事件处理
 void ShapeControlItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
+	if (event->buttons() == Qt::LeftButton)
+	{
+		last_point = cur_point;
+		cur_point = this->mapToParent(event->pos());
+		dx = cur_point.x() - last_point.x();
+		dy = cur_point.y() - last_point.y();
+		if (this->handle_type != cCenter)
+		{
+			//结果正常、更新位置
+			this->setPos(cur_point);
+		}
+	}
+	emit PositionChanged();
 }
 
 void ShapeControlItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
 
 	QGraphicsItem::mousePressEvent(event);
-}
-
-void ShapeControlItem::dragMoveEvent(QGraphicsSceneDragDropEvent* event)
-{
-	Q_UNUSED(event);
-	emit PositionChanged(this->pos());
 }

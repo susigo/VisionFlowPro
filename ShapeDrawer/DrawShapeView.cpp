@@ -24,11 +24,7 @@ DrawShapeView::DrawShapeView(QWidget* parent) :
 	MenuInit();
 	ParamInit();
 
-	test_handle = new ShapeControlItem(
-		nullptr,
-		QPointF(100, 100)
-		, EShapeType::sLine
-	);
+	test_handle = new ShapeItemLine();
 	m_scene->addItem(test_handle);
 }
 

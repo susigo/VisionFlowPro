@@ -206,6 +206,9 @@
     <ClCompile Include="..\ShapeDrawer\DrawShapeView.cpp">
       <Filter>ShapeDrawer</Filter>
     </ClCompile>
+    <ClCompile Include="..\ShapeDrawer\ShapeItemLine.cpp">
+      <Filter>ShapeDrawer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="examples\images\ImageLoaderModel.hpp">
@@ -436,6 +439,9 @@
       <Filter>examples\halcon</Filter>
     </ClInclude>
     <ClInclude Include="..\ShapeDrawer\DrawViewParams.h">
+      <Filter>ShapeDrawer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ShapeDrawer\ShapeItemLine.h">
       <Filter>ShapeDrawer</Filter>
     </ClInclude>
   </ItemGroup>
