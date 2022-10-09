@@ -179,9 +179,6 @@
     <ClCompile Include="examples\halcon\HImageReduceDomainModel.cpp">
       <Filter>examples\halcon</Filter>
     </ClCompile>
-    <ClCompile Include="..\ShapeDrawer\ShapeDrawView.cpp">
-      <Filter>ShapeDrawer</Filter>
-    </ClCompile>
     <ClCompile Include="examples\halcon\HRegionFillUpShapeModel.cpp">
       <Filter>examples\halcon</Filter>
     </ClCompile>
@@ -196,6 +193,30 @@
     </ClCompile>
     <ClCompile Include="examples\halcon\HRegionSelectShapeStdModel.cpp">
       <Filter>examples\halcon</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\halcon\HImageDLSegmentModel.cpp">
+      <Filter>examples\halcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ShapeDrawer\ShapeControlItem.cpp">
+      <Filter>ShapeDrawer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ShapeDrawer\ShapeItemBase.cpp">
+      <Filter>ShapeDrawer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ShapeDrawer\DrawShapeView.cpp">
+      <Filter>ShapeDrawer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ShapeDrawer\ShapeItemLine.cpp">
+      <Filter>ShapeDrawer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ShapeDrawer\ShapeItemRect1.cpp">
+      <Filter>ShapeDrawer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ShapeDrawer\ShapeItemRect2.cpp">
+      <Filter>ShapeDrawer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ShapeDrawer\ShapeItemPolygon.cpp">
+      <Filter>ShapeDrawer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -268,9 +289,6 @@
     <QtMoc Include="examples\halcon\HImageReduceDomainModel.hpp">
       <Filter>examples\halcon</Filter>
     </QtMoc>
-    <QtMoc Include="..\ShapeDrawer\ShapeDrawView.hpp">
-      <Filter>ShapeDrawer</Filter>
-    </QtMoc>
     <QtMoc Include="examples\halcon\HRegionFillUpShapeModel.hpp">
       <Filter>examples\halcon</Filter>
     </QtMoc>
@@ -285,6 +303,18 @@
     </QtMoc>
     <QtMoc Include="examples\halcon\HRegionSelectShapeStdModel.hpp">
       <Filter>examples\halcon</Filter>
+    </QtMoc>
+    <QtMoc Include="examples\halcon\HImageDLSegmentModel.hpp">
+      <Filter>examples\halcon</Filter>
+    </QtMoc>
+    <QtMoc Include="..\ShapeDrawer\ShapeItemBase.h">
+      <Filter>ShapeDrawer</Filter>
+    </QtMoc>
+    <QtMoc Include="..\ShapeDrawer\DrawShapeView.hpp">
+      <Filter>ShapeDrawer</Filter>
+    </QtMoc>
+    <QtMoc Include="..\ShapeDrawer\ShapeControlItem.h">
+      <Filter>ShapeDrawer</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -417,7 +447,19 @@
     <ClInclude Include="examples\halcon\HRegionData.hpp">
       <Filter>examples\halcon</Filter>
     </ClInclude>
-    <ClInclude Include="..\ShapeDrawer\RegionPixmapData.hpp">
+    <ClInclude Include="..\ShapeDrawer\DrawViewParams.h">
+      <Filter>ShapeDrawer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ShapeDrawer\ShapeItemLine.h">
+      <Filter>ShapeDrawer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ShapeDrawer\ShapeItemRect1.h">
+      <Filter>ShapeDrawer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ShapeDrawer\ShapeItemRect2.h">
+      <Filter>ShapeDrawer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ShapeDrawer\ShapeItemPolygon.h">
       <Filter>ShapeDrawer</Filter>
     </ClInclude>
   </ItemGroup>

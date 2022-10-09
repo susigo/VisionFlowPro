@@ -27,6 +27,29 @@ void QJsonConvert::convertFromJson(const QJsonObject& json, QVector<QPolygonF>& 
 	}
 }
 
+QJsonObject QJsonConvert::convertToJson(const QVector<ShapeMode>& obj)
+{
+	QJsonObject result;
+	QJsonArray arr;
+	for (auto& elem : obj)
+	{
+		arr.append((int)elem);
+	}
+	result.insert("data", arr);
+	return result;
+}
+
+void QJsonConvert::convertFromJson(const QJsonObject& json, QVector<ShapeMode>& obj)
+{
+	auto jarr = json["data"].toArray();
+	for (auto elem : jarr)
+	{
+		ShapeMode tmp_data;
+		tmp_data = (ShapeMode)elem.toInt(0);
+		obj.push_back(tmp_data);
+	}
+}
+
 QJsonObject QJsonConvert::convertToJson(const QVector<int>& obj)
 {
 	QJsonObject result;
@@ -235,54 +258,17 @@ void QJsonConvert::convertFromJson(const QJsonObject& _json, QtNodes::Connection
 {
 }
 
-QJsonObject QJsonConvert::convertToJson(const RegionPixmapData& _obj)
+QJsonObject QJsonConvert::convertToJson(const ShapeDataStruct& _obj)
 {
 	QJsonObject result;
-	result.insert("width", _obj.width);
-	result.insert("height", _obj.height);
-	result.insert("w_ratio", _obj.w_ratio);
-	result.insert("h_ratio", _obj.h_ratio);
-
-	result.insert("comformPolygon", convertToJson<QPolygonF>(_obj.comformPolygon));
-	result.insert("comformOp", convertToJson<int>(_obj.comformOp));
+	result.insert("shapePolygon", convertToJson(_obj.shapePolygon));
+	result.insert("shapeMode", convertToJson(_obj.shapeMode));
 	return result;
 }
 
-void QJsonConvert::convertFromJson(const QJsonObject& _json, RegionPixmapData& _obj)
+void QJsonConvert::convertFromJson(const QJsonObject& _json, ShapeDataStruct& _obj)
 {
-	_obj.width = _json.value("width").toInt();
-	_obj.height = _json.value("height").toInt();
-	_obj.w_ratio = _json.value("w_ratio").toDouble();
-	_obj.h_ratio = _json.value("h_ratio").toDouble();
-
-	convertFromJson(_json.value("comformPolygon").toObject(), _obj.comformPolygon);
-	convertFromJson(_json.value("comformOp").toObject(), _obj.comformOp);
+	convertFromJson(_json.value("shapePolygon").toObject(), _obj.shapePolygon);
+	convertFromJson(_json.value("shapeMode").toObject(), _obj.shapeMode);
 
 }
-
-
-template<typename DataType>
-QJsonObject QJsonConvert::convertToJson(const QVector<DataType>& obj)
-{
-	QJsonObject result;
-	QJsonArray arr;
-	for (auto& elem : obj)
-	{
-		arr.append(convertToJson(elem));
-	}
-	result.insert("data", arr);
-	return result;
-}
-
-template<typename DataType>
-void QJsonConvert::convertFromJson(const QJsonObject& json, QVector<DataType>& obj)
-{
-	auto jarr = json["data"].toArray();
-	for (auto elem : jarr)
-	{
-		DataType tmp_data;
-		QJsonConvert::convertFromJson(elem.toObject(), tmp_data);
-		obj.push_back(tmp_data);
-	}
-}
-

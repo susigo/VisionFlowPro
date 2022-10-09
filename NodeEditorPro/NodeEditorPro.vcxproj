@@ -59,10 +59,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <IncludePath>$(ProjectDir)include;$(ProjectDir)examples;$(ProjectDir)src;$(ProjectDir)include\nodes;$(ProjectDir)..\ShapeDrawer;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)include;$(ProjectDir)examples;$(ProjectDir)src;$(ProjectDir)include\nodes;$(ProjectDir)..\ShapeDrawer;..\NodeEditorPro;..\NodeEditorPro\NodeEditorPro;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <IncludePath>$(ProjectDir)include;$(ProjectDir)examples;$(ProjectDir)src;$(ProjectDir)include\nodes;$(ProjectDir)..\ShapeDrawer;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)include;$(ProjectDir)examples;$(ProjectDir)src;$(ProjectDir)include\nodes;$(ProjectDir)..\ShapeDrawer;..\NodeEditorPro;..\NodeEditorPro\NodeEditorPro;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -101,12 +101,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\ShapeDrawer\ShapeDrawView.cpp" />
+    <ClCompile Include="..\ShapeDrawer\DrawShapeView.cpp" />
+    <ClCompile Include="..\ShapeDrawer\ShapeControlItem.cpp" />
+    <ClCompile Include="..\ShapeDrawer\ShapeItemBase.cpp" />
+    <ClCompile Include="..\ShapeDrawer\ShapeItemLine.cpp" />
+    <ClCompile Include="..\ShapeDrawer\ShapeItemPolygon.cpp" />
+    <ClCompile Include="..\ShapeDrawer\ShapeItemRect1.cpp" />
+    <ClCompile Include="..\ShapeDrawer\ShapeItemRect2.cpp" />
     <ClCompile Include="examples\calculator\Converters.cpp" />
     <ClCompile Include="examples\calculator\MathOperationDataModel.cpp" />
     <ClCompile Include="examples\calculator\ModuloModel.cpp" />
     <ClCompile Include="examples\calculator\NumberDisplayDataModel.cpp" />
     <ClCompile Include="examples\calculator\NumberSourceDataModel.cpp" />
+    <ClCompile Include="examples\halcon\HImageDLSegmentModel.cpp" />
     <ClCompile Include="examples\halcon\HImageFolderModel.cpp" />
     <ClCompile Include="examples\halcon\HImageLoaderModel.cpp" />
     <ClCompile Include="examples\halcon\HImageReduceDomainModel.cpp" />
@@ -158,8 +165,14 @@
     <QtMoc Include="examples\images\ImageShowModel.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="..\ShapeDrawer\ShapeDrawView.hpp" />
-    <ClInclude Include="..\ShapeDrawer\RegionPixmapData.hpp" />
+    <QtMoc Include="..\ShapeDrawer\DrawShapeView.hpp" />
+    <ClInclude Include="..\ShapeDrawer\DrawViewParams.h" />
+    <QtMoc Include="..\ShapeDrawer\ShapeControlItem.h" />
+    <QtMoc Include="..\ShapeDrawer\ShapeItemBase.h" />
+    <ClInclude Include="..\ShapeDrawer\ShapeItemLine.h" />
+    <ClInclude Include="..\ShapeDrawer\ShapeItemPolygon.h" />
+    <ClInclude Include="..\ShapeDrawer\ShapeItemRect1.h" />
+    <ClInclude Include="..\ShapeDrawer\ShapeItemRect2.h" />
     <ClInclude Include="examples\calculator\AdditionModel.hpp" />
     <ClInclude Include="examples\calculator\Converters.hpp" />
     <ClInclude Include="examples\calculator\DecimalData.hpp" />
@@ -173,6 +186,7 @@
     <QtMoc Include="examples\halcon\HImageReduceDomainModel.hpp" />
     <QtMoc Include="examples\halcon\HRegionSelectModel.hpp" />
     <QtMoc Include="examples\halcon\HRegionConnectModel.hpp" />
+    <QtMoc Include="examples\halcon\HImageDLSegmentModel.hpp" />
     <ClInclude Include="examples\halcon\HRegionData.hpp" />
     <QtMoc Include="examples\halcon\HRegionShapeTransModel.hpp" />
     <QtMoc Include="examples\halcon\HRegionFillUpShapeModel.hpp" />

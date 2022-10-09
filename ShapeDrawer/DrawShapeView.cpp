@@ -1,194 +1,444 @@
-﻿#include "QGView.h"
-#include <QScrollBar>
-#include <QDebug>
-#include "ControlItem.h"
-#include "BaseItem.h"
+﻿
+#include "DrawShapeView.hpp"
 #include <QFileDialog>
-#include <QAction>
-#include <QLabel>
-#include "QGScene.h"
-#include <QHBoxLayout>
 
+DrawShapeView* DrawShapeView::instance = nullptr;
 
-QGView::QGView(QWidget* parent) : QGraphicsView(parent)
+DrawShapeView::DrawShapeView(QWidget* parent) :
+	m_scene(new QGraphicsScene())
 {
-
-	this->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);//解决拖动是背景图片残影
-	setDragMode(QGraphicsView::ScrollHandDrag);
-	drawBg();
-
-	//反锯齿
-	setRenderHints(QPainter::Antialiasing);
-	// 隐藏水平/竖直滚动条
-	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	this->setBackgroundBrush(Qt::gray);
-
+	if (parent != Q_NULLPTR)
+	{
+		this->setParent(parent);
+	}
+	m_scene->setSceneRect(-3000, -3000, 6000, 6000);
+	this->setScene(m_scene);
+	this->resize(1204, 720);
+	this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	this->setRenderHint(QPainter::Antialiasing);
+	this->setMouseTracking(true);
 	/*以鼠标中心进行缩放*/
-	setMouseTracking(true);
 	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);//设置视口变换的锚点，这个属性控制当视图做变换时应该如何摆放场景的位置
 	setResizeAnchor(QGraphicsView::AnchorUnderMouse);
+	MenuInit();
+	ParamInit();
 
-	// 设置场景范围
-	setSceneRect(INT_MIN / 2, INT_MIN / 2, INT_MAX, INT_MAX);
-	//setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
-
-	scene = new QGScene(this);
-	this->setScene(scene);
-
-
-
-	addAction(new QAction(QString::fromLocal8Bit("保存原图"), this));
-	addAction(new QAction(QString::fromLocal8Bit("保存截图"), this));
-	setContextMenuPolicy(Qt::ActionsContextMenu);
-
-	GrayValue = new QLabel(this);//显示灰度值
-	GrayValue->setStyleSheet("color:rgb(50,255,0); background-color:rgb(80,80,80,180); font-size: 23px;font-weight: 400px;");
-	GrayValue->setFixedWidth(160);
-	GrayValue->setFixedHeight(60);
-}
-void QGView::DispImage(QImage& Image)
-{
-	ImageCatch = Image.copy();
-	image = QPixmap::fromImage(Image);
-	GetFit();
-}
-void QGView::AddItems(BaseItem* item)
-{
-	this->scene->addItem(item);
-	scene->UpDateZoom(1.0 / ZoomValue);
 }
 
-void QGView::DispItem(const QPainterPath& ItemPath, bool onImage)
+DrawShapeView* DrawShapeView::getInst()
 {
-	if (onImage)
+	draw_view_lock.lock();
+	if (DrawShapeView::instance == nullptr)
 	{
-		// QPainter painter(&pixmap); 
+		DrawShapeView::instance = new DrawShapeView();
+	}
+	draw_view_lock.unlock();
+	return DrawShapeView::instance;
+}
+
+void DrawShapeView::FitShowImage(const QPixmap& pixmap)
+{
+	if (pixmap != m_cur_pixmap)
+	{
+		m_cur_pixmap = pixmap;
+	}
+	m_pixmap_item->setPixmap(m_cur_pixmap);
+	qreal w_ratio = 1.0 * this->width() / m_cur_pixmap.width();
+	qreal h_ratio = 1.0 * this->height() / m_cur_pixmap.height();
+	if (w_ratio > h_ratio)
+	{
+		m_scale = h_ratio;
 	}
 	else
 	{
-
+		m_scale = w_ratio;
 	}
+
+	m_transform.reset();
+
+	m_transform.scale(m_scale, m_scale);
+	this->setTransform(m_transform);
+	m_centerPos = QPointF(m_cur_pixmap.width() * 0.5, m_cur_pixmap.height() * 0.5);
+	centerOn(m_centerPos);
 }
 
+void DrawShapeView::MenuInit()
+{
+	m_menu = new QMenu(QStringLiteral("右键菜单"), this);
+	QAction* actOpenImage = new QAction(QStringLiteral("选择图片"));
+	QAction* actFitImage = new QAction(QStringLiteral("重置显示"));
+	QAction* actDrawLine = new QAction(QStringLiteral("绘制直线"));
+	QMenu* mAddShape = new QMenu(QStringLiteral("相加图形"));
+	QAction* actDrawRectangle1Add = new QAction(QStringLiteral("正矩形"));
+	QAction* actDrawRectangle2Add = new QAction(QStringLiteral("斜矩形"));
+	QAction* actDrawPolygonAdd = new QAction(QStringLiteral("多边形"));
+	QAction* actDrawFreeDrawAdd = new QAction(QStringLiteral("涂鸦"));
+	mAddShape->addAction(actDrawRectangle1Add);
+	mAddShape->addAction(actDrawRectangle2Add);
+	mAddShape->addAction(actDrawPolygonAdd);
+	mAddShape->addAction(actDrawFreeDrawAdd);
 
-void QGView::ClearObj()
-{
-	foreach(auto item, scene->items())
-	{
-		scene->removeItem(item);
-	}
+	QMenu* mDivShape = new QMenu(QStringLiteral("相减图形"));
+	QAction* actDrawRectangle1Div = new QAction(QStringLiteral("正矩形"));
+	QAction* actDrawRectangle2Div = new QAction(QStringLiteral("斜矩形"));
+	QAction* actDrawPolygonDiv = new QAction(QStringLiteral("多边形"));
+	QAction* actDrawFreeDrawDiv = new QAction(QStringLiteral("涂鸦"));
+	mDivShape->addAction(actDrawRectangle1Div);
+	mDivShape->addAction(actDrawRectangle2Div);
+	mDivShape->addAction(actDrawPolygonDiv);
+	mDivShape->addAction(actDrawFreeDrawDiv);
+
+	QAction* actComform = new QAction(QStringLiteral("确认"));
+	QAction* actCancel = new QAction(QStringLiteral("取消"));
+	m_menu->addAction(actOpenImage);
+	m_menu->addAction(actFitImage);
+	m_menu->addAction(actDrawLine);
+	m_menu->addMenu(mAddShape);
+	m_menu->addMenu(mDivShape);
+	m_menu->addAction(actComform);
+	m_menu->addAction(actCancel);
+
+	connect(actOpenImage, SIGNAL(triggered()), this, SLOT(onOpenImage()));
+	connect(actFitImage, SIGNAL(triggered()), this, SLOT(onFitImageShow()));
+	connect(actDrawLine, SIGNAL(triggered()), this, SLOT(onDrawLineShape()));
+
+	connect(actDrawRectangle1Add, &QAction::triggered, this, [=]() {
+		this->onDrawRectangle1(ShapeMode::mAdd); });
+	connect(actDrawRectangle2Add, &QAction::triggered, this, [=]() {
+		this->onDrawRectangle2(ShapeMode::mAdd); });
+	connect(actDrawPolygonAdd, &QAction::triggered, this, [=]() {
+		this->onDrawPolygon(ShapeMode::mAdd); });
+	connect(actDrawFreeDrawAdd, &QAction::triggered, this, [=]() {
+		this->onDrawFreeDraw(ShapeMode::mAdd); });
+
+	connect(actDrawRectangle1Div, &QAction::triggered, this, [=]() {
+		this->onDrawRectangle1(ShapeMode::mDiv); });
+	connect(actDrawRectangle2Div, &QAction::triggered, this, [=]() {
+		this->onDrawRectangle2(ShapeMode::mDiv); });
+	connect(actDrawPolygonDiv, &QAction::triggered, this, [=]() {
+		this->onDrawPolygon(ShapeMode::mDiv); });
+	connect(actDrawFreeDrawDiv, &QAction::triggered, this, [=]() {
+		this->onDrawFreeDraw(ShapeMode::mDiv); });
+
+	connect(actComform, SIGNAL(triggered()), this, SLOT(onDrawComform()));
+	connect(actCancel, SIGNAL(triggered()), this, SLOT(onDrawCancel()));
+
 }
-void QGView::ZoomFrame(double value)
+
+void DrawShapeView::ParamInit()
 {
-	scene->UpDateZoom(1.0 / value);
-	this->setTransform(QTransform(value, 0, 0, value, 0, 0));
+	m_pixmap_item = new QGraphicsPixmapItem();
+	m_draw_path_item = new QGraphicsPathItem();
+	m_draw_poly = new QPolygonF();
+	v_hint_line = new QGraphicsLineItem();
+	h_hint_line = new QGraphicsLineItem();
+	m_pixmap_item->setZValue(0);
+	m_scene->addItem(m_pixmap_item);
+	m_scene->addItem(m_draw_path_item);
+
 }
-void QGView::GetFit()
+
+void DrawShapeView::onOpenImage()
 {
-	if (this->width() < 1 || image.width() < 1)
+	cur_image_name.clear();
+	cur_image_name = QFileDialog::getOpenFileName(nullptr,
+		"Select an image",
+		"C:",
+		"Images (*.png *.jpeg *.jpg *.tiff *.bmp)"
+	);
+	if (cur_image_name.length() == 0)
 	{
 		return;
 	}
-	//图片自适应方法
-	qreal winWidth = this->width();
-	qreal winHeight = this->height();
-	qreal ScaleWidth = (image.width() + 1) / winWidth;
-	qreal ScaleHeight = (image.height() + 1) / winHeight;
-	qreal row1, column1;
-	if (ScaleWidth >= ScaleHeight)
+	if (m_cur_pixmap.load(cur_image_name))
 	{
-		row1 = -(1) * ((winHeight * ScaleWidth) - image.height()) / 2;
-		column1 = 0;
-		ZoomValue = 1 / ScaleWidth;
+
+		FitShowImage(m_cur_pixmap);
+	}
+	this->repaint();
+}
+
+void DrawShapeView::onFitImageShow()
+{
+	FitShowImage(m_cur_pixmap);
+}
+
+void DrawShapeView::onDrawLineShape()
+{
+	//draw_shape = EShapeType::sLine;
+	//view_mode = ViewMode::tDrawing;
+	//m_scene->addItem(v_hint_line);
+	//m_scene->addItem(h_hint_line);
+	m_scene->addItem(new ShapeItemLine());
+
+}
+
+void DrawShapeView::onDrawRectangle1(ShapeMode mode)
+{
+	if (mode == ShapeMode::mAdd)
+	{
+		draw_shape = EShapeType::sRectangle1Add;
+		shape_mode = ShapeMode::mAdd;
 	}
 	else
 	{
-		row1 = 0;
-		column1 = -(1.0) * ((winWidth * ScaleHeight) - image.width()) / 2;
-		ZoomValue = 1 / ScaleHeight;
+		draw_shape = EShapeType::sRectangle1Div;
+		shape_mode = ShapeMode::mDiv;
 	}
-	PixX = column1 * ZoomValue;
-	PixY = row1 * ZoomValue;
-	ZoomFrame(ZoomValue);
-	QScrollBar* pHbar = this->horizontalScrollBar();
-	pHbar->setSliderPosition(PixX);
-	QScrollBar* pVbar = this->verticalScrollBar();
-	pVbar->setSliderPosition(PixY);
+	//view_mode = ViewMode::tDrawing;
+	//m_scene->addItem(v_hint_line);
+	//m_scene->addItem(h_hint_line);
+	m_scene->addItem(new ShapeItemRect1(shape_mode));
 }
-void QGView::drawBg()
+
+void DrawShapeView::onDrawRectangle2(ShapeMode mode)
 {
-	bgPix.fill(color1);
-	QPainter painter(&bgPix);
-	painter.fillRect(0, 0, 32, 32, color2);
-	painter.fillRect(32, 32, 32, 32, color2);
-	painter.end();
+	if (mode == ShapeMode::mAdd)
+	{
+		draw_shape = EShapeType::sRectangle2Add;
+		shape_mode = ShapeMode::mAdd;
+	}
+	else
+	{
+		draw_shape = EShapeType::sRectangle2Div;
+		shape_mode = ShapeMode::mDiv;
+	}
+	m_scene->addItem(new ShapeItemRect2(shape_mode));
+	//view_mode = ViewMode::tDrawing;
+	//m_scene->addItem(v_hint_line);
+	//m_scene->addItem(h_hint_line);
 }
-void QGView::mousePressEvent(QMouseEvent* event)
+
+void DrawShapeView::onDrawPolygon(ShapeMode mode)
 {
-	//qDebug()<<"click";
+	if (mode == ShapeMode::mAdd)
+	{
+		draw_shape = EShapeType::sPolygonAdd;
+		shape_mode = ShapeMode::mAdd;
+	}
+	else
+	{
+		draw_shape = EShapeType::sPolygonDiv;
+		shape_mode = ShapeMode::mDiv;
+	}
+	view_mode = ViewMode::tDrawing;
+	m_scene->addItem(v_hint_line);
+	m_scene->addItem(h_hint_line);
+}
+
+void DrawShapeView::onDrawFreeDraw(ShapeMode mode)
+{
+}
+
+void DrawShapeView::onDrawComform()
+{
+}
+
+void DrawShapeView::onDrawCancel()
+{
+}
+
+void DrawShapeView::drawFinished()
+{
+	m_scene->removeItem(v_hint_line);
+	m_scene->removeItem(h_hint_line);
+	if (m_draw_poly->count() > 1)
+	{
+		//m_draw_poly->last() = m_draw_poly->first();
+		shape_data.shapePolygon.append(*m_draw_poly);
+		shape_data.shapeType.append(draw_shape);
+		shape_data.shapeMode.append(shape_mode);
+		//tmpPath.clear();
+		//tmpPath.addPolygon(*m_draw_poly);
+		//m_draw_path_item->setPath(tmpPath);
+		if (draw_shape == EShapeType::sPolygonAdd || draw_shape == EShapeType::sPolygonDiv)
+		{
+			m_scene->addItem(new ShapeItemPolygon(*m_draw_poly, shape_mode, QPointF(0, 0)));
+		}
+		m_draw_poly->clear();
+		m_draw_path_item->setPath(QPainterPath());
+	}
+	view_mode = ViewMode::tNone;
+	shape_mode = ShapeMode::mNone;
+	draw_shape = EShapeType::sNone;
+}
+
+void DrawShapeView::drawHintInfo(QPainter* painter)
+{
+	m_hint_str.clear();
+	m_hint_str = QString("mouse:%1,%2").arg(m_cur_pos_view.x()).arg(m_cur_pos_view.y());
+	m_hint_str.append(QString(" - mouse scene:%1,%2").arg(m_cur_pos_scene.x()).arg(m_cur_pos_scene.y()));
+	painter->setPen(Qt::white);
+	painter->setBrush(Qt::NoBrush);
+	painter->drawText(10, 25, m_hint_str);
+}
+
+void DrawShapeView::drawCurrentShape(QPainter* painter)
+{
+	if (view_mode != ViewMode::tDrawing)
+	{
+		return;
+	}
+	//painter->setPen(Qt::NoPen);
+	//painter->setBrush(m_hint_bg_color);
+	//for (auto tmp_polygon : shape_data.shapePolygon) {
+	//	QPainterPath tmp_view_path;
+	//	QPolygonF tmp_polygon_view;
+	//	for (auto _point : tmp_polygon)
+	//	{
+	//		tmp_polygon_view.append(mapFromScene(_point));
+	//	}
+	//	if (!tmp_polygon_view.isEmpty())
+	//	{
+	//		tmp_view_path.addPolygon(tmp_polygon_view);
+	//		painter->drawPath(tmp_view_path);
+	//	}
+	//}
+}
+
+void DrawShapeView::mousePressEvent(QMouseEvent* event)
+{
 	QGraphicsView::mousePressEvent(event);
+	m_lastMousePos = mapToScene(event->pos());
+	if (event->button() == Qt::RightButton)
+	{
+		if (view_mode != ViewMode::tDrawing)
+		{
+			m_menu->exec(mapToGlobal(event->pos()));
+		}
+		else
+		{
+			drawFinished();
+		}
+	}
+	else if (event->button() == Qt::LeftButton)
+	{
+		if (view_mode == ViewMode::tDrawing)
+		{
+			if (m_draw_poly->count() == 0)
+			{
+				m_draw_poly->append(m_lastMousePos);
+			}
+			m_draw_poly->append(m_lastMousePos);
+		}
+		switch (draw_shape)
+		{
+		case EShapeType::sLine:
+		case EShapeType::sRectangle1Add:
+		case EShapeType::sRectangle1Div:
+			if (m_draw_poly->count() == 3)
+			{
+				drawFinished();
+			}
+			break;
+		case EShapeType::sRectangle2Add:
+		case EShapeType::sRectangle2Div:
+			if (m_draw_poly->count() == 4)
+			{
+				drawFinished();
+			}
+			break;
+		default:
+			break;
+		}
+	}
+	else if (event->button() == Qt::MiddleButton)
+	{
+
+		view_mode = ViewMode::tTranslate;
+
+	}
 }
-void QGView::resizeEvent(QResizeEvent* event)
-{
-	GetFit();
-	QGraphicsView::resizeEvent(event);
-}
-void QGView::mouseReleaseEvent(QMouseEvent* event)
+
+void DrawShapeView::mouseReleaseEvent(QMouseEvent* event)
 {
 	QGraphicsView::mouseReleaseEvent(event);
-}
-void QGView::mouseDoubleClickEvent(QMouseEvent* event)
-{
-	GetFit();
-	QGraphicsView::mouseDoubleClickEvent(event);
-}
-void QGView::mouseMoveEvent(QMouseEvent* event)
-{
-	auto item = this->mapToScene(event->pos());
-	int X = item.x();
-	int Y = item.y();
-
-	if (X > -1 && X<ImageCatch.width() && Y>-1 && Y < ImageCatch.height())
+	if (event->button() == Qt::RightButton)
 	{
-		int R, G, B;
-		ImageCatch.pixelColor(X, Y).getRgb(&R, &G, &B);
-
-		QString InfoVal = QString("[%1 %2 %3]\n{X%4 Y%5}").arg(QString::number(R), 3, ' ')
-			.arg(QString::number(G), 3, ' ')
-			.arg(QString::number(B), 3, ' ')
-			.arg(QString::number((int)X), 4, ' ')
-			.arg(QString::number((int)Y), 4, ' ');
-		GrayValue->setText(InfoVal);
 	}
+	else if (event->button() == Qt::LeftButton)
+	{
+	}
+	else if (event->button() == Qt::MiddleButton)
+	{
+		if (view_mode != ViewMode::tDrawing)
+		{
+			view_mode = ViewMode::tNone;
+		}
+	}
+}
 
+void DrawShapeView::mouseMoveEvent(QMouseEvent* event)
+{
 	QGraphicsView::mouseMoveEvent(event);
+	m_cur_pos_view = event->pos();
+	m_cur_pos_scene = mapToScene(m_cur_pos_view);
+
+	if (view_mode == ViewMode::tTranslate)
+	{
+		m_centerPos.setX(m_centerPos.x() - m_cur_pos_scene.x() + m_lastMousePos.x());
+		m_centerPos.setY(m_centerPos.y() - m_cur_pos_scene.y() + m_lastMousePos.y());
+		centerOn(m_centerPos);
+	}
+	if (view_mode == ViewMode::tDrawing)
+	{
+		v_hint_line->setLine(
+			m_cur_pos_scene.x(),
+			m_cur_pos_scene.y() - 1000,
+			m_cur_pos_scene.x(),
+			m_cur_pos_scene.y() + 1000);
+		h_hint_line->setLine(
+			m_cur_pos_scene.x() - 1000,
+			m_cur_pos_scene.y(),
+			m_cur_pos_scene.x() + 1000,
+			m_cur_pos_scene.y());
+		if (m_draw_poly->count() > 1)
+		{
+			m_draw_poly->last() = m_cur_pos_scene;
+			tmpPath.clear();
+			tmpPath.addPolygon(*m_draw_poly);
+			m_draw_path_item->setPath(tmpPath);
+		}
+	}
+	this->viewport()->repaint();
 }
-void QGView::wheelEvent(QWheelEvent* event)
+
+void DrawShapeView::wheelEvent(QWheelEvent* event)
 {
-	ZoomValue = event->angleDelta().y() > 0 ? ZoomValue * 1.1 : ZoomValue * 0.9;
-	ZoomValue = qMax(ZoomValue, 0.1);
-	ZoomValue = qMin(ZoomValue, 40.0);
-	ZoomFrame(ZoomValue);
+	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+	qreal scaleFactor = 1.0;
+	if (event->delta() > 0)
+	{
+		scaleFactor = 1.2;
+	}
+	else
+	{
+		scaleFactor = 1 / 1.2;
+	}
+	qreal factor = transform().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
+	if (factor < 0.01 || factor > 2000)
+		return;
+	scale(scaleFactor, scaleFactor);
 }
-void QGView::drawForeground(QPainter* painter, const QRectF& rect)
+
+void DrawShapeView::paintEvent(QPaintEvent* event)
 {
-	Q_UNUSED(rect);
-	Q_UNUSED(painter);
-	painter->drawPixmap(QPoint(), QPixmap(100, 100));//绘制背景曾
-}
-void QGView::drawBackground(QPainter* painter, const QRectF& rect)
-{
-	Q_UNUSED(rect);
-	painter->drawPixmap(QPoint(), image);//绘制背景曾
-}
-void QGView::paintEvent(QPaintEvent* event)
-{
-	QPainter paint(this->viewport());
-	paint.drawTiledPixmap(QRect(QPoint(0, 0), QPoint(this->width(), this->height())), bgPix);//绘制背景曾
 	QGraphicsView::paintEvent(event);
+	QPainter painter(this->viewport());
+	drawCurrentShape(&painter);
+	drawHintInfo(&painter);
 }
 
-
-
+void DrawShapeView::drawBackground(QPainter* painter, const QRectF& rect)
+{
+	QGraphicsView::drawBackground(painter, rect);
+	painter->setBrush(m_bg_color);
+	painter->setPen(Qt::NoPen);
+	painter->drawRect(rect);
+	painter->setBrush(Qt::NoBrush);
+	painter->setPen(m_grid_pen);
+	painter->drawLine(-3000, 0, 3000, 0);
+	painter->drawLine(0, -3000, 0, 3000);
+}
 

@@ -13,19 +13,16 @@
 #include "NodeStyle.hpp"
 #include "FlowViewStyle.hpp"
 #include "ConnectionStyle.hpp"
-#include "ShapeDrawView.hpp"
+#include "DrawShapeView.hpp"
 
 namespace QJsonConvert
 {
 
-	template<typename DataType>
-	QJsonObject convertToJson(const QVector<DataType>& obj);
-
-	template<typename DataType>
-	void convertFromJson(const QJsonObject& json, QVector<DataType>& obj);
-
 	QJsonObject convertToJson(const QVector<QPolygonF>& obj);
 	void convertFromJson(const QJsonObject& json, QVector<QPolygonF>& obj);
+
+	QJsonObject convertToJson(const QVector<ShapeMode>& obj);
+	void convertFromJson(const QJsonObject& json, QVector<ShapeMode>& obj);
 
 	QJsonObject convertToJson(const QVector<int>& obj);
 	void convertFromJson(const QJsonObject& json, QVector<int>& obj);
@@ -54,8 +51,8 @@ namespace QJsonConvert
 	QJsonObject convertToJson(const QtNodes::ConnectionStyle& _obj);
 	void convertFromJson(const QJsonObject& _json, QtNodes::ConnectionStyle& _obj);
 
-	QJsonObject convertToJson(const RegionPixmapData& _obj);
-	void convertFromJson(const QJsonObject& _json, RegionPixmapData& _obj);
+	QJsonObject convertToJson(const ShapeDataStruct& _obj);
+	void convertFromJson(const QJsonObject& _json, ShapeDataStruct& _obj);
 
 };
 

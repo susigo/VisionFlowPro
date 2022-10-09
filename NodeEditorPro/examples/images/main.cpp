@@ -2,8 +2,6 @@
 #include <QtWidgets/QApplication>
 #include "VisionFlowWidget.hpp"
 
-#include"ShapeDrawView.hpp"
-
 int main(int argc, char* argv[])
 {
 	QApplication app(argc, argv);
