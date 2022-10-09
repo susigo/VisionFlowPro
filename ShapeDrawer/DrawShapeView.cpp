@@ -245,7 +245,7 @@ void DrawShapeView::drawFinished()
 	m_scene->removeItem(h_hint_line);
 	if (m_draw_poly->count() > 1)
 	{
-		m_draw_poly->last() = m_draw_poly->first();
+		//m_draw_poly->last() = m_draw_poly->first();
 		shape_data.shapePolygon.append(*m_draw_poly);
 		shape_data.shapeType.append(draw_shape);
 		shape_data.shapeMode.append(shape_mode);
@@ -280,21 +280,21 @@ void DrawShapeView::drawCurrentShape(QPainter* painter)
 	{
 		return;
 	}
-	painter->setPen(Qt::NoPen);
-	painter->setBrush(m_hint_bg_color);
-	for (auto tmp_polygon : shape_data.shapePolygon) {
-		QPainterPath tmp_view_path;
-		QPolygonF tmp_polygon_view;
-		for (auto _point : tmp_polygon)
-		{
-			tmp_polygon_view.append(mapFromScene(_point));
-		}
-		if (!tmp_polygon_view.isEmpty())
-		{
-			tmp_view_path.addPolygon(tmp_polygon_view);
-			painter->drawPath(tmp_view_path);
-		}
-	}
+	//painter->setPen(Qt::NoPen);
+	//painter->setBrush(m_hint_bg_color);
+	//for (auto tmp_polygon : shape_data.shapePolygon) {
+	//	QPainterPath tmp_view_path;
+	//	QPolygonF tmp_polygon_view;
+	//	for (auto _point : tmp_polygon)
+	//	{
+	//		tmp_polygon_view.append(mapFromScene(_point));
+	//	}
+	//	if (!tmp_polygon_view.isEmpty())
+	//	{
+	//		tmp_view_path.addPolygon(tmp_polygon_view);
+	//		painter->drawPath(tmp_view_path);
+	//	}
+	//}
 }
 
 void DrawShapeView::mousePressEvent(QMouseEvent* event)

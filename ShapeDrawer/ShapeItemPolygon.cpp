@@ -54,7 +54,6 @@ void ShapeItemPolygon::sizeChanged()
 
 void ShapeItemPolygon::shapeInit()
 {
-	ControlList.append(new ShapeControlItem(this, ControlItemType::cCenter, QPointF(50, 50)));
 	for (auto elem : itemPolygon)
 	{
 		ControlList.append(new ShapeControlItem(this, cEdgeNode, elem));
