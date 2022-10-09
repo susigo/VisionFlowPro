@@ -14,6 +14,9 @@
 #include <QPolygonF>
 #include "DrawViewParams.h"
 #include "ShapeItemLine.h"
+#include "ShapeItemRect1.h"
+#include "ShapeItemRect2.h"
+#include "ShapeItemPolygon.h"
 
 static std::mutex draw_view_lock;
 class DrawShapeView :public QGraphicsView
@@ -77,8 +80,6 @@ private:
 	QGraphicsLineItem* v_hint_line;
 	QGraphicsLineItem* h_hint_line;
 
-	ShapeItemLine* test_handle;
-
 public:
 	void FitShowImage(const QPixmap& pixmap);
 private:
@@ -97,7 +98,6 @@ public slots:
 signals:
 	void DrawFinished();
 private:
-
 	void drawFinished();
 	void drawHintInfo(QPainter* painter);
 	void drawCurrentShape(QPainter* painter);

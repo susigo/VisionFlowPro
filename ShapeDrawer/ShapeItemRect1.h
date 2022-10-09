@@ -1,15 +1,17 @@
 ﻿#include "ShapeItemBase.h"
 
-class ShapeItemLine
+class ShapeItemRect1
 	:public ShapeItemBase
 {
 public:
-	ShapeItemLine(QPointF pos = QPointF(0, 0));
+	ShapeItemRect1(ShapeMode shape_mode);
 
-	~ShapeItemLine();
+	~ShapeItemRect1();
 private:
 	void calculateShape() override;
 
 	void shapeInit() override;
+
+	void sizeChanged();
 };
 

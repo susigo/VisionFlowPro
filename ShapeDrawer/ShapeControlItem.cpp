@@ -62,7 +62,7 @@ void ShapeControlItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 		cur_point = this->mapToParent(event->pos());
 		dx = cur_point.x() - last_point.x();
 		dy = cur_point.y() - last_point.y();
-		if (this->handle_type != cCenter)
+		if (this->handle_type != cCenter && this->handle_type != cRotate)
 		{
 			//结果正常、更新位置
 			this->setPos(cur_point);

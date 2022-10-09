@@ -105,6 +105,9 @@
     <ClCompile Include="..\ShapeDrawer\ShapeControlItem.cpp" />
     <ClCompile Include="..\ShapeDrawer\ShapeItemBase.cpp" />
     <ClCompile Include="..\ShapeDrawer\ShapeItemLine.cpp" />
+    <ClCompile Include="..\ShapeDrawer\ShapeItemPolygon.cpp" />
+    <ClCompile Include="..\ShapeDrawer\ShapeItemRect1.cpp" />
+    <ClCompile Include="..\ShapeDrawer\ShapeItemRect2.cpp" />
     <ClCompile Include="examples\calculator\Converters.cpp" />
     <ClCompile Include="examples\calculator\MathOperationDataModel.cpp" />
     <ClCompile Include="examples\calculator\ModuloModel.cpp" />
@@ -167,6 +170,9 @@
     <QtMoc Include="..\ShapeDrawer\ShapeControlItem.h" />
     <QtMoc Include="..\ShapeDrawer\ShapeItemBase.h" />
     <ClInclude Include="..\ShapeDrawer\ShapeItemLine.h" />
+    <ClInclude Include="..\ShapeDrawer\ShapeItemPolygon.h" />
+    <ClInclude Include="..\ShapeDrawer\ShapeItemRect1.h" />
+    <ClInclude Include="..\ShapeDrawer\ShapeItemRect2.h" />
     <ClInclude Include="examples\calculator\AdditionModel.hpp" />
     <ClInclude Include="examples\calculator\Converters.hpp" />
     <ClInclude Include="examples\calculator\DecimalData.hpp" />

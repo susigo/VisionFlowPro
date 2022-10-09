@@ -26,21 +26,15 @@ ShapeItemBase::~ShapeItemBase()
 void ShapeItemBase::focusInEvent(QFocusEvent* event)
 {
 	Q_UNUSED(event);
+	this->setZValue(99);
 	shape_active = true;
-	//for (int i = 1; i < ControlList.length(); i++)
-	//{
-	//	ControlList[i]->setVisible(true);
-	//}
 }
 
 void ShapeItemBase::focusOutEvent(QFocusEvent* event)
 {
 	Q_UNUSED(event);
+	this->setZValue(1);
 	shape_active = false;
-	//for (int i = 1; i < ControlList.length(); i++)
-	//{
-	//	ControlList[i]->setVisible(false);
-	//}
 }
 
 QRectF ShapeItemBase::boundingRect() const
@@ -50,7 +44,7 @@ QRectF ShapeItemBase::boundingRect() const
 
 QPainterPath ShapeItemBase::shape() const
 {
-	return ItemShape;
+	return ItemShape.united(ItemPath);
 }
 
 void ShapeItemBase::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
@@ -60,18 +54,24 @@ void ShapeItemBase::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
 	if (shape_active)
 	{
 		painter->setBrush(activeBackgroundColor);
+		//painter->drawRect(this->boundingRect());
 	}
 	else
 	{
-		painter->setBrush(BackgroundColor);
+		if (m_shape_mode == ShapeMode::mAdd)
+		{
+			painter->setBrush(addBackgroundColor);
+		}
+		else
+		{
+			painter->setBrush(divBackgroundColor);
+		}
 	}
-	painter->drawRect(bounding_rect);
 	if (!ItemPath.isEmpty())
 	{
-		painter->setPen(Qt::white);
-		painter->setBrush(Qt::NoBrush);
+		painter->setPen(ItemColor);
+		//painter->setBrush(Qt::NoBrush);
 		painter->drawPath(ItemPath);
 	}
-
 }
 

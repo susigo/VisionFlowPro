@@ -24,8 +24,6 @@ DrawShapeView::DrawShapeView(QWidget* parent) :
 	MenuInit();
 	ParamInit();
 
-	test_handle = new ShapeItemLine();
-	m_scene->addItem(test_handle);
 }
 
 DrawShapeView* DrawShapeView::getInst()
@@ -168,10 +166,12 @@ void DrawShapeView::onFitImageShow()
 
 void DrawShapeView::onDrawLineShape()
 {
-	draw_shape = EShapeType::sLine;
-	view_mode = ViewMode::tDrawing;
-	m_scene->addItem(v_hint_line);
-	m_scene->addItem(h_hint_line);
+	//draw_shape = EShapeType::sLine;
+	//view_mode = ViewMode::tDrawing;
+	//m_scene->addItem(v_hint_line);
+	//m_scene->addItem(h_hint_line);
+	m_scene->addItem(new ShapeItemLine());
+
 }
 
 void DrawShapeView::onDrawRectangle1(ShapeMode mode)
@@ -179,14 +179,17 @@ void DrawShapeView::onDrawRectangle1(ShapeMode mode)
 	if (mode == ShapeMode::mAdd)
 	{
 		draw_shape = EShapeType::sRectangle1Add;
+		shape_mode = ShapeMode::mAdd;
 	}
 	else
 	{
 		draw_shape = EShapeType::sRectangle1Div;
+		shape_mode = ShapeMode::mDiv;
 	}
-	view_mode = ViewMode::tDrawing;
-	m_scene->addItem(v_hint_line);
-	m_scene->addItem(h_hint_line);
+	//view_mode = ViewMode::tDrawing;
+	//m_scene->addItem(v_hint_line);
+	//m_scene->addItem(h_hint_line);
+	m_scene->addItem(new ShapeItemRect1(shape_mode));
 }
 
 void DrawShapeView::onDrawRectangle2(ShapeMode mode)
@@ -194,14 +197,17 @@ void DrawShapeView::onDrawRectangle2(ShapeMode mode)
 	if (mode == ShapeMode::mAdd)
 	{
 		draw_shape = EShapeType::sRectangle2Add;
+		shape_mode = ShapeMode::mAdd;
 	}
 	else
 	{
 		draw_shape = EShapeType::sRectangle2Div;
+		shape_mode = ShapeMode::mDiv;
 	}
-	view_mode = ViewMode::tDrawing;
-	m_scene->addItem(v_hint_line);
-	m_scene->addItem(h_hint_line);
+	m_scene->addItem(new ShapeItemRect2(shape_mode));
+	//view_mode = ViewMode::tDrawing;
+	//m_scene->addItem(v_hint_line);
+	//m_scene->addItem(h_hint_line);
 }
 
 void DrawShapeView::onDrawPolygon(ShapeMode mode)
@@ -209,10 +215,12 @@ void DrawShapeView::onDrawPolygon(ShapeMode mode)
 	if (mode == ShapeMode::mAdd)
 	{
 		draw_shape = EShapeType::sPolygonAdd;
+		shape_mode = ShapeMode::mAdd;
 	}
 	else
 	{
 		draw_shape = EShapeType::sPolygonDiv;
+		shape_mode = ShapeMode::mDiv;
 	}
 	view_mode = ViewMode::tDrawing;
 	m_scene->addItem(v_hint_line);
@@ -241,10 +249,15 @@ void DrawShapeView::drawFinished()
 		shape_data.shapePolygon.append(*m_draw_poly);
 		shape_data.shapeType.append(draw_shape);
 		shape_data.shapeMode.append(shape_mode);
-		tmpPath.clear();
-		tmpPath.addPolygon(*m_draw_poly);
-		m_draw_path_item->setPath(tmpPath);
+		//tmpPath.clear();
+		//tmpPath.addPolygon(*m_draw_poly);
+		//m_draw_path_item->setPath(tmpPath);
+		if (draw_shape == EShapeType::sPolygonAdd || draw_shape == EShapeType::sPolygonDiv)
+		{
+			m_scene->addItem(new ShapeItemPolygon(*m_draw_poly, shape_mode, QPointF(0, 0)));
+		}
 		m_draw_poly->clear();
+		m_draw_path_item->setPath(QPainterPath());
 	}
 	view_mode = ViewMode::tNone;
 	shape_mode = ShapeMode::mNone;
@@ -263,6 +276,10 @@ void DrawShapeView::drawHintInfo(QPainter* painter)
 
 void DrawShapeView::drawCurrentShape(QPainter* painter)
 {
+	if (view_mode != ViewMode::tDrawing)
+	{
+		return;
+	}
 	painter->setPen(Qt::NoPen);
 	painter->setBrush(m_hint_bg_color);
 	for (auto tmp_polygon : shape_data.shapePolygon) {

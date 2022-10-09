@@ -209,6 +209,15 @@
     <ClCompile Include="..\ShapeDrawer\ShapeItemLine.cpp">
       <Filter>ShapeDrawer</Filter>
     </ClCompile>
+    <ClCompile Include="..\ShapeDrawer\ShapeItemRect1.cpp">
+      <Filter>ShapeDrawer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ShapeDrawer\ShapeItemRect2.cpp">
+      <Filter>ShapeDrawer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ShapeDrawer\ShapeItemPolygon.cpp">
+      <Filter>ShapeDrawer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="examples\images\ImageLoaderModel.hpp">
@@ -442,6 +451,15 @@
       <Filter>ShapeDrawer</Filter>
     </ClInclude>
     <ClInclude Include="..\ShapeDrawer\ShapeItemLine.h">
+      <Filter>ShapeDrawer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ShapeDrawer\ShapeItemRect1.h">
+      <Filter>ShapeDrawer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ShapeDrawer\ShapeItemRect2.h">
+      <Filter>ShapeDrawer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ShapeDrawer\ShapeItemPolygon.h">
       <Filter>ShapeDrawer</Filter>
     </ClInclude>
   </ItemGroup>
