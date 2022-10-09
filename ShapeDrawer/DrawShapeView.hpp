@@ -17,6 +17,7 @@
 #include "ShapeItemRect1.h"
 #include "ShapeItemRect2.h"
 #include "ShapeItemPolygon.h"
+#include "halconcpp/HalconCpp.h"
 
 static std::mutex draw_view_lock;
 class DrawShapeView :public QGraphicsView
@@ -61,6 +62,8 @@ private:
 	EShapeType draw_shape;
 	ShapeMode shape_mode;
 	ShapeDataStruct shape_data;
+	QList<ShapeItemBase*> shape_items;
+	ShapeItemBase* cur_shape_item = nullptr;
 
 	QString cur_image_name;
 	QPixmap m_cur_pixmap;
@@ -82,6 +85,8 @@ private:
 
 public:
 	void FitShowImage(const QPixmap& pixmap);
+	void FitShowImage(const QPixmap& pixmap, ShapeDataStruct& shape_data);
+	static HalconCpp::HRegion GetHRegionFromData(const ShapeDataStruct& shape_data);
 private:
 	void MenuInit();
 	void ParamInit();
@@ -97,6 +102,7 @@ public slots:
 	void onDrawCancel();
 signals:
 	void DrawFinished();
+	void RegionComform(ShapeDataStruct shape_data);
 private:
 	void drawFinished();
 	void drawHintInfo(QPainter* painter);

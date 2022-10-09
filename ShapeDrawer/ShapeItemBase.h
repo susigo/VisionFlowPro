@@ -13,7 +13,19 @@ public:
 	virtual ~ShapeItemBase();
 	void SetZoomVal(qreal ZoomVal) { scaler = ZoomVal; }
 	qreal GetContrSize() const { return ContrSize; }
-	QPolygonF GetShapePoygonF() { return itemPolygon; }
+	QPolygonF GetShapePoygonF()
+	{
+		//if (!itemPolygon.isClosed())
+		//{
+		//	itemPolygon.append(itemPolygon.first());
+		//}
+		for (int i = 0; i < itemPolygon.count(); i++)
+		{
+			itemPolygon[i] = mapToScene(itemPolygon[i]);
+		}
+		return itemPolygon;
+	}
+	ShapeMode GetShapeMode() { return m_shape_mode; }
 private:
 	virtual void shapeInit() = 0;
 public	slots:

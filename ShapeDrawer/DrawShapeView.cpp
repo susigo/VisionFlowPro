@@ -63,6 +63,49 @@ void DrawShapeView::FitShowImage(const QPixmap& pixmap)
 	centerOn(m_centerPos);
 }
 
+void DrawShapeView::FitShowImage(const QPixmap& pixmap, ShapeDataStruct& _shape_data)
+{
+	//shape_data = _shape_data;
+	for (auto elem : shape_items)
+	{
+		m_scene->removeItem(elem);
+	}
+	shape_items.clear();
+	cur_shape_item = nullptr;
+	FitShowImage(pixmap);
+	this->show();
+}
+
+HalconCpp::HRegion DrawShapeView::GetHRegionFromData(const ShapeDataStruct& shape_data)
+{
+	HalconCpp::HRegion region_add;
+	HalconCpp::HRegion region_result;
+	HalconCpp::GenEmptyRegion(&region_result);
+
+	for (size_t i = 0; i < shape_data.shapePolygon.size(); i++)
+	{
+		HalconCpp::HTuple Hrow;
+		HalconCpp::HTuple Hcol;
+		for (int j = 0; j < shape_data.shapePolygon[i].length(); j++)
+		{
+			Hrow.Append(shape_data.shapePolygon[i][j].y());
+			Hcol.Append(shape_data.shapePolygon[i][j].x());
+		}
+
+		region_add.GenRegionPolygonFilled(Hrow, Hcol);
+
+		if (shape_data.shapeMode[i] == ShapeMode::mAdd)
+		{
+			HalconCpp::Union2(region_add, region_result, &region_result);
+		}
+		else
+		{
+			HalconCpp::Difference(region_result, region_add, &region_result);
+		}
+	}
+	return region_result;
+}
+
 void DrawShapeView::MenuInit()
 {
 	m_menu = new QMenu(QStringLiteral("右键菜单"), this);
@@ -170,8 +213,9 @@ void DrawShapeView::onDrawLineShape()
 	//view_mode = ViewMode::tDrawing;
 	//m_scene->addItem(v_hint_line);
 	//m_scene->addItem(h_hint_line);
-	m_scene->addItem(new ShapeItemLine());
-
+	cur_shape_item = new ShapeItemLine();
+	shape_items.append(cur_shape_item);
+	m_scene->addItem(cur_shape_item);
 }
 
 void DrawShapeView::onDrawRectangle1(ShapeMode mode)
@@ -189,7 +233,10 @@ void DrawShapeView::onDrawRectangle1(ShapeMode mode)
 	//view_mode = ViewMode::tDrawing;
 	//m_scene->addItem(v_hint_line);
 	//m_scene->addItem(h_hint_line);
-	m_scene->addItem(new ShapeItemRect1(shape_mode));
+	cur_shape_item = new ShapeItemRect1(shape_mode);
+	shape_items.append(cur_shape_item);
+	m_scene->addItem(cur_shape_item);
+
 }
 
 void DrawShapeView::onDrawRectangle2(ShapeMode mode)
@@ -204,7 +251,9 @@ void DrawShapeView::onDrawRectangle2(ShapeMode mode)
 		draw_shape = EShapeType::sRectangle2Div;
 		shape_mode = ShapeMode::mDiv;
 	}
-	m_scene->addItem(new ShapeItemRect2(shape_mode));
+	cur_shape_item = new ShapeItemRect2(shape_mode);
+	shape_items.append(cur_shape_item);
+	m_scene->addItem(cur_shape_item);
 	//view_mode = ViewMode::tDrawing;
 	//m_scene->addItem(v_hint_line);
 	//m_scene->addItem(h_hint_line);
@@ -233,6 +282,15 @@ void DrawShapeView::onDrawFreeDraw(ShapeMode mode)
 
 void DrawShapeView::onDrawComform()
 {
+	shape_data.shapePolygon.clear();
+	shape_data.shapeMode.clear();
+	for (auto& elem : shape_items)
+	{
+		shape_data.shapePolygon.append(elem->GetShapePoygonF());
+		shape_data.shapeMode.append(elem->GetShapeMode());
+	}
+	emit RegionComform(shape_data);
+	this->hide();
 }
 
 void DrawShapeView::onDrawCancel()
@@ -246,15 +304,17 @@ void DrawShapeView::drawFinished()
 	if (m_draw_poly->count() > 1)
 	{
 		//m_draw_poly->last() = m_draw_poly->first();
-		shape_data.shapePolygon.append(*m_draw_poly);
-		shape_data.shapeType.append(draw_shape);
-		shape_data.shapeMode.append(shape_mode);
+		//shape_data.shapePolygon.append(*m_draw_poly);
+		//shape_data.shapeType.append(draw_shape);
+		//shape_data.shapeMode.append(shape_mode);
 		//tmpPath.clear();
 		//tmpPath.addPolygon(*m_draw_poly);
 		//m_draw_path_item->setPath(tmpPath);
 		if (draw_shape == EShapeType::sPolygonAdd || draw_shape == EShapeType::sPolygonDiv)
 		{
-			m_scene->addItem(new ShapeItemPolygon(*m_draw_poly, shape_mode, QPointF(0, 0)));
+			cur_shape_item = new ShapeItemPolygon(*m_draw_poly, shape_mode, QPointF(0, 0));
+			m_scene->addItem(cur_shape_item);
+			shape_items.append(cur_shape_item);
 		}
 		m_draw_poly->clear();
 		m_draw_path_item->setPath(QPainterPath());
