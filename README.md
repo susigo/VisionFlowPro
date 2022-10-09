@@ -9,6 +9,11 @@ by susigo@foxmail.com
 
 ## 二、更新日志
 ***
+1.更改了绘制图形选区的方式，使用graphicsview。
+
+![reducedomain showcase](https://github.com/susigo/VisionFlowPro/blob/master/NodeEditorPro/showcase/draw_shape_view.png)
+
+***
 1.完成了一个halcon样例。小demo。
 
 ![reducedomain showcase](https://github.com/susigo/VisionFlowPro/blob/master/NodeEditorPro/showcase/selectBallTest.png)
